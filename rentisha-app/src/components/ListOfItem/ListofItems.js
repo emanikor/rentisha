@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,6 +24,7 @@ const ListofItems = () => {
   };
 
   const [values, setValues] = useState(initialValues);
+  const [user, setUser] = useState(null);
 
   const generateSuccess = (success) => toast.success(success, {
     position: "bottom-right"
@@ -33,9 +34,39 @@ const ListofItems = () => {
     position: "bottom-right"
   });
 
+
+
+   // fetch user data 
+
+  useEffect(()=>{
+   
+    const fetchUser = async () =>{
+      try{
+        const response = await axios.get("")
+        setUser(response.data.user);
+
+      }
+      catch(error){
+        setUser(null);
+      }
+    }
+    fetchUser();
+  },[]);
+
+
+
+
+
   // handle list submit
   const listSubmit = async (e) => {
     e.preventDefault();
+
+
+    if(!user){
+      // user not authenticated
+      Navigate('/SignIn');
+      return;  
+    }
 
     try {
       const { data } = await axios.post("http://localhost:4000/ListofItems", {

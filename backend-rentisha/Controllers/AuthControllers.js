@@ -12,7 +12,6 @@ const createToken = (id) => {
 };
 
 
-
 // populated
 router.get('/user/:userId', async (req, res) => {
   const userId = req.params.userId;

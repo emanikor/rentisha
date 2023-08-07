@@ -7,6 +7,7 @@ import './Navbar.css';
 const Navbar = () => {
   const [clicked, setClicked] = useState(false);
   const [showNav, setShowNav] = useState(true);
+  const [user, setUser] = useState('')
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +57,17 @@ const Navbar = () => {
        
        
       </ul>
+      <div>
+        {user ? (
+          <div className='profile'>
+            <img className='avatarImage' alt='avatarImage' />
+            <span className='profileName'>{user.name}</span>
+             <button className='btnHero'>Log Out</button>
+          </div>
+        ):(
+          <button >Sign In</button>
+        )}
+      </div>
     </nav>
   );
 };
