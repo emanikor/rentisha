@@ -3,6 +3,7 @@ import {  useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+
 import './Sign.css';
 
 const Login = (props) => {
@@ -19,7 +20,7 @@ const Login = (props) => {
   const generateError = (err) => toast.error(err, {
     position: "bottom-right"
   });
-
+  const [user, setUser] = useState('');
   const [values, setValues] = useState(initialValues);
 
   const handleSubmit = async (e) => {
@@ -38,6 +39,7 @@ const Login = (props) => {
         } else {
           Navigate("/Profile");
           generateSuccess("Successfully logged in");
+          setUser(data.user);
         }
       } // Log the response from the server
     } catch (err) {

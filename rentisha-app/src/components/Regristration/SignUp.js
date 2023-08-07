@@ -26,7 +26,7 @@ export const Register = (props) => {
   const generateError = (err) => toast.error(err, {
     position: "bottom-right"
   });
-
+  const [user, setUser] = useState('');
   const [values, setValues] = useState(initialValues);
 
   const handleSubmit = async (e) => {
@@ -42,7 +42,9 @@ export const Register = (props) => {
   try {
     const { data } = await axios.post("http://localhost:4000/SignUp", {
       ...values,
+      
     }
+    
   );
 
     if (data) {
@@ -52,6 +54,7 @@ export const Register = (props) => {
         else if (password) generateError(password);
       } else {
         generateSuccess("Successfully.");
+        setUser(data.user);
         Navigate("/");
         
       }
