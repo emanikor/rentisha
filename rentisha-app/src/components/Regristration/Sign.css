@@ -1,0 +1,56 @@
+/* Sign.css */
+
+/* Common styles for both forms */
+.auth-form-container {
+    border:1px solid rgb(221, 221, 221) ;
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 10px 30px;
+ margin-top: 30px;
+  margin-bottom: 100px;
+  }
+  
+  .auth-form-container h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .auth-form-container input {
+    margin-top: 20px;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    
+  }
+  
+  .auth-form-container button {
+    margin-top: 15px;
+    width: 60%;
+    padding: 18px;
+    font-size: 16px;
+    background-color: #057771;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .link-text {
+    margin-top: 20px;
+    text-align: center;
+    color: #007bff;
+    cursor: pointer;
+  }
+  
+  .link-btn:hover {
+    text-decoration: underline;
+  }
+  
+  /* Additional styles can be added based on your specific design requirements */
+  

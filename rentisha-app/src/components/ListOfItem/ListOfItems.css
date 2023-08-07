@@ -1,0 +1,131 @@
+/* ListOfItems.css */
+
+.listInput {
+    width: 78%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Center items horizontally */
+  }
+  
+  .listInput form {
+    width: 100%;
+    padding: 20px 10px;
+    margin-right: 5rem;
+  }
+  
+  .listInput label {
+    
+    margin-top: 10px; /* Add margin to separate each label from the input */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+  }
+  
+  .listInput input,
+  .listInput textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ccc;
+    
+  }
+  
+  .listInput textarea {
+    resize: vertical;
+    height: 200px;
+    
+  }
+  
+  .listInput .input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1px;
+  }
+  
+  .listInput .input-wrapper {
+    position: relative;
+  }
+  
+  .listInput .input-wrapper i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 1.2rem;
+  }
+  .inputField{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+  }
+  .inputField .input{
+    margin:0 10px;
+    width: 260px;
+     
+  }
+
+  /* Additional styling for the image */
+  .listInput img {
+ 
+    width: 100%;
+    max-width: 400px; /* Adjust the width as needed */
+    margin-top: 20px; /* Add margin to separate the image from the form */
+  }
+  .TermsCondition{
+    text-align: left;
+    align-items: flex-start;
+    display: flex;
+  }
+ 
+  
+  /* Style the form elements inside OwnerInput */
+  .OwnerInput {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  
+  .OwnerInput label {
+    margin-bottom: 5px;
+  }
+  
+  .OwnerInput input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .OwnerInput h4 {
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .listInput {
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center items horizontally */
+      }
+      .listInput form {
+        width: 100%;
+        padding: 20px 10px;
+        margin-right: 0rem;
+      }
+      .inputField{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+      }    
+   
+  }

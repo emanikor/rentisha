@@ -1,0 +1,143 @@
+nav{
+    background-color: #fdfdfd;
+    
+    padding: 20px ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(238, 229, 229);
+    position: relative;
+    z-index: 99;
+    border-bottom: 1px solid rgb(224, 224, 224);
+    
+}
+.logo{
+    font-weight: 600;
+    font-size: 50px;
+    color: rgb(107, 18, 18);
+    
+ 
+}
+.menu-list{
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10%;
+}
+.menu-list li a{
+    text-decoration: none;
+    color: #000000;
+    font-weight: 300;
+    padding: 5px 15px;
+    
+}
+.menu-list li:last-child a{
+    font-weight: 300;
+    padding: 15px 10px;
+    background-color:rgb(6, 194, 184);
+    transition: all 0.5s ease-in-out;
+    margin-left: 20px;
+    border-radius: 2px;
+    color: #ffffff;
+    border-radius: 5px;
+    display: block;
+}
+.menu-list li a:hover{
+   
+    border-radius: 2px;
+opacity: .4;
+    transition:all 0.5s ease-in-out;
+}
+.menu-icon{
+    display: none;
+    
+}
+.fa-solid {
+  cursor: pointer;
+  transition:all 0.3s ease-in-out;
+}
+/* Responsive Styles */
+@media screen and (max-width: 800px) {
+    .logo {
+      font-size: 30px;
+    }
+    .menu-list li a {
+      font-size: 14px;
+      padding: 10px 15px; /* Adjust the padding to make the links larger */
+      min-width: 100px; /* Set a minimum width to prevent squishing */
+    }
+    .menu-icon {
+      display: block;
+      color: #383636;
+      font-size: 30px;
+      margin-left: 400px;
+    }
+    .menu-list {
+      flex-direction: column;
+      width: 100%;
+      position: absolute;
+      background-color: #e4dcdc;
+      padding: 20px;
+      right: 0;
+      top: 64px;
+    }
+    .menu-list li {
+      margin-bottom: 30px;
+      width: 100%;
+      text-align: center;
+    }
+    .menu-list li:last-child {
+      margin-bottom: 0px;
+    }
+    .menu-list li a,
+    .menu-list li:last-child a {
+      width: 70%;
+      display: block;
+      margin: auto;
+      padding: 15px 20px; /* Adjust the padding to make the links larger */
+    }
+    
+    .menu-list.close {
+      right: 100%;
+      transition: all 0.5s ease-in-out;
+    }
+  }
+  
+  @media screen and (max-width: 600px) {
+    .menu-icon {
+      display: block;
+      color: #383636;
+      font-size: 30px;
+      margin-left: 230px;
+    }
+    .menu-list {
+      flex-direction: column;
+      width: 100%;
+      position: absolute;
+      background-color: #e4dcdc;
+      padding: 20px;
+      right: 0;
+      top: 64px;
+    }
+    .menu-list li {
+      margin-bottom: 30px;
+      width: 100%;
+      text-align: center;
+    }
+    .menu-list li:last-child {
+      margin-bottom: 0px;
+    }
+    .menu-list li a,
+    .menu-list li:last-child a {
+      width: 100%;
+      display: block;
+      margin: auto;
+      padding: 15px 20px; /* Adjust the padding to make the links larger */
+    }
+    
+    .menu-list.close {
+      right: 100%;
+      transition: all 0.5s ease-in-out;
+    }
+  }

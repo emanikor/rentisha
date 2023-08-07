@@ -1,0 +1,23 @@
+.content{
+    padding-right: 200px;
+}
+.abouttext{
+    width: 100%;
+    font-size: 20px;
+    color: rgb(136, 136, 130);
+    padding-bottom: 20px;
+}
+.Howitwork{
+    width: 350px;
+}
+@media screen and (max-width: 600px){
+    .content{
+        padding-right: 2px;
+    }
+    .abouttext{
+        width: 100%;
+        font-size: 17px;
+        color: rgb(136, 136, 130);
+        padding-bottom: 10px;
+    }
+    }

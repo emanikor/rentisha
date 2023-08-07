@@ -1,0 +1,64 @@
+/* src/components/period.css */
+.period {
+    margin-right:200px;
+    margin-top: 200px;
+    background-color: rgb(224, 224, 224);
+  }
+  
+  .flexRow {
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+
+  }
+  .Headtitle{
+    margin-top: 30px;
+  }
+  .list-container {
+   
+    padding: 50px;
+  }
+  
+  .list-item {
+    margin-bottom: 20px;
+  }
+  .PeriodHeader{
+    color: brown;
+    font-size: 25px;
+    padding-bottom: 20px;
+  }
+  .periodDesc{
+    color:rgb(65, 65, 65);
+    width: 300px;
+  }
+  .periodImage {
+    width: 300px; /* Adjust the width as needed */
+    height: 200px; /* Adjust the height as needed */
+    margin-left: 20px; /* Add space between the list and the image */
+  }
+  @media screen and (max-width: 800px){
+    .logo{
+        font-size: 30px;
+   
+    }
+    .menu-list li a{
+        font-size: 14px;
+        margin-left: 10px;
+    }
+}
+@media screen and (max-width: 600px){
+    .period {
+        margin-right:0px;
+        margin-top: 30px;
+        background-color: rgb(211, 211, 211);
+      }
+      
+      .flexRow {
+        max-width: 1000px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    
+      }
+}
+  

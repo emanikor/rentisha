@@ -1,0 +1,29 @@
+.steps-container{
+  background-color: rgb(206, 206, 206);
+  margin-right: 200px;
+  padding: 80px 20px;
+  margin-bottom: 30px;
+
+}
+.stepsBody{
+ 
+  padding-left: 50px;
+  margin: 30px 0;
+}
+.SpanId{
+  color:rgb(5, 136, 129);
+  font-size: 2rem;
+display: flex;
+justify-content: center;
+text-align: center;
+
+}
+@media screen and (max-width: 600px){
+    .steps-container{
+        background-color: rgb(206, 206, 206);
+        margin-right: 0px;
+        padding: 80px 60px;
+        margin-bottom: 30px;
+      
+      }
+}
