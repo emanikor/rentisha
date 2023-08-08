@@ -31,26 +31,53 @@ const userSchema = new mongoose.Schema({
 
 // saves the hash password
 userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password, salt);
-    next();
-  });
+    this.confirmPassword = this.password; // Hashing the confirm password as well
+  }
+  next();
+});
+
 
 // find user
-userSchema.statics.SignUp = async function  (email, password){
-  const user = await this.findOne({email});
-  if(user){
+// userSchema.statics.SignUp = async function  (email, password){
+//   const user = await this.findOne({email});
+//   if(user){
     
-    // compare password 
-    const auth = await bcrypt.compare(password, user.password);
-    if(auth){
-      return user;
-     }
-     throw Error("incorrect password")
+//     // compare password 
+//     const auth = await bcrypt.compare(password, user.password);
+//     if(auth){
+//       return user;
+//      }
+//      throw Error("incorrect password")
+//   }
+//   throw Error("incorrect Email");
+// }
+
+
+// module.exports = mongoose.model("Users", userSchema);
+
+userSchema.statics.SignUp = async function(email, password) {
+  const user = await this.findOne({ email });
+  
+  if (user) {
+    throw new Error("Email is already registered");
   }
-  throw Error("incorrect Email");
+  
+  // If email is not registered, proceed to create a new user
+  const newUser = new this({
+    email,
+    password,
+  });
+
+  const salt = await bcrypt.genSalt();
+  newUser.password = await bcrypt.hash(newUser.password, salt);
+
+  // Save the new user to the database
+  await newUser.save();
+
+  return newUser;
 }
 
-
 module.exports = mongoose.model("Users", userSchema);
-

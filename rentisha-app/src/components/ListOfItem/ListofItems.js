@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,7 +14,6 @@ const ListofItems = () => {
     ItemType: "",
     ItemPrice: "",
     DropAddress: "",
-    Address: "",
     Date: "",
     Time: "",
     FirstName: "",
@@ -34,49 +33,46 @@ const ListofItems = () => {
     position: "bottom-right"
   });
 
+  // Fetch user data
+ useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/CheckUser", {
+        withCredentials: true,
+      });
 
-
-   // fetch user data 
-
-  useEffect(()=>{
-   
-    const fetchUser = async () =>{
-      try{
-        const response = await axios.get("")
+      if (response.status === 200) {
         setUser(response.data.user);
-
-      }
-      catch(error){
+      } else {
         setUser(null);
       }
+    } catch (error) {
+      setUser(null);
     }
-    fetchUser();
-  },[]);
+  };
 
+  fetchUser();
+}, []);
 
-
-
-
-  // handle list submit
+  // Handle list submit
   const listSubmit = async (e) => {
     e.preventDefault();
 
-
-    if(!user){
-      // user not authenticated
-      Navigate('/SignIn');
-      return;  
+    if (!user) {
+    
+      generateError("You need to be logged in to list an item.");
+      return;
     }
 
     try {
       const { data } = await axios.post("http://localhost:4000/ListofItems", {
-        ...values
+        ...values,
+        ownerId: user._id,
       });
-
 
       if (data && data.message) {
         generateSuccess("Item listed successfully");
-        Navigate("/");
+        setValues(initialValues);
       } else {
         generateError("Failed to list item");
       }
@@ -84,17 +80,14 @@ const ListofItems = () => {
       console.log(err);
       generateError("An error occurred");
     }
-
-    setValues(initialValues);
   };
-
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
     setValues({ ...values, [name]: inputValue });
   };
-  
+
   return (
     <div className='listInput'>
         
@@ -131,7 +124,7 @@ const ListofItems = () => {
 
        <label>Listing price</label>
         <input
-          type='number'
+          type='Number'
           name='ItemPrice'
           placeholder='Specify the rental price...'
           value={values.ItemPrice}

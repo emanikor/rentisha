@@ -51,23 +51,25 @@ const Navbar = () => {
       <div className='menu-icon' onClick={handleClick}>
         <i className={clicked ? 'fa-solid fa-x' : 'fa-solid fa-bars'}></i>
       </div>
-      <ul className={clicked ? 'menu-list' : 'menu-list close'}>
-        {menuList}
-        {/* Sign In and Sign Up buttons (displayed only in responsive mode) */}
-       
-       
-      </ul>
-      <div>
+
+    <div>
         {user ? (
           <div className='profile'>
-            <img className='avatarImage' alt='avatarImage' />
             <span className='profileName'>{user.name}</span>
              <button className='btnHero'>Log Out</button>
           </div>
         ):(
           <button >Sign In</button>
         )}
-      </div>
+      </div> 
+
+      <ul className={clicked ? 'menu-list' : 'menu-list close'}>
+        {menuList}
+        {/* Sign In and Sign Up buttons (displayed only in responsive mode) */}
+       
+       
+      </ul>
+  
     </nav>
   );
 };

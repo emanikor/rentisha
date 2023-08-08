@@ -6,14 +6,14 @@ const jwt = require("jsonwebtoken");
 const maxAge = 3 * 24 * 60 * 60;
 
 const createToken = (id) => {
-  return jwt.sign({ id }, "rentisha supper secret key", {
+  return jwt.sign({ id }, "rentisha 2023 key", {
     expiresIn: maxAge,
   });
 };
 
 
 // populated
-router.get('/user/:userId', async (req, res) => {
+router.get('/CheckUser', async (req, res) => {
   const userId = req.params.userId;
   try {
     // Fetch the user by their ID and populate their 'item' field
