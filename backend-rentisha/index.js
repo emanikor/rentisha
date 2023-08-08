@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const UserModel = require("./Models/UserModel");
 const ItemModel = require("./ItemModel/ItemModel");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const PORT = 4000;
@@ -25,6 +26,9 @@ mongoose
   .catch((err) => {
     console.log(err.message);
   });
+
+  const jwtSecret = "rentisha super secret key";  
+
 
 // User Registration Endpoint
 app.post("/SignUp", async (req, res) => {
@@ -59,6 +63,20 @@ app.post("/SignUp", async (req, res) => {
     // Save the user to the database
     await newUser.save();
 
+  // generate  jwt tokens 
+const token = jwt.sign({ userId: newUser._id }, jwtSecret, {
+  expiresIn: "3d", // Token expiration time
+});
+
+res.cookie("jwt", token, {
+  httpOnly: true, 
+  maxAge: 3 * 24 * 60 * 60 * 1000, 
+  secure: true, 
+});
+
+
+
+
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.log(error);
@@ -91,7 +109,20 @@ app.post("/SignIn", async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-   
+ 
+    const token = jwt.sign({ userId: user._id }, jwtSecret, {
+      expiresIn: "3d", // Token expiration time
+    });
+
+    res.cookie("jwt", token, {
+      httpOnly: true, 
+      maxAge: 3 * 24 * 60 * 60 * 1000, 
+      secure: true, 
+    });
+
+
+
+
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
     console.log(error);
@@ -106,7 +137,22 @@ app.post("/ListofItems", async (req,res)=>{
     // save item to the database
     const savedItem = await newItem.save();
     res.status(201).json({ message: "item listed successfully", data: savedItem });
-    
+
+    const newListItem = new ItemModel({
+      ItemName,
+    ItemDescription,
+    ItemType,
+    ItemPrice,
+    DropAddress,
+    Date,
+    Time,
+    FirstName,
+    SecondName,
+    PhoneNumber,
+    });
+// save to the database
+    await newListItem.save();
+    console.log(newListItem)
   }catch(error){
     console.log(error);
     res.status(500).json({error:" internal server error"});
