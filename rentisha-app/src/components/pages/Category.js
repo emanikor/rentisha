@@ -1,17 +1,15 @@
-import React from 'react'
-import Product from '../Product/Product'
-import Footer from '../Footer/Footer'
+import React from 'react';
+// import {  Router, Route } from 'react-router-dom';
+import Product from '../Product/Product'; 
+// import CategoryDetail from '../Product/CategoryDetail'; 
 
-
-
-
-const Category =()=> {
+const App = () => {
   return (
     <div>
-      <Product/>
-      <Footer/>
+   
+  <Product/>
     </div>
-  )
-}
+  );
+};
 
-export default Category
+export default App;

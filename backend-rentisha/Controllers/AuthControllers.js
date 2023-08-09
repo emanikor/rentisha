@@ -13,7 +13,7 @@ const createToken = (id) => {
 
 
 // populated
-router.get('/CheckUser', async (req, res) => {
+router.get('/', async (req, res) => {
   const userId = req.params.userId;
   try {
     // Fetch the user by their ID and populate their 'item' field
@@ -77,23 +77,36 @@ module.exports.register = async (req, res, next) => {
   }
 };
 
-module.exports.signIn = async (req, res, next) => {
-//    signin
-try {
-  const {  email, password } = req.body;
-  const user = await UserModel.SignIn(email, password);
-  const token = createToken(user._id);
+// module.exports.signIn = async (req, res, next) => {
+// //    signin
+// try {
+//   const {  email, password } = req.body;
+//   const user = await UserModel.SignIn(email, password);
+//   const token = createToken(user._id);
 
-  res.cookie("jwt", token, {
-    withCredentials: true,
-    httpOnly: false,
-    maxAge: maxAge * 1000,
-  });
+//   res.cookie("jwt", token, {
+//     withCredentials: true,
+//     httpOnly: false,
+//     maxAge: maxAge * 1000,
+//   });
 
-  res.status(200).json({ user: user._id, created: true });
-} catch (err) {
-  console.log(err);
-  const errors = handleErrors(err);
-  res.json({ errors, created: false });
-}
+//   res.status(200).json({ user: user._id, created: true });
+// } catch (err) {
+//   console.log(err);
+//   const errors = handleErrors(err);
+//   res.json({ errors, created: false });
+// }
+// };
+
+module.exports.SignIn = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await UserModel.SignIn(email, password);
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
+    res.status(200).json({ user: user._id, status: true });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.json({ errors, status: false });
+  }
 };
