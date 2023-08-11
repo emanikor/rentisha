@@ -107,49 +107,51 @@ const Categories =({categories})=>{
 
 
 const Product = () => {
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-        axios.get('/api/categories')
-        .then(response => {
-          setCategories(response.data);
-          setLoading(false); 
-        })
-        .catch(error=>{
-            console.error(error);
-            setLoading(false)
-        })
-        
-    }, []);
-  
-    return (
-        <Router>
-      <div className='product'>
-        <h1 className='paddings headProduct flexCenter'>Explore Category</h1>
-        <div className='paddings card-Product'>
-          {ProductDetail.map((productDetail) => (
-            <div key={productDetail.id} className='card-Product-container'>
-              <img src={productDetail.Img} alt={productDetail.Title} />
-              <div className='flexColStart product-card-body'>
-                <h3 className='secondaryText'>{productDetail.Title}</h3>
-                <h3 className='secondaryText'>{productDetail.Cat}</h3>
-                <div className='flexCenter cart'>
-                  <h3 className='secondaryText'>price: {productDetail.Price}</h3>
-                  <i className="fa-solid fa-cart-shopping"></i>
-                </div>
+  const [categories, setCategories] = useState([]); 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch categories from the server
+    axios.get('/api/categories')
+      .then(response => {
+        setCategories(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error(error);
+        setLoading(false);
+      });
+  }, []);
+
+  return (
+    <div className='product'>
+      <h1 className='paddings headProduct flexCenter'>Explore Category</h1>
+      <div className='paddings card-Product'>
+        {ProductDetail.map((productDetail) => (
+          <div key={productDetail.id} className='card-Product-container'>
+            <img src={productDetail.Img} alt={productDetail.Title} />
+            <div className='flexColStart product-card-body'>
+              <h3 className='secondaryText'>{productDetail.Title}</h3>
+              <h3 className='secondaryText'>{productDetail.Cat}</h3>
+              <div className='flexCenter cart'>
+                <h3 className='secondaryText'>price: {productDetail.Price}</h3>
+                <i className="fa-solid fa-cart-shopping"></i>
               </div>
             </div>
-          ))}
-        </div>
-        {loading ? (
-          <div className="loader">Loading...</div>
-        ) : (
-          <Categories categories={categories} />
-        )}
+          </div>
+        ))}
       </div>
-      </Router>
-    );
-  };
-  
-  export default Product;
+
+      <div className='category-list'>
+        Display fetched categories
+        {categories.map(category => (
+          <div key={category._id} className='category-item'>
+            {category.name}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Product;

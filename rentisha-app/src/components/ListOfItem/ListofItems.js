@@ -1,14 +1,12 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './ListOfItems.css';
-import listImage from '../images/listImage.jpg';
+
 
 const ListofItems = () => {
-  const Navigate = useNavigate();
   const initialValues = {
     ItemName: "",
     ItemDescription: "",
@@ -21,10 +19,11 @@ const ListofItems = () => {
     SecondName: "",
     PhoneNumber: "",
     termsCondition: false,
+    ItemImage: null,
   };
 
   const [values, setValues] = useState(initialValues);
-  const [user, setUser] = useState(null);
+  const Navigate= useNavigate();
 
   const generateSuccess = (success) => toast.success(success, {
     position: "bottom-right"
@@ -34,46 +33,36 @@ const ListofItems = () => {
     position: "bottom-right"
   });
 
-  // Fetch user data
- useEffect(() => {
-  const fetchUser = async () => {
-    try {
-      const response = await axios.get("http://localhost:4000/CheckUser", {
-        withCredentials: true,
-      });
-
-      if (response.status === 200) {
-        setUser(response.data.user);
-      } else {
-        setUser(null);
-      }
-    } catch (error) {
-      setUser(null);
-    }
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+    setValues({ ...values, [name]: inputValue });
   };
 
-  fetchUser();
-}, []);
+  const handleImageChange = (e) => {
+    
+    const imageFile = e.target.files[0];
+    setValues({ ...values, ItemImage: imageFile });
+  };
 
-  // Handle list submit
   const listSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user) {
-    
-      generateError("You need to be logged in to list an item.");
-      return;
-    }
-
     try {
-      const { data } = await axios.post("http://localhost:4000/ListofItems", {
-        ...values,
-        ownerId: user._id,
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
+
+      const response = await axios.post("http://localhost:4000/ListofItems", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
       });
 
-      if (data && data.message) {
+      if (response.data && response.data.message) {
         generateSuccess("Item listed successfully");
         setValues(initialValues);
+        Navigate.push(`/product/${response.data.itemId}`);
       } else {
         generateError("Failed to list item");
       }
@@ -82,18 +71,21 @@ const ListofItems = () => {
       generateError("An error occurred");
     }
   };
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
-    setValues({ ...values, [name]: inputValue });
-  };
-
   return (
     <div className='listInput'>
         
     <form onSubmit={listSubmit} >
     <h2 className='headProduct paddings'>List of Items page</h2>
+
+
+    <input
+          type="file"
+          name="ItemImage"
+          accept="image/*"
+          onChange={handleImageChange}
+        />
+
+
         <label>Item Name</label>
       
         <input
@@ -227,7 +219,7 @@ const ListofItems = () => {
    
       <button className='btnHero'>Submit</button>
     </form>
-    <img src={listImage} alt='inputImage'></img>
+    
     <ToastContainer />
   </div>
   )

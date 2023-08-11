@@ -6,7 +6,7 @@ import axios from "axios";
 import './Sign.css';
 
 const Login = (props) => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
@@ -20,61 +20,31 @@ const Login = (props) => {
     position: "bottom-right"
   });
 
-  // const [user, setUser] = useState(''); // You might not need this state variable
-
   const [values, setValues] = useState(initialValues);
-
-  // setting a strong password
-  const isStrongPassword = (password) => {
-    const minPasswordLength = 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSpecialChars = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(password);
-  
-    return (
-      password.length >= minPasswordLength &&
-      hasUpperCase &&
-      hasLowerCase &&
-      hasNumbers &&
-      hasSpecialChars
-    );
-  };
-
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isStrongPassword(values.password)) {
-      generateError("Password must be at least 8 characters and include uppercase, lowercase, numbers, and special characters.");
-      return; 
-    }
-
     try {
-      const { data } = await axios.post("http://localhost:4000/SignIn", {
-        ...values
-      }
-      
-        );
-    
-      // Send values directly
+      const { data } = await axios.post("http://localhost:4000/SignIn",{
+       ...values, 
+       
+      });
 
-      if (data && data.errors) {
-        const { email, password } = data.errors;
-        if (email) generateError(email);
-        else if (password) generateError(password);
-      } else {
-        Navigate("/");
+      if (data && data.user) {
+        // Successfully logged in
+        navigate("/");
         generateSuccess("Successfully logged in");
-      
+      } else {
+        // Handle invalid credentials or other errors
+        generateError("Invalid email or password");
       }
     } catch (err) {
       console.log(err);
-      toast.error("Incorrect email and password"); 
+      generateError("An error occurred");
     }
 
+    // Reset form fields after login attempt
     setValues(initialValues);
   };
 
@@ -104,7 +74,7 @@ const Login = (props) => {
       </form>
       Already have an account?{" "}
       <a className="link-text" onClick={() => props.onFormSwitch("SignUp")}>
-        Login here.
+        Sign up here.
       </a>
       <ToastContainer />
     </div>

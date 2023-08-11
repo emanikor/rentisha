@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const UserModel = require("./Models/UserModel"); 
 const jwt = require("jsonwebtoken");
 const CategoryModel = require("./Models/CategoryModel");
+const ItemModel = require("./ItemModel/ItemModel");
 
 const app = express();
 const PORT = 4000;
@@ -30,6 +31,48 @@ mongoose
 
 // JSON Web Token Secret Key
 const jwtSecret = "rentisha 2023 key"; 
+
+
+
+app.post('/ListofItems', async (req, res) => {
+  try {
+    const {
+      ItemName,
+      ItemDescription,
+      ItemType,
+      ItemPrice,
+      DropAddress,
+      Date,
+      Time,
+      FirstName,
+      SecondName,
+      PhoneNumber,
+    } = req.body;
+
+    const newItem = new ItemModel({
+      ItemName,
+      ItemDescription,
+      ItemType,
+      ItemPrice,
+      DropAddress,
+      Date,
+      Time,
+      FirstName,
+      SecondName,
+      PhoneNumber,
+      ownerId: req.user.userId, // Set the user ID as the owner of the item
+    });
+
+    await newItem.save();
+
+    res.status(201).json({ message: 'Item listed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 
 // User Registration Endpoint
 app.post("/SignUp", async (req, res) => {
@@ -79,7 +122,13 @@ app.post("/SignUp", async (req, res) => {
 // User (Sign-in) Endpoint
 app.post("/SignIn", async (req, res) => {
   try {
+
+    console.log('Sign-in request received');
+
+
     const { email, password } = req.body;
+    console.log('Email:', email);
+    console.log('Password:', password);
 
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
@@ -99,24 +148,25 @@ app.post("/SignIn", async (req, res) => {
 
     // Generate JWT token and set it as a cookie
     const token = jwt.sign({ userId: user._id }, jwtSecret, {
-      expiresIn: "3d", 
+      expiresIn: "3d",
     });
 
     res.cookie("jwt", token, {
-      httpOnly: true, 
+      httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
-      secure: true, 
+      secure: true,
     });
 
-    res.status(200).json({ user: user._id, created: true });
+    res.status(200).json({ user: user._id, signedIn: true });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
+
 // category creation endpoint
-app.post ("/api/categories", async (req, res)=>{
+app.post ("/Product", async (req, res)=>{
   try{
      const{name} =req.body;
      const existingCategory =await CategoryModel.findOne({name});
@@ -137,7 +187,7 @@ app.post ("/api/categories", async (req, res)=>{
   });
 
 // category retrieval endpoint
-app.get("/api/categories", async (req,res) =>{
+app.get("/Product", async (req,res) =>{
   try{
     const categories =await CategoryModel.find();
     res.status(200).json(categories);

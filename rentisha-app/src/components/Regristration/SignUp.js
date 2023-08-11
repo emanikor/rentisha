@@ -47,10 +47,6 @@ export const Register = (props) => {
     );
   };
 
-  // phone number
- 
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,7 +79,7 @@ export const Register = (props) => {
           
           if (data.user) {
             setUser(data.user);
-            Navigate('/');
+            Navigate('/list');
           } else {
             console.log("User data not available in response.");
             

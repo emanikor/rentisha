@@ -55,6 +55,7 @@ const ItemSchema = new mongoose.Schema({
   ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' }
 });
 
+
 const ItemModel = mongoose.model("ItemModel", ItemSchema);
 
 module.exports = ItemModel;

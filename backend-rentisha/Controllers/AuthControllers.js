@@ -1,6 +1,5 @@
 const UserModel = require("../Models/UserModel");
 const express = require('express');
-const router = express.Router();
 const jwt = require("jsonwebtoken");
 
 const maxAge = 3 * 24 * 60 * 60;
@@ -12,7 +11,7 @@ const createToken = (id) => {
 };
 
 
-// populated
+populated
 router.get('/', async (req, res) => {
   const userId = req.params.userId;
   try {
@@ -77,36 +76,36 @@ module.exports.register = async (req, res, next) => {
   }
 };
 
-// module.exports.signIn = async (req, res, next) => {
-// //    signin
-// try {
-//   const {  email, password } = req.body;
-//   const user = await UserModel.SignIn(email, password);
-//   const token = createToken(user._id);
+module.exports.signIn = async (req, res, next) => {
+//    signin
+try {
+  const {  email, password } = req.body;
+  const user = await UserModel.SignIn(email, password);
+  const token = createToken(user._id);
 
-//   res.cookie("jwt", token, {
-//     withCredentials: true,
-//     httpOnly: false,
-//     maxAge: maxAge * 1000,
-//   });
+  res.cookie("jwt", token, {
+    withCredentials: true,
+    httpOnly: false,
+    maxAge: maxAge * 1000,
+  });
 
-//   res.status(200).json({ user: user._id, created: true });
-// } catch (err) {
-//   console.log(err);
-//   const errors = handleErrors(err);
-//   res.json({ errors, created: false });
-// }
-// };
-
-module.exports.SignIn = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await UserModel.SignIn(email, password);
-    const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
-    res.status(200).json({ user: user._id, status: true });
-  } catch (err) {
-    const errors = handleErrors(err);
-    res.json({ errors, status: false });
-  }
+  res.status(200).json({ user: user._id, created: true });
+} catch (err) {
+  console.log(err);
+  const errors = handleErrors(err);
+  res.json({ errors, created: false });
+}
 };
+
+// module.exports.SignIn = async (req, res) => {
+//   const { email, password } = req.body;
+//   try {
+//     const user = await UserModel.SignIn(email, password);
+//     const token = createToken(user._id);
+//     res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
+//     res.status(200).json({ user: user._id, status: true });
+//   } catch (err) {
+//     const errors = handleErrors(err);
+//     res.json({ errors, status: false });
+//   }
+// };

@@ -59,16 +59,8 @@ const Navbar = () => {
       </div>
 
       <div>
-        {user ? (
-          <div className='profile'>
-            <span className='profileName'>{user.name}</span>
-            <button className='btnHero' onClick={handleLogout}>Log Out</button>
-          </div>
-        ) : (
-          <NavLink to='/signin'>
-            <button>Sign In</button>
-          </NavLink>
-        )}
+       
+      
       </div> 
 
       <ul className={clicked ? 'menu-list' : 'menu-list close'}>

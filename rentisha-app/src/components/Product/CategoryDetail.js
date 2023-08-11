@@ -4,13 +4,13 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const CategoryDetail = () => {
-  const { categoryId } = useParams(); // Get the categoryId from the URL
+  const { categoryId } = useParams();
 
   const [category, setCategory] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`/api/categories/${categoryId}`) // Fetch category details based on categoryId
+    axios.get(`/api/categories/${categoryId}`)
       .then(response => {
         setCategory(response.data);
         setLoading(false);
@@ -19,7 +19,7 @@ const CategoryDetail = () => {
         console.error(error);
         setLoading(false);
       });
-  }, [categoryId]); // Trigger the effect whenever categoryId changes
+  }, [categoryId]); 
 
   return (
     <div>
@@ -29,7 +29,7 @@ const CategoryDetail = () => {
         <div>
           <h2>Category Details</h2>
           <div>Name: {category.name}</div>
-          {/* Display other category details */}
+        
         </div>
       )}
     </div>

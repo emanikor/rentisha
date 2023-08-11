@@ -1,39 +1,41 @@
-import React from 'react'
-import '../component.css'
-import  category3 from '../images/category3.png';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import './Rent.css'
+import axios from "axios";
 
-function Rent() {
+const ProductListing = () => {
+  const [productList, setProductList] = useState([]);
+
+  useEffect(() => {
+    // Fetch 
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/Rent");
+        setProductList(response.data.products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
-    <div className='flexColStart ReviewInput'>
-        
-        <form>
-    
-        <div className=' paddings flexCenter ReviewItem '>
-            <img src={category3} alt='reviewImage'/>
-            <div className='flexColStart paddings  Reviewchecks'>
-                <li>laptop: Model Xhet34</li>
-                <li>Color: silver </li>
-                <li>size: 16 inch </li>
-                <div className='Paddings flexColStart'>  
-                 
-            <input  type='name' name='firstName'></input>
-            <butto></butto>
-            
-            <input type='name' name='firstName'></input>
-            <lable> Quantity.</lable>
-            <input type='number' id='number'></input>
-            </div>
-          
-            </div>
-            
-        </div>
-     
-        <button>Submit</button>
-        </form>
-      
-
+    <div className="product-listing">
+      <h2>Product Listing</h2>
+      <div className="products">
+        {productList.map((product) => (
+          <div key={product.id} className="product-card">
+            <Link to={`/product/${product.id}`}>
+              <img src={product.image} alt={product.name} />
+              <h3>{product.name}</h3>
+              <p>{product.description}</p>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Rent
+export default ProductListing;
