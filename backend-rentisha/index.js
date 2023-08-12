@@ -30,11 +30,32 @@ mongoose
   });
 
 // JSON Web Token Secret Key
-const jwtSecret = "rentisha 2023 key"; 
+const jwtSecret = "rentisha 2023 key";
+
+function authenticateToken(req, res, next) {
+  const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
+  
+  if (!token) {
+    console.log('No token found');
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  jwt.verify(token, jwtSecret, (err, user) => {
+    if (err) {
+      console.log('Token verification error:', err);
+      return res.status(403).json({ error: "Invalid token" });
+    }
+
+    console.log('Token verified:', user);
+
+    req.user = user;
+    next();
+  });
+}
 
 
-
-app.post('/ListofItems', async (req, res) => {
+// list end point (sending request )
+app.post('/ListofItems',  async (req, res) => {
   try {
     const {
       ItemName,
@@ -60,7 +81,6 @@ app.post('/ListofItems', async (req, res) => {
       FirstName,
       SecondName,
       PhoneNumber,
-      ownerId: req.user.userId, // Set the user ID as the owner of the item
     });
 
     await newItem.save();
@@ -71,6 +91,7 @@ app.post('/ListofItems', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 
 
@@ -137,12 +158,15 @@ app.post("/SignIn", async (req, res) => {
     const user = await UserModel.findOne({ email });
 
     if (!user) {
+      console.log('Email:', email);
+       console.log('Password:', password);
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
+      console.log(password)
       return res.status(401).json({ error: "Invalid credentials" });
     }
 

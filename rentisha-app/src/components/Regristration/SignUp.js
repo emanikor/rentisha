@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './Sign.css';
 
+
+
 export const Register = (props) => {
   const Navigate = useNavigate();
   const initialValues = {
@@ -15,8 +17,6 @@ export const Register = (props) => {
     password: "",
     confirmPassword: "",
   };
-
-  
 
 
   const generateSuccess = (success) => toast.success(success, {
@@ -76,9 +76,10 @@ export const Register = (props) => {
           else if (password) generateError(password);
         } else {
           generateSuccess("Successfully registered.");
-          
+ 
           if (data.user) {
             setUser(data.user);
+            document.cookie = `jwt=${data.token}; path=/; secure; SameSite=strict;`;
             Navigate('/list');
           } else {
             console.log("User data not available in response.");

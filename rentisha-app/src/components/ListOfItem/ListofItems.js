@@ -7,7 +7,9 @@ import './ListOfItems.css';
 
 
 const ListofItems = () => {
+
   const initialValues = {
+    ItemImage:"",
     ItemName: "",
     ItemDescription: "",
     ItemType: "",
@@ -21,9 +23,9 @@ const ListofItems = () => {
     termsCondition: false,
     ItemImage: null,
   };
-
+  // const [token, setToken] = useState(""); 
   const [values, setValues] = useState(initialValues);
-  const Navigate= useNavigate();
+  // const Navigate= useNavigate();
 
   const generateSuccess = (success) => toast.success(success, {
     position: "bottom-right"
@@ -39,30 +41,32 @@ const ListofItems = () => {
     setValues({ ...values, [name]: inputValue });
   };
 
+
+  // handle image
   const handleImageChange = (e) => {
     
     const imageFile = e.target.files[0];
     setValues({ ...values, ItemImage: imageFile });
   };
+ 
+
+
 
   const listSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const formData = new FormData();
-      for (const key in values) {
-        formData.append(key, values[key]);
-      }
 
-      const response = await axios.post("http://localhost:4000/ListofItems", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
+// innitial authentication of listItems 
+// sending post request to the server
+    try {
+      const  response= await axios.post("http://localhost:4000/ListofItems", {
+        ...values,
       });
 
-      if (response.data && response.data.message) {
+      if (response.status === 201) {
         generateSuccess("Item listed successfully");
+
         setValues(initialValues);
-        Navigate.push(`/product/${response.data.itemId}`);
       } else {
         generateError("Failed to list item");
       }
@@ -71,6 +75,7 @@ const ListofItems = () => {
       generateError("An error occurred");
     }
   };
+
   return (
     <div className='listInput'>
         
@@ -82,6 +87,7 @@ const ListofItems = () => {
           type="file"
           name="ItemImage"
           accept="image/*"
+          // value={values.ItemImage}
           onChange={handleImageChange}
         />
 
@@ -212,7 +218,8 @@ const ListofItems = () => {
             onChange={handleInputChange}
           />
           <label htmlFor='termsCondition'>
-            Check the box to agree to the terms and conditions of renting on the Rentisha platform.
+            Check the box to agree to the terms and 
+            conditions of renting on the Rentisha platform.
           </label>
         </div>
       </div>

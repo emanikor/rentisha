@@ -1,7 +1,13 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+
+
 const ItemSchema = new mongoose.Schema({
+  ItemImage: {
+    type: String,
+    required: [true, "Item image is required"],
+  },
   itemName: {
     type: String,
     required: [true, "Item name is required"],
@@ -9,27 +15,21 @@ const ItemSchema = new mongoose.Schema({
   ItemDescription: {
     type: String,
     required: [true, "Item description is required"],
-    unique: true,
   },
   ItemType: {
     type: String,
-    required: [true, "Item description is required"],
-    unique: true,
+    required: [true, "Item type is required"],
   },
   ItemPrice: {
-    type: Number, 
+    type: Number,
     required: [true, "Listing price is required"],
   },
   DropAddress: {
     type: String,
-    required: [true, "Address is required"],
-  },
-  Address: {
-    type: String,
-    required: [true, "Address is required"],
+    required: [true, "Drop-off address is required"],
   },
   Date: {
-    type: Date, 
+    type: Date,
     required: [true, "Date is required"],
   },
   Time: {
@@ -52,9 +52,8 @@ const ItemSchema = new mongoose.Schema({
     type: String,
     required: [true, "Terms and conditions are required"],
   },
-  ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' }
+  ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' },
 });
-
 
 const ItemModel = mongoose.model("ItemModel", ItemSchema);
 

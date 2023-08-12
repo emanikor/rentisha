@@ -5,8 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './Sign.css';
 
-const Login = (props) => {
-  const navigate = useNavigate();
+
+export const SignIn = (props) => {
+  const Navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
@@ -26,25 +27,33 @@ const Login = (props) => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("http://localhost:4000/SignIn",{
-       ...values, 
-       
-      });
-
-      if (data && data.user) {
-        // Successfully logged in
-        navigate("/");
-        generateSuccess("Successfully logged in");
+      const { data } = await axios.post("http://localhost:4000/SignIn", {
+       ...values,
+       withCredential:true
+    });
+      
+      if (data && data.signedIn) {
+        generateSuccess("Successfully signed in.");
+        
+        if (data.user && data.token) {
+         
+          document.cookie = `jwt=${data.token}; path=/; secure; SameSite=strict;`;
+          Navigate('/list'); 
+        } else {
+          console.log("User data or token not available in response.");
+        }
       } else {
-        // Handle invalid credentials or other errors
-        generateError("Invalid email or password");
+        generateError("Invalid credentials.");
       }
     } catch (err) {
       console.log(err);
-      generateError("An error occurred");
+      generateError("An error occurred.");
     }
 
-    // Reset form fields after login attempt
+    console.log("Form submitted");
+    console.log(values);
+ 
+    // reset
     setValues(initialValues);
   };
 
@@ -81,4 +90,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default SignIn;
