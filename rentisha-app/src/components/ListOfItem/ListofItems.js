@@ -25,7 +25,7 @@ const ListofItems = ({listItemsHandler }) => {
   };
   // const [token, setToken] = useState(""); 
   const [values, setValues] = useState(initialValues);
-  // const Navigate= useNavigate();
+  const Navigate= useNavigate();
 
   // editing state
   const [editingItem, setEditingItem] = useState(null);
@@ -61,22 +61,23 @@ const ListofItems = ({listItemsHandler }) => {
 // commented first the authentication part 
 // innitial authentication of listItems 
 // sending post request to the server
-    // try {
-    //   const  response= await axios.post("http://localhost:4000/ListofItems", {
-    //     ...values,
-    //   });
+    try {
+      const  response= await axios.post("http://localhost:4000/ListofItems", {
+        ...values,
+      });
 
-    //   if (response.status === 201) {
-    //     generateSuccess("Item listed successfully");
+      if (response.status === 201) {
+        generateSuccess("Item listed successfully");
+        Navigate('./rent')
 
-    //     setValues(initialValues);
-    //   } else {
-    //     generateError("Failed to list item");
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    //   generateError("An error occurred");
-    // }
+        setValues(initialValues);
+      } else {
+        generateError("Failed to list item");
+      }
+    } catch (err) {
+      console.log(err);
+      generateError("An error occurred");
+    }
 
     // items to be rendered 
 

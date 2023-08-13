@@ -39,45 +39,44 @@ const ProductListing = (props) => {
       
       return (
         <div className="products">
-          <div className="paddings flexCenter productlist-Container">
-            <div className="paddings productlist-content">
-              <div style={{ display: "flex" }}>
-                <div className="product-image">
-                  <img src={shoes} alt={listitems.name} />
+        <div className="paddings flexCenter productlist-Container">
+          <div className="paddings productlist-content">
+            <div style={{ display: "flex" }}>
+              <div className="product-image">
+                <img src={shoes} alt={listitems.ItemName} /> 
+              </div>
+              <div className="paddings product-details">
+                <h1 className='listHeader '>{listitems.ItemName}</h1>
+                <p className='listdes'>{listitems.ItemDescription}</p>
+                <h3 className='itemtype'>{listitems.ItemType}</h3>
+                <span className='itemprice'>{listitems.ItemPrice}</span>
+                <div className='address'>{listitems.DropAddress}</div>
+                <span>{listitems.Time}</span>
+               
+                <div className="quantity">
+                  <label>Quantity:</label>
+                  <input type="number"
+                   value={listitems.quantity} 
+                   onChange={(e) => 
+                   handleQuantityChange(e, listitems)} />
                 </div>
-                <div className="paddings product-details">
-                  <h1 className='listHeader '>{listitems.ItemName}</h1>
-                  <p className='listdes'>{listitems.ItemDescription}</p>
-                  <h3 className='itemtype'>{listitems.ItemType}</h3>
-                  <span className='itemprice'>{listitems.ItemPrice}</span>
-                  <div className='address'>{listitems.DropAddress}</div>
-                  <span>{listitems.Time}</span>
-                 
-                  <div className="quantity">
-                    <label>Quantity:</label>
-                    <input type="number"
-                     value={listitems.quantity} 
-                     onChange={(e) => 
-                     handleQuantityChange(e, listitems)} />
-
-                  </div>
-                  <div>
+                <div>
                   <h3 className='paddings'>Total: ${totalPrice.toFixed(2)}</h3>
-
-                  </div>
-                  <div className=''>
-                    <button className='btnHero'>checkout </button>
-                  </div>
-                  {editingItemId === listitems.id ? (
-          <button onClick={() => handleSaveClick(listitems.id)}>Save</button>
-        ) : (
-          <button onClick={() => handleEditClick(listitems.id)}>Edit</button>
-        )}
                 </div>
+                <div className=''>
+                  <button className='btnHero'>checkout </button>
+                </div>
+                {editingItemId === listitems.id ? (
+                  <button onClick={() => handleSaveClick(listitems.id)}>Save</button>
+                ) : (
+                  <button onClick={() => handleEditClick(listitems.id)}>Edit</button>
+                )}
               </div>
             </div>
           </div>
         </div>
+      </div>
+      
       );
     });
     
