@@ -1,11 +1,12 @@
 import React from 'react'
-import Rent from '../Rent/Rent'
+
 import Footer from '../Footer/Footer'
+import ProductListing from '../Rent/ProductListing'
 
 const Reviews=()=> {
   return (
     <div>
- <Rent/>
+ <ProductListing/>
  <Footer/>
     </div>
   )

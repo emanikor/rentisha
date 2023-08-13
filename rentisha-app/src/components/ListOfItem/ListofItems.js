@@ -6,7 +6,7 @@ import axios from "axios";
 import './ListOfItems.css';
 
 
-const ListofItems = () => {
+const ListofItems = ({listItemsHandler }) => {
 
   const initialValues = {
     ItemImage:"",
@@ -26,6 +26,9 @@ const ListofItems = () => {
   // const [token, setToken] = useState(""); 
   const [values, setValues] = useState(initialValues);
   // const Navigate= useNavigate();
+
+  // editing state
+  const [editingItem, setEditingItem] = useState(null);
 
   const generateSuccess = (success) => toast.success(success, {
     position: "bottom-right"
@@ -55,25 +58,69 @@ const ListofItems = () => {
   const listSubmit = async (e) => {
     e.preventDefault();
 
-
+// commented first the authentication part 
 // innitial authentication of listItems 
 // sending post request to the server
-    try {
-      const  response= await axios.post("http://localhost:4000/ListofItems", {
-        ...values,
-      });
+    // try {
+    //   const  response= await axios.post("http://localhost:4000/ListofItems", {
+    //     ...values,
+    //   });
 
-      if (response.status === 201) {
-        generateSuccess("Item listed successfully");
+    //   if (response.status === 201) {
+    //     generateSuccess("Item listed successfully");
 
-        setValues(initialValues);
-      } else {
-        generateError("Failed to list item");
-      }
-    } catch (err) {
-      console.log(err);
-      generateError("An error occurred");
+    //     setValues(initialValues);
+    //   } else {
+    //     generateError("Failed to list item");
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    //   generateError("An error occurred");
+    // }
+
+    // items to be rendered 
+
+    const newItem = {
+      id: Date.now().toString(),
+      image: values.ItemImage,
+      ItemName: values.ItemName,
+      ItemDescription: values.ItemDescription,
+      ItemType: values.ItemType,
+      ItemPrice: values.ItemPrice,
+      DropAddress: values.DropAddress,
+      Time: values.Time,
+      FirstName: values.FirstName,
+      SecondName: values.SecondName,
+      PhoneNumber: values.PhoneNumber,
+      quantity: 1,
+    };
+
+    listItemsHandler(newItem);
+
+    setValues({
+      ItemImage: null,
+      ItemName: '',
+      ItemDescription: '',
+      ItemType: '',
+      ItemPrice: '',
+      DropAddress: '',
+      Time: '',
+      FirstName: '',
+      SecondName: '',
+      PhoneNumber: '',
+    });
+  
+
+    // editing and updating
+    if (editingItem) {
+      // Implement editing logic to update the item in the state
+      setEditingItem(null);
+    } else {
+      // Handle adding a new item
+      listItemsHandler(newItem);
     }
+
+ console.log(newItem)
   };
 
   return (
@@ -224,9 +271,15 @@ const ListofItems = () => {
         </div>
       </div>
    
-      <button className='btnHero'>Submit</button>
+      {/* <button className='btnHero'>Submit</button> */}
+
+      <button className='btnHero' type="submit">
+          {editingItem ? 'Save Changes' : 'Submit'}
+        </button>
     </form>
-    
+    {editingItem && (
+        <button  className="btnHero" onClick={() => setEditingItem(null)}>Cancel Editing</button>
+      )}
     <ToastContainer />
   </div>
   )

@@ -1,64 +1,27 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import ListofItems from '../ListOfItem/ListofItems';
-import Product from '../Rent/Rent';
 
 
 
 
-const List  =()=> {
 
+const List  =( )=> {
+const [listitems, setListitems] =useState([]);
+const navigate = useNavigate(); 
 
-  const listitems =[
-    {
-      id:"1",
-      ItemName: "conny",
-      ItemDescription: "pro 30 10px",
-      ItemType: "camera xl 40",
-      ItemPrice: "600",
-      DropAddress: "nairobi",
-      Date: "12.3.2023",
-      Time: "4:000",
-      FirstName: "conny",
-      SecondName: "john",
-      PhoneNumber: "0796765430",
-      ItemImage: null,
-},
-{
-  id:"3",
-  ItemName: "iphone 13",
-  ItemDescription: "pro 30 10px iphone 30",
-  ItemType: "camera xl 40 600px",
-  ItemPrice: "600000",
-  DropAddress: "nakuru",
-  Date: "12.3.2023",
-  Time: "4:000",
-  FirstName: "firstconny",
-  SecondName: "secjohn",
-  PhoneNumber: "0796765430",
-  ItemImage: null,
-},
-{
-  id:"2",
-  ItemName: "tv set",
-  ItemDescription: "pro 30 10px",
-  ItemType: "tcl pro medium",
-  ItemPrice: "50000",
-  DropAddress: "mombasa",
-  Date: "12.3.2023",
-  Time: "4:000",
-  FirstName: "samconny",
-  SecondName: "doejohn",
-  PhoneNumber: "0796765430",
-  ItemImage: null,
-},
-]
-  
+const listItemsHandler = (newItem) => {
+  setListitems((prevListItems) => [...prevListItems, newItem]);
+  navigate('/rent'); 
+
+  console.log("Updated Item List:", listitems);
+};
 
   return (
     <div>
-      <ListofItems/>
-      <Product products={listitems} />
+      <ListofItems listItemsHandler={ listItemsHandler}/>
+      {/* <Product products={listitems} /> */}
       <Footer/>
       
     </div>

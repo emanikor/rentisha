@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from "./pages/Home";
 import List from "./pages/List";
@@ -8,11 +8,14 @@ import About from "./pages/About";
 import Navbar from "./Navbar/Navbar";
 import Reviews from "./pages/Reviews";
 import Sign from "./pages/Sign";
+import ProductListing from './Rent/ProductListing';
 
 
 
 
 function App() {
+  const [listitems, setListitems] = useState([]);
+  
   return (
     <div className="container">
       <Router>
@@ -21,9 +24,8 @@ function App() {
           <Route path='/' element={<Home/>} exact>
             
           </Route>
-          <Route path='/list' element={<List />}>
-          
-          </Route>
+          <Route path="/list" element={<List />} />
+          <Route path="/rent" element={<ProductListing products={listitems} />} />
           <Route path='/item' element={<Item />}>
          
           </Route>

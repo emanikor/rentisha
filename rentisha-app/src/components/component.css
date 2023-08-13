@@ -87,6 +87,18 @@
     font-weight: 700;
   
   }
+  .listdes{
+    color: grey;
+    font-size: 19px;
+    font-weight: 500;
+    padding:10px 0;
+  }
+  .listHeader{
+   color: #000000;
+   font-size: 30px;
+   font-weight: 800;
+   
+  }
   .aboutContent{
     font-size: 18px;
     color: #3a3a3b;
