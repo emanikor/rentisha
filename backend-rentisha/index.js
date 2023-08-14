@@ -310,20 +310,28 @@ const ProductDetail = [
   },
 ]
 
-app.get('/api/products/:productId', (req, res) => {
-  const productId = parseInt(req.params.productId);
-  console.log('Requested Product ID:', productId);
+
+  app.get('/api/products', (req, res) => {
+    res.json(ProductDetail);
+  });
+
+app.get('/api/products', (req, res) => {
+  const productIdParam = req.params.productId;
+  console.log('Requested Product ID from URL:', productIdParam);
+
+  const productId = parseInt(productIdParam);
+  console.log('Parsed Product ID:', productId);
 
   const product = ProductDetail.find(item => item.id === productId);
   console.log('Product Found:', product);
 
   if (!product) {
     return res.status(404).json({ error: 'Product not found' });
-  
   }
 
-  res.json(ProductDetail);
+  res.json(product);
 });
+
 
 // Start the server
 app.listen(PORT, () => {
