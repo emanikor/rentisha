@@ -1,18 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from "./pages/Home";
-import List from "./pages/List";
-import Item from "./pages/Category";
+import List from "./pages/List";  
 import Category from "./pages/Category";
 import About from "./pages/About";
 import Navbar from "./Navbar/Navbar";
-import Reviews from "./pages/Reviews";
 import Sign from "./pages/Sign";
-import ProductListing from './Rent/ProductListing';
-import LaptopCategory from './Product/LaptopCategory';
-
-
-
+import ProductListing from './Rent/ProductListing';  
+// import ProductDetail from './Product/ProductDetail';
 
 function App() {
   const [listitems, setListitems] = useState([]);
@@ -22,30 +17,16 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/' element={<Home/>} exact>
-            
-          </Route>
+          <Route path='/' element={<Home />} />
           <Route path="/list" element={<List />} />
           <Route path="/rent" element={<ProductListing products={listitems} />} />
-          <Route path='/item' element={<Item />}>
-         
-          </Route>
+          
           <Route path='/category' element={<Category />}>
-           
-          </Route>
-          <Route path="/category/laptop" component={LaptopCategory} />
-          <Route path='/Reviews' element={<Reviews />}>
-           
-           </Route>
-
-          <Route path='/About' element={<About />}>
-           
-          </Route>
-          <Route path='/sign' element={<Sign />}>
-          
-           </Route>
-          
         
+          </Route>
+          
+          <Route path='/About' element={<About />} />
+          <Route path='/sign' element={<Sign />} />
         </Routes>
       </Router>
     </div>

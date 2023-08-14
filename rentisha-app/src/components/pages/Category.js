@@ -1,16 +1,17 @@
 import React from 'react';
-// import {  Router, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Product from '../Product/Product'; 
-import CategoryDetail from '../Product/CategoryDetail'; 
+import ProductDetail from '../Product/ProductDetail';
 
-const App = () => {
+const Category = () => {
   return (
     <div>
-   
-  <Product/>
-  <CategoryDetail/>
+      <Routes>
+        <Route path="/" element={<Product />} />
+        <Route path="/product/:productId" element={<ProductDetail />} />
+      </Routes>
     </div>
   );
 };
 
-export default App;
+export default Category;

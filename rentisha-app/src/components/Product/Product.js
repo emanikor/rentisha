@@ -93,25 +93,13 @@ const ProductDetail = [
         Img:  category1 ,
     },
 ]
-// const Categories =({categories})=>{
-//     return (
-//         <div className="category-list">
-//           {categories.map(category => (
-//             <Link key={category._id} to={`/category/${category._id}`}>
-//               <div>{category.name}</div>
-//             </Link>
-//           ))}
-//         </div>
-//       );
-//     };
-
 const Product = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch categories from the server
-    axios.get('/api/categories')
+  
+    axios.get('/api/products')
       .then(response => {
         setCategories(response.data);
         setLoading(false);
@@ -120,6 +108,8 @@ const Product = () => {
         console.error(error);
         setLoading(false);
       });
+
+   
   }, []);
 
   return (
@@ -129,7 +119,7 @@ const Product = () => {
         {ProductDetail.map((productDetail) => (
           <Link
             key={productDetail.id}
-            to={`/product/${productDetail.id}`} // Link to the product detail page
+            to={`/product/${productDetail.id}`} 
             className='card-Product-container'
           >
             <div className='card-Product-container'>

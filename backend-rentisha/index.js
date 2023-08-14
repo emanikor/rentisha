@@ -190,36 +190,139 @@ app.post("/SignIn", async (req, res) => {
 
 
 // category creation endpoint
-app.post ("/Product", async (req, res)=>{
-  try{
-     const{name} =req.body;
-     const existingCategory =await CategoryModel.findOne({name});
-     if(existingCategory){
-      return res.status(409).json ({error:"category already exist"});
-     }
+// app.post ("/Product", async (req, res)=>{
+//   try{
+//      const{name} =req.body;
+//      const existingCategory =await CategoryModel.findOne({name});
+//      if(existingCategory){
+//       return res.status(409).json ({error:"category already exist"});
+//      }
 
-     const newCategory = new CategoryModel ({name});
+//      const newCategory = new CategoryModel ({name});
 
-     await newCategory.save ();
+//      await newCategory.save ();
 
 
-     res.status(201).json({ category: newCategory._id, created: true });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
+//      res.status(201).json({ category: newCategory._id, created: true });
+//     } catch (error) {
+//       console.log(error);
+//       res.status(500).json({ error: "Internal server error" });
+//     }
+//   });
 
-// category retrieval endpoint
-app.get("/Product", async (req,res) =>{
-  try{
-    const categories =await CategoryModel.find();
-    res.status(200).json(categories);
+// // category retrieval endpoint
+// app.get("/Product", async (req,res) =>{
+//   try{
+//     const categories =await CategoryModel.find();
+//     res.status(200).json(categories);
 
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal server error" });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+
+const ProductDetail = [
+
+  {
+      id:1,
+      Title:"Hp laptop",
+      Cat: 'Tablet',
+      Price: '723',
+      Img:  'images/category3.jpg'
+  },
+  {
+      id:2,
+      Title:"Hp laptop",
+      Cat: 'Smart Watch',
+      Price: '168',
+      Img:  'images/category2.jpg'
+  },
+  {
+      id:3,
+      Title:"Hp laptop",
+      Cat: 'Headphone',
+      Price: '49',
+      Img:  'images/category1.jpg'
+  },
+  {
+      id:4,
+      Title:"Hp laptop",
+      Cat: 'Camera',
+      Price: '1049',
+      Img:  'images/category3.jpg'
+  },
+  {
+      id:5,
+      Title:"Hp laptop.",
+      Cat: 'Powerbank',
+      Price: '49',
+      Img:  'images/category2.jpg'
+  },
+  {
+      id:6,
+      Title:"Hp laptop",
+      Cat: 'Electronics',
+      Price: '156',
+      Img:  'images/category1.jpg'
+  },
+  {
+      id:7,
+      Title:"Hp laptop",
+      Cat: 'Gaming',
+      Price: '2098',
+      Img:  'images/category3.jpg'
+  },
+  {
+      id:8,
+      Title:"Hp laptop",
+      Cat: 'Electronics',
+      Price: '386',
+      Img:  'images/category2.jpg'
+  },
+  {
+      id:9,
+      Title:"Hp laptop",
+      Cat: 'Tablet',
+      Price: '693',
+      Img:  'images/category1.jpg'
+  },
+  {
+      id:10,
+      Title:"Hp laptop",
+      Cat: 'Gaming',
+      Price: '5036',
+      Img:  'images/category3.jpg'
+  },
+  {
+      id:11,
+      Title:"Hp laptop",
+      Cat: 'Electronics',
+      Price: '198',
+      Img:  'images/category2.jpg'
+  },
+  {
+      id:12,
+      Title:"Hp laptop",
+      Cat: 'Electronics',
+      Price: '793',
+      Img:  'images/category3.jpg'
+  },
+]
+
+app.get('/api/products/:productId', (req, res) => {
+  const productId = parseInt(req.params.productId);
+  console.log('Requested Product ID:', productId);
+
+  const product = ProductDetail.find(item => item.id === productId);
+  console.log('Product Found:', product);
+
+  if (!product) {
+    return res.status(404).json({ error: 'Product not found' });
+  
   }
+
+  res.json(ProductDetail);
 });
 
 // Start the server

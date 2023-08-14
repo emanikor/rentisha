@@ -8,7 +8,7 @@ const LaptopCategory = () => {
 
   useEffect(() => {
     // Fetch laptop products from the server
-    axios.get('/api/products?category=laptop') // Modify this query based on your API
+    axios.get('/api/products?category=laptop') 
       .then(response => {
         setLaptopProducts(response.data);
         setLoading(false);
