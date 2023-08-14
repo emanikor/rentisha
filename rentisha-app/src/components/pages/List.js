@@ -4,9 +4,6 @@ import Footer from '../Footer/Footer';
 import ListofItems from '../ListOfItem/ListofItems';
 
 
-
-
-
 const List  =( )=> {
 const [listitems, setListitems] =useState([]);
 const navigate = useNavigate(); 

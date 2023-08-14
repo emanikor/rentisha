@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router,Link,  } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 import axios from 'axios';
 import './Product.css';
 import category1 from '../images/category1.png';
@@ -93,21 +93,20 @@ const ProductDetail = [
         Img:  category1 ,
     },
 ]
-const Categories =({categories})=>{
-    return (
-        <div className="category-list">
-          {categories.map(category => (
-            <Link key={category._id} to={`/category/${category._id}`}>
-              <div>{category.name}</div>
-            </Link>
-          ))}
-        </div>
-      );
-    };
-
+// const Categories =({categories})=>{
+//     return (
+//         <div className="category-list">
+//           {categories.map(category => (
+//             <Link key={category._id} to={`/category/${category._id}`}>
+//               <div>{category.name}</div>
+//             </Link>
+//           ))}
+//         </div>
+//       );
+//     };
 
 const Product = () => {
-  const [categories, setCategories] = useState([]); 
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -128,17 +127,23 @@ const Product = () => {
       <h1 className='paddings headProduct flexCenter'>Explore Category</h1>
       <div className='paddings card-Product'>
         {ProductDetail.map((productDetail) => (
-          <div key={productDetail.id} className='card-Product-container'>
-            <img src={productDetail.Img} alt={productDetail.Title} />
-            <div className='flexColStart product-card-body'>
-              <h3 className='secondaryText'>{productDetail.Title}</h3>
-              <h3 className='secondaryText'>{productDetail.Cat}</h3>
-              <div className='flexCenter cart'>
-                <h3 className='secondaryText'>price: {productDetail.Price}</h3>
-                <i className="fa-solid fa-cart-shopping"></i>
+          <Link
+            key={productDetail.id}
+            to={`/product/${productDetail.id}`} // Link to the product detail page
+            className='card-Product-container'
+          >
+            <div className='card-Product-container'>
+              <img src={productDetail.Img} alt={productDetail.Title} />
+              <div className='flexColStart product-card-body'>
+                <h3 className='secondaryText'>{productDetail.Title}</h3>
+                <h3 className='secondaryText'>{productDetail.Cat}</h3>
+                <div className='flexCenter cart'>
+                  <h3 className='secondaryText'>price: {productDetail.Price}</h3>
+                  <i className='fa-solid fa-cart-shopping'></i>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

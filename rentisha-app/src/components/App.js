@@ -9,6 +9,7 @@ import Navbar from "./Navbar/Navbar";
 import Reviews from "./pages/Reviews";
 import Sign from "./pages/Sign";
 import ProductListing from './Rent/ProductListing';
+import LaptopCategory from './Product/LaptopCategory';
 
 
 
@@ -32,6 +33,7 @@ function App() {
           <Route path='/category' element={<Category />}>
            
           </Route>
+          <Route path="/category/laptop" component={LaptopCategory} />
           <Route path='/Reviews' element={<Reviews />}>
            
            </Route>
