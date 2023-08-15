@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; 
 import axios from 'axios';
 import './Product.css';
+// import Category1 from '../images/Category1.png';
+// import Category2 from '../images/Category2.png';
+// import Category3 from '../images/Category3.png';
+
 
 
 const Product = () => {
@@ -35,7 +39,7 @@ const Product = () => {
             className='card-Product-container'
           >
             <div className='card-Product-container'>
-              <img src={product.Img} alt={product.Title} />
+            <img src={`/images/${product.Img}`} alt={product.Title} />
               <div className='flexColStart product-card-body'>
                 <h3 className='secondaryText'>{product.Title}</h3>
                 <h3 className='secondaryText'>{product.Cat}</h3>

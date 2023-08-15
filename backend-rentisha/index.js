@@ -7,6 +7,7 @@ const UserModel = require("./Models/UserModel");
 const jwt = require("jsonwebtoken");
 const CategoryModel = require("./Models/CategoryModel");
 const ItemModel = require("./ItemModel/ItemModel");
+const path = require('path');
 
 const app = express();
 const PORT = 4000;
@@ -15,6 +16,10 @@ const PORT = 4000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// stattic files deal
+app.use('/images', express.static(path.join(__dirname, '..', 'rentisha-app', 'src', 'components', 'images')));
+
 
 // MongoDB Connection
 mongoose
@@ -189,39 +194,7 @@ app.post("/SignIn", async (req, res) => {
 });
 
 
-// category creation endpoint
-// app.post ("/Product", async (req, res)=>{
-//   try{
-//      const{name} =req.body;
-//      const existingCategory =await CategoryModel.findOne({name});
-//      if(existingCategory){
-//       return res.status(409).json ({error:"category already exist"});
-//      }
-
-//      const newCategory = new CategoryModel ({name});
-
-//      await newCategory.save ();
-
-
-//      res.status(201).json({ category: newCategory._id, created: true });
-//     } catch (error) {
-//       console.log(error);
-//       res.status(500).json({ error: "Internal server error" });
-//     }
-//   });
-
-// // category retrieval endpoint
-// app.get("/Product", async (req,res) =>{
-//   try{
-//     const categories =await CategoryModel.find();
-//     res.status(200).json(categories);
-
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
-
+// category product apis
 const ProductDetail = [
 
   {
@@ -310,6 +283,8 @@ const ProductDetail = [
   },
 ]
 
+
+// cartegory end point
 
   app.get('/api/products', (req, res) => {
     res.json(ProductDetail);

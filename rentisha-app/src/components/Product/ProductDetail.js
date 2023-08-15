@@ -7,8 +7,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    
-    axios.get(`/api/products/${productId} `) 
+    axios.get(`/api/products/${productId}`)
       .then(response => {
         setProduct(response.data);
       })
@@ -26,8 +25,7 @@ const ProductDetail = () => {
       <h2>{product.Title}</h2>
       <p>Category: {product.Cat}</p>
       <p>Price: {product.Price}</p>
-      <img src={product.Img} alt={product.Title} />
-     
+      <img src={`/images/${product.Img}`} alt={product.Title} />
     </div>
   );
 };
