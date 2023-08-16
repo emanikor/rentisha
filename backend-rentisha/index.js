@@ -21,21 +21,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('./components/images', express.static('images'));
 
 
-
-// Configure multer to store files in a specified directory
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "path/to/your/image/uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
-
-
-
 // MongoDB Connection
 mongoose
   .connect("mongodb://localhost:27017/jwt", {
@@ -74,31 +59,43 @@ function authenticateToken(req, res, next) {
 }
 
 
-
-
-
-// database for list 
 // list end point (sending request )
-router.post("/your-backend-endpoint", upload.single("ItemImage"), async (req, res) => {
+app.post('/ListofItems',  async (req, res) => {
   try {
-    // Extract form data from req.body
-    const { ItemName, ItemDescription, ItemType, /* other fields */ } = req.body;
-
-    // Create and save the item to the database
-    const newItem = new ItemModel({
-      ItemImage: req.file.filename, // The uploaded file's filename
+    const {
+      ItemImage,
       ItemName,
       ItemDescription,
       ItemType,
-      // ... other fields
+      ItemPrice,
+      DropAddress,
+      Date,
+      Time,
+      FirstName,
+      SecondName,
+      PhoneNumber,
+    } = req.body;
+
+    const newItem = new ItemModel({
+      ItemImage,
+      ItemName,
+      ItemDescription,
+      ItemType,
+      ItemPrice,
+      DropAddress,
+      Date,
+      Time,
+      FirstName,
+      SecondName,
+      PhoneNumber,
     });
-    
+
     await newItem.save();
 
-    res.status(201).json({ message: "Item listed successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "An error occurred" });
+    res.status(201).json({ message: 'Item listed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
