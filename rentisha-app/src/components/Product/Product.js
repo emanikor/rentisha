@@ -12,6 +12,7 @@ const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  
   useEffect(() => {
     axios.get('http://localhost:4000/api/products')
       .then(response => {
@@ -27,6 +28,8 @@ const Product = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  // console.log('Product Image:', `/images/${product.Img}`);
 
   return (
     <div className='product'>

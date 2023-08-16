@@ -28,15 +28,15 @@ export const SignIn = (props) => {
 
     try {
       const { data } = await axios.post("http://localhost:4000/SignIn", {
-       ...values,
-       withCredential:true
-    });
+        ...values,
+ 
+      });
       
       if (data && data.signedIn) {
         generateSuccess("Successfully signed in.");
         
         if (data.user && data.token) {
-         
+          
           document.cookie = `jwt=${data.token}; path=/; secure; SameSite=strict;`;
           Navigate('/list'); 
         } else {

@@ -6,8 +6,9 @@ import Category from "./pages/Category";
 import About from "./pages/About";
 import Navbar from "./Navbar/Navbar";
 import Sign from "./pages/Sign";
-import ProductListing from './Rent/ProductListing';  
-// import ProductDetail from './Product/ProductDetail';
+import ProductListing from './ListOfItem/ProductListing';  
+import ProductDetail from './Product/ProductDetail';
+import Checkout from "./Preview/Checkout";
 
 function App() {
   const [listitems, setListitems] = useState([]);
@@ -19,11 +20,14 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path="/list" element={<List />} />
+          
+          <Route path="/checkout" element={<Checkout listitems={listitems} />} />
+          
           <Route path="/rent" element={<ProductListing products={listitems} />} />
           
           <Route path='/category' element={<Category />}>
-        
-          </Route>
+        </Route>
+          <Route path="/product/:productId" element={ProductDetail} />
           
           <Route path='/About' element={<About />} />
           <Route path='/sign' element={<Sign />} />

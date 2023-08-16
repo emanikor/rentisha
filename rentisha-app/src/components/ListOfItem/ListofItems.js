@@ -8,21 +8,12 @@ import './ListOfItems.css';
 
 const ListofItems = ({listItemsHandler }) => {
 
-  const initialValues = {
-    ItemImage:"",
-    ItemName: "",
-    ItemDescription: "",
-    ItemType: "",
-    ItemPrice: "",
-    DropAddress: "",
-    Date: "",
-    Time: "",
-    FirstName: "",
-    SecondName: "",
-    PhoneNumber: "",
-    termsCondition: false,
-    ItemImage: null,
-  };
+
+    const formData = new FormData();
+  formData.append('ItemImage', values.ItemImage);
+  formData.append('ItemName', values.ItemName);
+  formData.append('ItemDescription', values.ItemDescription);
+ 
   // const [token, setToken] = useState(""); 
   const [values, setValues] = useState(initialValues);
   const Navigate= useNavigate();
@@ -61,23 +52,33 @@ const ListofItems = ({listItemsHandler }) => {
 // commented first the authentication part 
 // innitial authentication of listItems 
 // sending post request to the server
-    // try {
-    //   const  response= await axios.post("http://localhost:4000/ListofItems", {
-    //     ...values,
-    //   });
 
-    //   if (response.status === 201) {
-    //     generateSuccess("Item listed successfully");
-    //     Navigate('./rent')
 
-    //     setValues(initialValues);
-    //   } else {
-    //     generateError("Failed to list item");
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    //   generateError("An error occurred");
-    // }
+try {
+  const response = await axios.post("http://localhost:4000/ListofItems", formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  if (response.status === 201) {
+    generateSuccess("Item listed successfully");
+    listItemsHandler({
+      id: response.data.itemId, 
+      ...values,
+      quantity: 1,
+    });
+    setValues(initialValues)
+    
+  } else {
+    generateError("Failed to list item");
+  }
+} catch (err) {
+  console.log(err);
+  generateError("An error occurred");
+}
+};
+
 
     // items to be rendered 
 
@@ -118,11 +119,11 @@ const ListofItems = ({listItemsHandler }) => {
       setEditingItem(null);
     } else {
       // Handle adding a new item
-      listItemsHandler(newItem);
+      // listItemsHandler(newItem);
     }
-
+  
  console.log(newItem)
-  };
+
 
   return (
     <div className='listInput'>
@@ -130,16 +131,38 @@ const ListofItems = ({listItemsHandler }) => {
     <form onSubmit={listSubmit} >
     <h2 className='headProduct paddings'>List of Items page</h2>
 
+    
+    <div className="inputImages">
+              <input
+                type="file"
+                name="ItemImage"
+                accept="image/*"
+                className="imagesstyle"
+                onChange={handleImageChange}
+              />
+              <input
+                type="file"
+                name="ItemImage"
+                accept="image/*"
+                className="imagesstyle"
+                onChange={handleImageChange}
+              />
+              <input
+                type="file"
+                name="ItemImage"
+                accept="image/*"
+                className="imagesstyle"
+                onChange={handleImageChange}
+              />
+              <input
+                type="file"
+                name="ItemImage"
+                accept="image/*"
+                className="imagesstyle"
+                onChange={handleImageChange}
+              />
 
-    <input
-          type="file"
-          name="ItemImage"
-          accept="image/*"
-          // value={values.ItemImage}
-          onChange={handleImageChange}
-        />
-
-
+</div>
         <label>Item Name</label>
       
         <input
@@ -271,8 +294,6 @@ const ListofItems = ({listItemsHandler }) => {
           </label>
         </div>
       </div>
-   
-      {/* <button className='btnHero'>Submit</button> */}
 
       <button className='btnHero' type="submit">
           {editingItem ? 'Save Changes' : 'Submit'}
@@ -284,6 +305,5 @@ const ListofItems = ({listItemsHandler }) => {
     <ToastContainer />
   </div>
   )
-}
-
+    }
 export default ListofItems;

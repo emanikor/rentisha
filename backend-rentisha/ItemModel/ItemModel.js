@@ -2,11 +2,10 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 
-
-const ItemSchema = new mongoose.Schema({
-  ItemImage: {
-    type: String,
-    required: [true, "Item image is required"],
+const itemSchema = new mongoose.Schema({
+  ItemImage: { 
+    type: String, 
+    required: true
   },
   itemName: {
     type: String,
@@ -55,6 +54,6 @@ const ItemSchema = new mongoose.Schema({
   ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' },
 });
 
-const ItemModel = mongoose.model("ItemModel", ItemSchema);
+const ItemModel = mongoose.model('ItemModel', itemSchema);
 
 module.exports = ItemModel;

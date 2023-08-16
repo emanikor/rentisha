@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  confirmPassword: {
+    type: String,
+    required: [true, "Password is required"],
+  },
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ItemModel' }],
 });
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Footer from '../Footer/Footer'
-import ProductListing from '../Rent/ProductListing'
+import ProductListing from '../Preview/ProductListing'
 
 const Reviews=()=> {
   return (

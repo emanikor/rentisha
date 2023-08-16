@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import './Product.css'
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -16,7 +17,7 @@ const ProductDetail = () => {
       });
   }, [productId]);
 
-  if (!product) {
+  if (product) {
     return <div>Loading...</div>;
   }
 

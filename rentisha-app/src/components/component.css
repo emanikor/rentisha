@@ -92,11 +92,14 @@
     font-size: 19px;
     font-weight: 500;
     padding:10px 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+   
   }
   .listHeader{
    color: #000000;
    font-size: 30px;
    font-weight: 800;
+   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
    
   }
   .aboutContent{

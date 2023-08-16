@@ -1,28 +1,31 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import ListofItems from '../ListOfItem/ListofItems';
+import ProductListing from '../ListOfItem/ProductListing';
 
+const List = () => {
+  const [listitems, setListitems] = useState([]);
+  // const navigate = useNavigate();
 
-const List  =( )=> {
-const [listitems, setListitems] =useState([]);
-const navigate = useNavigate(); 
+  useEffect(() => {
+    console.log("Updated Item List:", listitems);
+  }, [listitems]);
 
 const listItemsHandler = (newItem) => {
   setListitems((prevListItems) => [...prevListItems, newItem]);
-  navigate('/rent'); 
-
-  console.log("Updated Item List:", listitems);
+  // navigate('/checkout');
 };
+
 
   return (
     <div>
-      <ListofItems listItemsHandler={ listItemsHandler}/>
-      {/* <Product products={listitems} /> */}
-      <Footer/>
+      <ListofItems listItemsHandler={listItemsHandler} />
       
+      <ProductListing products={listitems} />
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default List
+export default List;

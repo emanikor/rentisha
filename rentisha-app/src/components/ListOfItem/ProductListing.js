@@ -6,7 +6,6 @@ const ProductListing = (props) => {
   const [products, setProducts] = useState(props.products);
   const [editingItemId, setEditingItemId] = useState(null);
 
-
   const handleEditClick = (itemId) => {
     setEditingItemId(itemId);
   };
@@ -86,17 +85,6 @@ const ProductListing = (props) => {
     <div className="product-listing">
       
       <h2>Product Listing</h2>
-      {/* <div className="products">
-        {productList.map((product) => (
-          <div key={product.id} className="product-card">
-            <Link to={`/product/${product.id}`}>
-              <img src={product.image} alt={product.name} />
-              <h3>{product.name}</h3>
-              <p>{product.description}</p>
-            </Link>
-          </div>
-        ))}
-      </div> */}
       <div>{renderList}</div>
     </div>
   );
