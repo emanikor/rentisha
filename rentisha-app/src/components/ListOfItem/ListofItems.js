@@ -5,20 +5,25 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './ListOfItems.css';
 
+const ListofItems = ({ listItemsHandler }) => {
 
-const ListofItems = ({listItemsHandler }) => {
+  const initialValues = {
+    ItemImage: null,
+    ItemName: '',
+    ItemDescription: '',
+    ItemType: '',
+    ItemPrice: '',
+    DropAddress: '',
+    Date: '',
+    Time: '',
+    FirstName: '',
+    SecondName: '',
+    PhoneNumber: '',
+    TermsCondition: false,
+  };
 
-
-    const formData = new FormData();
-  formData.append('ItemImage', values.ItemImage);
-  formData.append('ItemName', values.ItemName);
-  formData.append('ItemDescription', values.ItemDescription);
- 
-  // const [token, setToken] = useState(""); 
   const [values, setValues] = useState(initialValues);
-  const Navigate= useNavigate();
-
-  // editing state
+  const navigate = useNavigate();
   const [editingItem, setEditingItem] = useState(null);
 
   const generateSuccess = (success) => toast.success(success, {
@@ -32,98 +37,63 @@ const ListofItems = ({listItemsHandler }) => {
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
+    console.log(inputValue)
     setValues({ ...values, [name]: inputValue });
+    console.log(name)
+    console.log(values)
   };
 
-
-  // handle image
   const handleImageChange = (e) => {
-    
     const imageFile = e.target.files[0];
     setValues({ ...values, ItemImage: imageFile });
   };
- 
-
-
 
   const listSubmit = async (e) => {
     e.preventDefault();
 
-// commented first the authentication part 
-// innitial authentication of listItems 
-// sending post request to the server
+    const formData = new FormData();
+    formData.append('ItemImage', values.ItemImage);
+    formData.append('ItemName', values.ItemName); 
+    formData.append('ItemDescription', values.ItemDescription);
+    formData.append('ItemType', values.ItemType);
+    formData.append('ItemPrice', values.ItemPrice);
+    formData.append('DropAddress', values.DropAddress);
+    formData.append('Date', values.Date);
+    formData.append('Time', values.Time);
+    formData.append('FirstName', values.FirstName);
+    formData.append('SecondName', values.SecondName);
+    formData.append('PhoneNumber', values.PhoneNumber);
+    formData.append('TermsCondition', values.TermsCondition); 
 
-
-try {
-  const response = await axios.post("http://localhost:4000/ListofItems", formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-
-  if (response.status === 201) {
-    generateSuccess("Item listed successfully");
-    listItemsHandler({
-      id: response.data.itemId, 
-      ...values,
-      quantity: 1,
-    });
-    setValues(initialValues)
-    
-  } else {
-    generateError("Failed to list item");
-  }
-} catch (err) {
-  console.log(err);
-  generateError("An error occurred");
-}
-};
-
-
-    // items to be rendered 
-
-    const newItem = {
-      id: Date.now().toString(),
-      image: values.ItemImage,
-      ItemName: values.ItemName,
-      ItemDescription: values.ItemDescription,
-      ItemType: values.ItemType,
-      ItemPrice: values.ItemPrice,
-      DropAddress: values.DropAddress,
-      Time: values.Time,
-      FirstName: values.FirstName,
-      SecondName: values.SecondName,
-      PhoneNumber: values.PhoneNumber,
-      quantity: 1,
-    };
-
-    listItemsHandler(newItem);
-
-    setValues({
-      ItemImage: null,
-      ItemName: '',
-      ItemDescription: '',
-      ItemType: '',
-      ItemPrice: '',
-      DropAddress: '',
-      Time: '',
-      FirstName: '',
-      SecondName: '',
-      PhoneNumber: '',
-    });
-  
-
-    // editing and updating
-    if (editingItem) {
-      // Implement editing logic to update the item in the state
-      setEditingItem(null);
-    } else {
-      // Handle adding a new item
-      // listItemsHandler(newItem);
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
     }
-  
- console.log(newItem)
+    try {
+      const response = await axios.post("http://localhost:4000/ListofItems", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
+      if (response.status === 201) {
+        generateSuccess("Item listed successfully");
+        listItemsHandler({
+          id: response.data.itemId,
+          ...values,
+          quantity: 1,
+        });
+
+        navigate('/checkout');
+
+        setValues(initialValues);
+      } else {
+        generateError("Failed to list item");
+      }
+    } catch (err) {
+      console.log(err);
+      generateError("An error occurred");
+    }
+  };
 
   return (
     <div className='listInput'>
@@ -283,9 +253,9 @@ try {
         <div className='TermsCondition'>
           <input
             type='checkbox'
-            name='termsCondition'
+            name='TermsCondition'
             id='termsCondition'
-            checked={values.termsCondition}
+            checked={values.TermsCondition}
             onChange={handleInputChange}
           />
           <label htmlFor='termsCondition'>

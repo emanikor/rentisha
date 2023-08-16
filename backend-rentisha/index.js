@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const UserModel = require("./Models/UserModel"); 
 const jwt = require("jsonwebtoken");
+const multer = require('multer');
 const CategoryModel = require("./Models/CategoryModel");
 const ItemModel = require("./ItemModel/ItemModel");
 
@@ -58,9 +59,13 @@ function authenticateToken(req, res, next) {
   });
 }
 
+// configure multer // Store files in memory as buffers
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage: storage });
+
 
 // list end point (sending request )
-app.post('/ListofItems',  async (req, res) => {
+app.post('/ListofItems', upload.single('ItemImage'), async (req, res) =>  {
   try {
     const {
       ItemImage,
@@ -74,10 +79,11 @@ app.post('/ListofItems',  async (req, res) => {
       FirstName,
       SecondName,
       PhoneNumber,
+      TermsCondition,
     } = req.body;
 
     const newItem = new ItemModel({
-      ItemImage,
+      ItemImage: req.file.buffer, 
       ItemName,
       ItemDescription,
       ItemType,
@@ -88,6 +94,7 @@ app.post('/ListofItems',  async (req, res) => {
       FirstName,
       SecondName,
       PhoneNumber,
+      TermsCondition,
     });
 
     await newItem.save();

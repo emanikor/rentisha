@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import ListofItems from '../ListOfItem/ListofItems';
-import ProductListing from '../ListOfItem/ProductListing';
+// import ProductListing from '../ListOfItem/ProductListing';
 
 const List = () => {
   const [listitems, setListitems] = useState([]);
@@ -22,7 +22,7 @@ const listItemsHandler = (newItem) => {
     <div>
       <ListofItems listItemsHandler={listItemsHandler} />
       
-      <ProductListing products={listitems} />
+      {/* <ProductListing products={listitems} /> */}
       <Footer />
     </div>
   );

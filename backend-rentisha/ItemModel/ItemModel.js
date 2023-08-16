@@ -3,11 +3,11 @@ const bcrypt = require("bcrypt");
 
 
 const itemSchema = new mongoose.Schema({
-  ItemImage: { 
-    type: String, 
-    required: true
+  ItemImage: {
+    type: String,
+    required: true,
   },
-  itemName: {
+  ItemName: { // Corrected field name
     type: String,
     required: [true, "Item name is required"],
   },
@@ -47,7 +47,7 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: [true, "Phone number is required"],
   },
-  termCondition: {
+  TermsCondition: {
     type: String,
     required: [true, "Terms and conditions are required"],
   },
