@@ -6,7 +6,7 @@ import ListofItems from '../ListOfItem/ListofItems';
 
 const List = () => {
   const [listitems, setListitems] = useState([]);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("Updated Item List:", listitems);
@@ -14,7 +14,7 @@ const List = () => {
 
 const listItemsHandler = (newItem) => {
   setListitems((prevListItems) => [...prevListItems, newItem]);
-  // navigate('/checkout');
+  navigate('/checkout');
 };
 
 

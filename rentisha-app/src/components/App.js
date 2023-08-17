@@ -12,6 +12,10 @@ import Checkout from "./Preview/Checkout";
 
 function App() {
   const [listitems, setListitems] = useState([]);
+
+  const listItemsHandler = (newItem) => {
+    setListitems((prevListItems) => [...prevListItems, newItem]);
+  };
   
   return (
     <div className="container">
@@ -19,10 +23,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path="/list" element={<List />} />
-          
+          <Route path="/list" element={<List listItemsHandler={listItemsHandler} />} />
           <Route path="/checkout" element={<Checkout listitems={listitems} />} />
-          
           <Route path="/rent" element={<ProductListing products={listitems} />} />
           
           <Route path='/category' element={<Category />}>
