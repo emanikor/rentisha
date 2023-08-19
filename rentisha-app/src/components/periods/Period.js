@@ -17,6 +17,8 @@ const periodData = [
   },
 ];
 
+
+
 const Period = () => {
   return (
     <div className='period paddings'>

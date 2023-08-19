@@ -1,91 +1,27 @@
 import React, { useState } from 'react';
-import './Rent.css';
+import './Rent.css'; // Make sure to import your CSS file if needed
 import shoes from '../images/shoes.jpg';
 
-const ProductListing = (props) => {
-  const [products, setProducts] = useState(props.products);
-  const [editingItemId, setEditingItemId] = useState(null);
-
-  const handleEditClick = (itemId) => {
-    setEditingItemId(itemId);
-  };
-  const handleSaveClick = (itemId) => {
-    setEditingItemId(null);
-  };
-
-  const handleQuantityChange = (e, itemId) => {
-    const updatedProducts = products.map((product) => {
-      if (product.id === itemId) {
-        return {
-          ...product,
-          quantity: parseInt(e.target.value, 10) || 0,
-        };
-      }
-      return product;
-    });
-
-    setProducts(updatedProducts);
-  };
-
-  const renderList = props.products.map((listitems) => {
-    const totalPrice = parseFloat(listitems.ItemPrice) * listitems.quantity || 0;
-
-    return (
-      <div className="products">
-        <div className="paddings flexCenter productlist-Container">
-          <div className="paddings productlist-content">
-            <div style={{ display: 'flex' }}>
-              <div className="product-image">
-                <img src={shoes} alt={listitems.ItemName} />
-              </div>
-              <div className="paddings product-details">
-                <h1 className="listHeader ">{listitems.ItemName}</h1>
-                <p className="listdes">{listitems.ItemDescription}</p>
-                <h3 className="itemtype">{listitems.ItemType}</h3>
-                <span className="itemprice">{listitems.ItemPrice}</span>
-                <div className="address">{listitems.DropAddress}</div>
-                <span>{listitems.Time}</span>
-
-                <div className="quantity">
-                  <label>Quantity:</label>
-                  <input
-                    type="number"
-                    value={listitems.quantity}
-                    onChange={(e) => handleQuantityChange(e, listitems)}
-                  />
-                </div>
-                <div>
-                  <h3 className="paddings">
-                    Total: ${totalPrice.toFixed(2)}
-                  </h3>
-                </div>
-                <div className="">
-                  <button className="btnHero">checkout</button>
-                </div>
-                {editingItemId === listitems.id ? (
-                  <button onClick={() => handleSaveClick(listitems.id)}>
-                    Save
-                  </button>
-                ) : (
-                  <button onClick={() => handleEditClick(listitems.id)}>
-                    Edit
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  });
-
-  console.log('Props received:', props);
-  console.log('Rendered product list:', renderList);
-
+const ProductListing = ({ products }) => {
   return (
     <div className="product-listing">
       <h2>Product Listing</h2>
-      {renderList}
+      {products.map((item) => (
+        <div key={item._id} className="product">
+          <div className="product-image">
+            <img src={shoes} alt={item.ItemName} />
+          </div>
+          <div className="product-details">
+            <h3 className="item-name">{item.ItemName}</h3>
+            <p className="item-description">{item.ItemDescription}</p>
+            <p className="item-type">{item.ItemType}</p>
+            <p className="item-price">${item.ItemPrice}</p>
+            <p className="drop-address">{item.DropAddress}</p>
+            <p className="time">{item.Time}</p>
+            {/* Render any other item details here */}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

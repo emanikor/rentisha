@@ -22,6 +22,8 @@ const ListofItems = ({ listItemsHandler }) => {
     TermsCondition: false,
   };
 
+
+
   const [values, setValues] = useState(initialValues);
   const navigate = useNavigate();
   const [editingItem, setEditingItem] = useState(null);
@@ -93,6 +95,9 @@ const ListofItems = ({ listItemsHandler }) => {
       console.log(err);
       generateError("An error occurred");
     }
+
+
+
   };
 
   return (

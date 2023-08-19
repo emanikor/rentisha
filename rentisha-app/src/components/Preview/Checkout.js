@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import ProductListing from '../ListOfItem/ProductListing';
 import axios from 'axios';
 
-const Checkout = ({ listitems }) => {  
-
+const Checkout = () => {
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:4000/ListofItems') 
+    console.log("effects")
+    axios.get('http://localhost:4000/ListofItems')
       .then(response => {
-        console.log('Fetched data:', response.data);
+        console.log("promise fulfilled")
+        console.log(response.data)
+        setProducts(response.data);
         setLoading(false);
       })
       .catch(error => {
@@ -17,14 +20,14 @@ const Checkout = ({ listitems }) => {
         setLoading(false);
       });
   }, []);
-
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
     <div>
       <h2>Rent Page</h2>
-      <ProductListing products={listitems} /> 
+      <ProductListing products={products} />
     </div>
   );
 };

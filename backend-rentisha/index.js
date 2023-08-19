@@ -63,6 +63,18 @@ function authenticateToken(req, res, next) {
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
+// get request 
+app.get('/ListofItems' , async(req, res)=>{
+
+    const items = await ItemModel.find()
+    return res.status(201).json(items) 
+})
+// ListofItems/:id
+// const {id} = req.params
+// await ItemModel.findById(id).exec()
+
+// const params = req.params;
+// const id = params.id;
 
 // list end point (sending request )
 app.post('/ListofItems', upload.single('ItemImage'), async (req, res) =>  {
@@ -132,7 +144,7 @@ app.post("/SignUp", async (req, res) => {
     });
 
     const salt = await bcrypt.genSalt();
-    newUser.password = await bcrypt.hash(newUser.password, salt);
+    newUser.password = bcrypt.hash(newUser.password, salt);
 
     await newUser.save();
 
@@ -177,8 +189,8 @@ app.post("/SignIn", async (req, res) => {
        console.log('Password:', password);
       return res.status(401).json({ error: "Invalid credentials" });
     }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+  console.log(user)
+    const isPasswordValid =  bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
       console.log(password)
@@ -190,13 +202,16 @@ app.post("/SignIn", async (req, res) => {
       expiresIn: "3d",
     });
 
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      maxAge: 3 * 24 * 60 * 60 * 1000,
-      secure: true,
-    });
+    
+    // res.cookie("jwt", token, {
+    //   httpOnly: true,
+    //   maxAge: 3 * 24 * 60 * 60 * 1000,
+    //   secure: true,
+    // });
 
-    res.status(200).json({ user: user._id, signedIn: true });
+
+
+    res.status(200).json({ user: user._id, token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
@@ -204,7 +219,7 @@ app.post("/SignIn", async (req, res) => {
 });
 
 
-// category product apis
+// product apis
 const ProductDetail = [
 
   {

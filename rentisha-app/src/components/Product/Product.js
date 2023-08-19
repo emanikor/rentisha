@@ -7,6 +7,7 @@ import category1 from '../images/category1.png';
 // import Category3 from '../images/Category3.png';
 
 
+
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
