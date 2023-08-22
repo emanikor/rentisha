@@ -4,10 +4,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './Sign.css';
+import { useAuth } from '../Authentication/AuthContext';
 
 
 export const SignIn = (props) => {
   const Navigate = useNavigate();
+
   const initialValues = {
     email: "",
     password: "",
@@ -22,6 +24,8 @@ export const SignIn = (props) => {
   });
 
   const [values, setValues] = useState(initialValues);
+  const { login } = useAuth(); 
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +60,8 @@ export const SignIn = (props) => {
  
     // reset
     setValues(initialValues);
+
+    login();
   };
 
   return (

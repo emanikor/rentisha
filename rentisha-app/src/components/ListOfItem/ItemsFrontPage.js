@@ -15,7 +15,7 @@ const ItemsFrontPage = () => {
           View Items
         </Link>
       ) : (
-        <Link to="/sign" className="btnHero">
+        <Link to="/sign" className="btnHero1">
           Sign In to View Items
         </Link>
       )}

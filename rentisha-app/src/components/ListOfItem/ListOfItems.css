@@ -139,7 +139,7 @@
     margin-bottom: 40px;
   }
   
-  .btnHero,
+  .btnHero1,
   .btnHero1 {
     display: inline-block;
     padding: 10px 20px;
@@ -152,7 +152,7 @@
     cursor: pointer;
   }
   
-  .btnHero:hover,
+  .btnHero1:hover,
   .btnHero1:hover {
     background-color: #0056b3;
   }

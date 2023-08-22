@@ -59,7 +59,7 @@ export const Register = (props) => {
 
     if (!isStrongPassword(values.password)) {
       generateError("Password must be at least 8 characters and include uppercase, lowercase, numbers, and special characters.");
-      return; // Don't proceed with submission
+      return; 
     }
     
     try {
