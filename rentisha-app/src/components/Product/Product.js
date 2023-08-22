@@ -36,11 +36,9 @@ const Product = () => {
       <h1 className='paddings headProduct flexCenter'>Explore Category</h1>
       <div className='paddings card-Product'>
         {products.map(product => (
-          <Link
-            key={product.id}
-            to={`/product/${product.id}`}
-            className='card-Product-container'
-          >
+
+            <Link to={`/product/${product.id}`}>
+
             <div className='card-Product-container'>
             <img src={category1} alt={product.Title} />
               <div className='flexColStart product-card-body'>

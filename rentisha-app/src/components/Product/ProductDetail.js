@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import category1 from '../images/category1.png';
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/api/products${productId}`)
+    axios.get(`http://localhost:4000/api/products/${productId}`)
       .then(response => {
         setProduct(response.data);
         setLoading(false);
@@ -19,6 +21,18 @@ const ProductDetail = () => {
       });
   }, [productId]);
 
+  useEffect(() => {
+    if (product) {
+      axios.get(`http://localhost:4000/api/related-products/${product.Title}`)
+        .then(response => {
+          setRelatedProducts(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }, [product]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -27,12 +41,37 @@ const ProductDetail = () => {
     return <div>Product not found</div>;
   }
 
+
   return (
-    <div className="product-detail">
+    <div className=" product-detail">
+      <div className='product-container'>
+      <div className='product-category'>
+        
+      <div className='detail-body'>
       <h2>{product.Title}</h2>
       <p>Category: {product.Cat}</p>
       <p>Price: {product.Price}</p>
-      <img src={`/images/${product.Img}`} alt={product.Title} />
+      </div>
+      <div className='product-image'>
+        <img src={category1} className='productstyle' alt={product.Title} />
+      </div>
+      </div>
+      </div>
+      <h3 className='flexCenter secondaryText'>Related Products:</h3>
+      <div className="related-products">
+        {relatedProducts.map(relatedProduct => (
+          <Link
+            key={relatedProduct.id}
+            to={`/product/${relatedProduct.id}`}
+            className="related-product"
+          >
+            <div className="related-product-container">
+              <img src={category1} alt={relatedProduct.Title} />
+              <p>{relatedProduct.Title}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

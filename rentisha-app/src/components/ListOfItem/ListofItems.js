@@ -84,6 +84,7 @@ const ListofItems = ({ listItemsHandler }) => {
           ...values,
           quantity: 1,
         });
+        
 
         navigate('/checkout');
 

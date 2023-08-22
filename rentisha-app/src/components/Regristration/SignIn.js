@@ -38,7 +38,7 @@ export const SignIn = (props) => {
         
         if (data.user && data.token) {
           document.cookie = `jwt=${data.token}; path=/; secure; SameSite=strict;`;
-          Navigate('/list'); 
+          Navigate('/'); 
          
         } else {
           console.log("User data or token not available in response.");

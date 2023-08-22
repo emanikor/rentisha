@@ -18,7 +18,7 @@ const ProductListing = ({ products }) => {
             <p className="item-price">${item.ItemPrice}</p>
             <p className="drop-address">{item.DropAddress}</p>
             <p className="time">{item.Time}</p>
-            {/* Render any other item details here */}
+           
           </div>
         </div>
       ))}

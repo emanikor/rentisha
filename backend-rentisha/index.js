@@ -69,7 +69,26 @@ app.get('/ListofItems' , async(req, res)=>{
     const items = await ItemModel.find()
     return res.status(201).json(items) 
 })
-// ListofItems/:id
+
+
+// fetching by id endpoint 
+app.get('/ListofItems/:itemId', async (req, res) => {
+  try {
+    const itemId = req.params.itemId; 
+    const item = await ItemModel.findById(itemId).exec();
+    
+    if (!item) {
+      return res.status(404).json({ error: 'Item not found' });
+    }
+
+    res.status(200).json(item);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 // const {id} = req.params
 // await ItemModel.findById(id).exec()
 
@@ -144,7 +163,7 @@ app.post("/SignUp", async (req, res) => {
     });
 
     const salt = await bcrypt.genSalt();
-    newUser.password = bcrypt.hash(newUser.password, salt);
+    newUser.password = await bcrypt.hash(newUser.password, salt);
 
     await newUser.save();
 
@@ -166,6 +185,7 @@ app.post("/SignUp", async (req, res) => {
   }
 });
 
+// User (Sign-in) Endpoint
 // User (Sign-in) Endpoint
 app.post("/SignIn", async (req, res) => {
 
@@ -219,94 +239,319 @@ app.post("/SignIn", async (req, res) => {
 });
 
 
+
 // product apis
 const ProductDetail = [
 
   {
       id:1,
-      Title:"Hp laptop",
-      Cat: 'Tablet',
-      Price: '723',
+      Title:"film & photography",
       Img:  'images/category3.jpg'
   },
   {
       id:2,
       Title:"Hp laptop",
-      Cat: 'Smart Watch',
-      Price: '168',
       Img:  'images/category2.jpg'
   },
   {
       id:3,
-      Title:"Hp laptop",
-      Cat: 'Headphone',
-      Price: '49',
+      Title:"Drone",
       Img:  'images/category1.jpg'
   },
   {
       id:4,
-      Title:"Hp laptop",
-      Cat: 'Camera',
-      Price: '1049',
+      Title:"music instrumental",
+
       Img:  'images/category3.jpg'
   },
   {
       id:5,
-      Title:"Hp laptop.",
-      Cat: 'Powerbank',
-      Price: '49',
+      Title:"lenses",
       Img:  'images/category2.jpg'
   },
   {
       id:6,
-      Title:"Hp laptop",
-      Cat: 'Electronics',
-      Price: '156',
+      Title:"Electronics",
+
       Img:  'images/category1.jpg'
   },
   {
       id:7,
-      Title:"Hp laptop",
-      Cat: 'Gaming',
-      Price: '2098',
+      Title:"Vehicles",
       Img:  'images/category3.jpg'
   },
   {
       id:8,
-      Title:"Hp laptop",
-      Cat: 'Electronics',
-      Price: '386',
+      Title:"sound systems",
       Img:  'images/category2.jpg'
   },
   {
       id:9,
       Title:"Hp laptop",
-      Cat: 'Tablet',
-      Price: '693',
       Img:  'images/category1.jpg'
   },
   {
       id:10,
-      Title:"Hp laptop",
-      Cat: 'Gaming',
-      Price: '5036',
+      Title:"Gym equipment",
       Img:  'images/category3.jpg'
   },
   {
       id:11,
-      Title:"Hp laptop",
-      Cat: 'Electronics',
-      Price: '198',
+      Title:"phones samsung",
       Img:  'images/category2.jpg'
   },
   {
       id:12,
-      Title:"Hp laptop",
-      Cat: 'Electronics',
-      Price: '793',
+      Title:"Tvs",
       Img:  'images/category3.jpg'
   },
 ]
+const RelatedProducts = {
+  'film & photography': [
+    {
+      id: 13,
+      Title: 'Related Product 1',
+      Img: 'images/related1.jpg',
+    },
+    {
+      id: 14,
+      Title: 'Related Product 2',
+      Img: 'images/related2.jpg',
+    },
+    {
+      id: 14,
+      Title: 'Related Product 2',
+      Img: 'images/related2.jpg',
+    },
+    {
+      id: 14,
+      Title: 'Related Product 2',
+      Img: 'images/related2.jpg',
+    },
+    {
+      id: 14,
+      Title: 'Related Product 2',
+      Img: 'images/related2.jpg',
+    },
+    {
+      id: 14,
+      Title: 'Related Product 2',
+      Img: 'images/related2.jpg',
+    },
+    // ... other related products for 'film & photography' category
+  ],
+  'Hp laptop': [
+    {
+      id: 21,
+      Title: 'Related Product 3',
+      Img: 'images/related3.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    // ... other related products for 'Hp laptop' category
+  ],
+  'Drone': [
+    {
+      id: 21,
+      Title: 'Related Product 3',
+      Img: 'images/related3.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+  ],
+  'music instrumental': [
+    {
+      id: 21,
+      Title: 'Related Product 3',
+      Img: 'images/related3.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+  ],
+
+  'Hp laptop': [
+    {
+      id: 21,
+      Title: 'Related Product 3',
+      Img: 'images/related3.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+    {
+      id: 22,
+      Title: 'Related Product 4',
+      Img: 'images/related4.jpg',
+    },
+  ],
+    'lenses': [
+      {
+        id: 21,
+        Title: 'Related Product 3',
+        Img: 'images/related3.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+    ],
+    'Gym equipment': [
+      {
+        id: 21,
+        Title: 'Related Product 3',
+        Img: 'images/related3.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+      {
+        id: 22,
+        Title: 'Related Product 4',
+        Img: 'images/related4.jpg',
+      },
+    ]
+  // Define related products for other categories as well
+  // ...
+};
+
+
+app.get('/api/related-products/:category', (req, res) => {
+  const { category } = req.params;
+
+  if (!RelatedProducts[category]) {
+    return res.status(404).json({ error: 'Category not found' });
+  }
+
+  res.json(RelatedProducts[category]);
+
+});
+
+
+
 
 
 // cartegory end point
@@ -315,6 +560,9 @@ const ProductDetail = [
     res.json(ProductDetail);
   });
 
+ 
+
+  
 // Get a specific product by ID
 app.get('/api/products/:productId', (req, res) => {
   const productIdParam = req.params.productId;
@@ -332,6 +580,9 @@ app.get('/api/products/:productId', (req, res) => {
 
   res.json(product);
 });
+
+
+
 
 // Start the server
 app.listen(PORT, () => {
