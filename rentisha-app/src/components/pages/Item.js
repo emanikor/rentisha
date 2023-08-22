@@ -7,7 +7,7 @@ import Home from './Home'
 const Item =() =>{
   return (
     <div>
-      <Home/>
+      {/* <Home/> */}
     </div>
   )
 }

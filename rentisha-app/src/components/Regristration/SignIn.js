@@ -27,10 +27,9 @@ export const SignIn = (props) => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("http://localhost:4000/SignIn", {
+      const { data } = 
+      await axios.post("http://localhost:4000/SignIn", {
         ...values,
-        
-      
       });
 
       if (data && data.signedIn) {
@@ -38,7 +37,7 @@ export const SignIn = (props) => {
         
         if (data.user && data.token) {
           document.cookie = `jwt=${data.token}; path=/; secure; SameSite=strict;`;
-          Navigate('/'); 
+          Navigate('/list'); 
          
         } else {
           console.log("User data or token not available in response.");

@@ -53,6 +53,7 @@ const ListofItems = ({ listItemsHandler }) => {
   const listSubmit = async (e) => {
     e.preventDefault();
 
+    // form data 
     const formData = new FormData();
     formData.append('ItemImage', values.ItemImage);
     formData.append('ItemName', values.ItemName); 

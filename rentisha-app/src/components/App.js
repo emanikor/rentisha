@@ -9,6 +9,7 @@ import Sign from "./pages/Sign";
 import ProductListing from './ListOfItem/ProductListing';  
 import ProductDetail from './Product/ProductDetail';
 import Checkout from "./Preview/Checkout";
+import ItemsFrontPage from "./ListOfItem/ItemsFrontPage";
 
 function App() {
   const [listitems, setListitems] = useState([]);
@@ -23,14 +24,11 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path="/list" element={<List listItemsHandler={listItemsHandler} />} />
+          <Route path="/list/*" element={<List listItemsHandler={listItemsHandler} />} />
           <Route path="/checkout" element={<Checkout listitems={listitems} />} />
           <Route path="/rent" element={<ProductListing products={listitems} />} />
-          
-          <Route path='/category' element={<Category />}>
-        </Route>
-        <Route path="/product/:productId" element={<ProductDetail />} />
-          
+          <Route path="/product/:productId" element={<ProductDetail />} />
+          <Route path='/category' element={<Category />} />
           <Route path='/About' element={<About />} />
           <Route path='/sign' element={<Sign />} />
         </Routes>

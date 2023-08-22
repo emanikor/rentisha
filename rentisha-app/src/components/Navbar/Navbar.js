@@ -7,7 +7,7 @@ import './Navbar.css';
 const Navbar = () => {
   const [clicked, setClicked] = useState(false);
   const [showNav, setShowNav] = useState(true);
-  const [user, setUser] = useState(null); // Use null initially
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,9 +40,9 @@ const Navbar = () => {
   });
 
   const handleLogout = () => {
-    // Clear user data and perform logout actions
+    
     setUser(null);
-    // Additional logout actions like clearing cookies, etc.
+    
   };
 
   const handleClick = () => {

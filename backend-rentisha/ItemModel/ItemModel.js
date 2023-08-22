@@ -7,7 +7,7 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  ItemName: { // Corrected field name
+  ItemName: { 
     type: String,
     required: [true, "Item name is required"],
   },

@@ -96,6 +96,7 @@ app.get('/ListofItems/:itemId', async (req, res) => {
 // const id = params.id;
 
 // list end point (sending request )
+
 app.post('/ListofItems', upload.single('ItemImage'), async (req, res) =>  {
   try {
     const {
@@ -185,7 +186,7 @@ app.post("/SignUp", async (req, res) => {
   }
 });
 
-// User (Sign-in) Endpoint
+
 // User (Sign-in) Endpoint
 app.post("/SignIn", async (req, res) => {
 
@@ -207,7 +208,7 @@ app.post("/SignIn", async (req, res) => {
     if (!user) {
       console.log('Email:', email);
        console.log('Password:', password);
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).jsaon({ error: "Invalid credentials" });
     }
   console.log(user)
     const isPasswordValid =  bcrypt.compare(password, user.password);

@@ -11,6 +11,7 @@ export const MenuList = [
         title:"Explore Categories",
         url:"/category"
     },
+    
     {
         title:"About Us",
         url:"/about"

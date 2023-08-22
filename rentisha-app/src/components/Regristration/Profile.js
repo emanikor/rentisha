@@ -10,7 +10,7 @@ export default function Cards() {
   useEffect(() => {
     const verifyUser = async () => {
       if (!cookies.jwt) {
-        navigate("/login");
+        navigate("/sign");
       } else {
         const { data } = await axios.post(
           "http://localhost:4000",
@@ -33,7 +33,7 @@ export default function Cards() {
 
   const logOut = () => {
     removeCookie("jwt");
-    navigate("/login");
+    navigate("/sign");
   };
   return (
     <>

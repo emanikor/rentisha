@@ -1,16 +1,15 @@
-// import React from 'react'
+import React from 'react'
 
-// import Footer from '../Footer/Footer'
-// import ProductListing from '../Preview/ProductListing'
+import Footer from '../Footer/Footer'
 
-// const Reviews=()=> {
-//   return (
-//     <div>
-//       <listHome/>
-//  <ProductListing/>
-//  <Footer/>
-//     </div>
-//   )
-// }
+const Reviews=()=> {
+  return (
+    <div>
+      <listHome/>
 
-// export default Reviews
+ <Footer/>
+    </div>
+  )
+}
+
+export default Reviews

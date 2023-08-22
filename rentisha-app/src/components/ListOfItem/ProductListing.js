@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Rent.css'; // Make sure to import your CSS file if needed
+import './Rent.css'; 
 import shoes from '../images/shoes.jpg';
 
 const ProductListing = ({ products }) => {
