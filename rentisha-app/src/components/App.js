@@ -25,7 +25,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path="/list/*" element={<List listItemsHandler={listItemsHandler} />} />
-          <Route path="/checkout" element={<Checkout listitems={listitems} />} />
+          <Route path="/checkout/:itemId" element={<Checkout listitems={listitems} />} />
           <Route path="/rent" element={<ProductListing products={listitems} />} />
           <Route path="/product/:productId" element={<ProductDetail />} />
           <Route path='/category' element={<Category />} />

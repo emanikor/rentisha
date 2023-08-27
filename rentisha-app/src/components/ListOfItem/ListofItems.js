@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './ListOfItems.css';
+import { useParams } from 'react-router-dom';
 
 const ListofItems = ({ listItemsHandler }) => {
 
@@ -27,6 +28,7 @@ const ListofItems = ({ listItemsHandler }) => {
   const [values, setValues] = useState(initialValues);
   const navigate = useNavigate();
   const [editingItem, setEditingItem] = useState(null);
+  const {itemId} = useParams();
 
   const generateSuccess = (success) => toast.success(success, {
     position: "bottom-right"
@@ -77,7 +79,8 @@ const ListofItems = ({ listItemsHandler }) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-
+      
+    
       if (response.status === 201) {
         generateSuccess("Item listed successfully");
         listItemsHandler({
@@ -85,9 +88,9 @@ const ListofItems = ({ listItemsHandler }) => {
           ...values,
           quantity: 1,
         });
+       
         
-
-        navigate('/checkout');
+        navigate(`/checkout/${response.data.itemId}`);
 
         setValues(initialValues);
       } else {

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Authentication/AuthContext'; 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import ListofItems from '../ListOfItem/ListofItems';
 import ItemsFrontPage from '../ListOfItem/ItemsFrontPage';
 
+
 const List = () => {
   const [listitems, setListitems] = useState([]);
   const navigate = useNavigate();
+  const {itemId} = useParams();
 
   const { isAuthenticated } = useAuth(); 
 
@@ -15,9 +17,9 @@ const List = () => {
     setListitems((prevListItems) => [...prevListItems, newItem]);
   };
 
+
   const handleFinishListing = () => {
-   
-    navigate('/checkout');
+    navigate(`/checkout/${itemId}`);
   };
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const List = () => {
       {isAuthenticated ? (
         <>
           <ListofItems listItemsHandler={listItemsHandler} />
-          <button onClick={handleFinishListing}>Finish Listing</button>
+          <button className='btnHero flexColStart'  onClick={handleFinishListing}>Finish Listing</button>
           <Footer />
         </>
       ) : (

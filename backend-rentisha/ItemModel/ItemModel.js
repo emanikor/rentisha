@@ -51,7 +51,7 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: [true, "Terms and conditions are required"],
   },
-  ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' },
+  // ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' },
 });
 
 const ItemModel = mongoose.model('ItemModel', itemSchema);

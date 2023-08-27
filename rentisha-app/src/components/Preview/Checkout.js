@@ -4,18 +4,16 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const Checkout = () => {
-  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState(null); 
   const [loading, setLoading] = useState(true);
-  const {itemId} = useParams;
-  
+  const { itemId } = useParams();
 
   useEffect(() => {
-    console.log("effects")
+    console.log('itemId:', itemId);
     axios.get(`http://localhost:4000/ListofItems/${itemId}`)
       .then(response => {
-        console.log("promise fulfilled")
-        console.log(response.data)
-        setProducts(response.data);
+        console.log(response.data);
+        setProduct(response.data); 
         setLoading(false);
       })
       .catch(error => {
@@ -23,15 +21,19 @@ const Checkout = () => {
         setLoading(false);
       });
   }, [itemId]);
-  
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <h2>Rent Page</h2>
-      <ProductListing products={products} />
+      {/* <h2>Rent Page</h2> */}
+      {product ? (
+        <ProductListing products={[product]} /> 
+      ) : (
+        <div>No product found</div>
+      )}
     </div>
   );
 };

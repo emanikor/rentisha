@@ -1,30 +1,114 @@
-.products {
-  margin: 10px;
-  border: 1px solid #ddd;
-  padding: 10px;
+/* Product Listing Container */
+.product-listing {
+  margin-top: 20px;
 }
 
-.productlist-Container {
+/* Individual Product Container */
+.productlist {
   display: flex;
-
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
 }
 
-.productlist-content {
-  padding: 50px;
-}
-
+/* Product Image */
 .product-image img {
-  width: 600px;
-  height: 500px;
+  width: 800px;
+  max-height: 600px;
   border-radius: 15px;
 }
 
-.quantity {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
+/* Product Details */
+.product-details {
+  flex: 1;
+  padding-left: 2px;
 }
 
-.quantity label {
-  margin-right: 5px;
+.item-name {
+  font-size: 3rem;
+  margin-bottom: 20px;
 }
+
+.item-description {
+  font-size: 1.6rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 10px;
+  max-width: 800px;
+}
+
+.item-type,
+.item-price {
+  padding: 10px;
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.drop-address,
+.time {
+  font-size: 1.4rem;
+  color: #0d3236;
+  width: 140px;
+  border: 1px solid rgb(221, 220, 220);
+  padding: 10px;
+  border-radius: 3px;
+  background-color: rgba(178, 185, 185, 0.842);
+  opacity: 0.6;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+/* Map Container */
+.map {
+  width: 100%;
+  margin-top: 20px;
+  padding-left: 40px;
+}
+.mapframe{
+  border-radius: 15px;
+  outline: none;
+  border: none;
+}
+
+/* Seller Information */
+.seller-info {
+  margin-top: 20px;
+  padding-left: 40px;
+}
+
+.seller-info h4 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.seller-info p {
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+ 
+}
+
+.btnHero {
+  margin-top: 10px;
+  padding: 20px 30px;
+  font-size: 1.6rem;
+  background-color: #2a9d8f;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+
+}
+
+.edit {
+  margin-left: 10px;
+  background-color: #1d3c3d;
+}
+

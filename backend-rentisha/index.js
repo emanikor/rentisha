@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // stattic files deal
-app.use('./components/images', express.static('images'));
+// app.use('./components/images', express.static('images'));
 
 
 // MongoDB Connection
@@ -63,7 +63,7 @@ function authenticateToken(req, res, next) {
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
-// get request 
+// fetch all items get 
 app.get('/ListofItems' , async(req, res)=>{
 
     const items = await ItemModel.find()
@@ -72,21 +72,34 @@ app.get('/ListofItems' , async(req, res)=>{
 
 
 // fetching by id endpoint 
+// Fetch an item by itemId
+// app.get('/ListofItems/:itemId' , async(req, res)=>{
+
+ 
+//   const params = req.params
+//   const id = params.id;
+//   console.log('Received itemId:', id);
+//   const item = await ItemModel.findById(id).exec();
+//   return res.status(200).json(item)
+ 
+// });
 app.get('/ListofItems/:itemId', async (req, res) => {
   try {
-    const itemId = req.params.itemId; 
+    const { itemId } = req.params;
     const item = await ItemModel.findById(itemId).exec();
-    
     if (!item) {
       return res.status(404).json({ error: 'Item not found' });
     }
-
-    res.status(200).json(item);
+    return res.status(200).json(item);
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching item:", error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+
+
 
 
 // const {id} = req.params
@@ -97,10 +110,9 @@ app.get('/ListofItems/:itemId', async (req, res) => {
 
 // list end point (sending request )
 
-app.post('/ListofItems', upload.single('ItemImage'), async (req, res) =>  {
+app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
   try {
     const {
-      ItemImage,
       ItemName,
       ItemDescription,
       ItemType,
@@ -114,8 +126,10 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) =>  {
       TermsCondition,
     } = req.body;
 
+   
+
     const newItem = new ItemModel({
-      ItemImage: req.file.buffer, 
+      ItemImage:`http://localhost:4000/images/${req.file.filename}`,
       ItemName,
       ItemDescription,
       ItemType,
@@ -229,8 +243,6 @@ app.post("/SignIn", async (req, res) => {
     //   maxAge: 3 * 24 * 60 * 60 * 1000,
     //   secure: true,
     // });
-
-
 
     res.status(200).json({ user: user._id, token });
   } catch (error) {
