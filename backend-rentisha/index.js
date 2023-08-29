@@ -8,6 +8,25 @@ const jwt = require("jsonwebtoken");
 const multer = require('multer');
 const CategoryModel = require("./Models/CategoryModel");
 const ItemModel = require("./ItemModel/ItemModel");
+// import {v2 as cloudinary} from 'cloudinary';
+          
+// cloudinary.config({ 
+//   cloud_name: 'drnc1dhoa', 
+//   api_key: '466624274562764', 
+//   api_secret: 'KLupuFnVP23hjdTbM5k6CB5Yhe0' 
+// });
+
+
+
+// async function handleUpload(file) {
+//   const res = await cloudinary.uploader.upload(file, {
+//     resource_type: "auto",
+//   });
+//   return res;
+// }
+
+
+
 
 
 const app = express();
@@ -85,17 +104,19 @@ app.get('/ListofItems' , async(req, res)=>{
 // });
 app.get('/ListofItems/:itemId', async (req, res) => {
   try {
-    const { itemId } = req.params;
+    const itemId = req.params.itemId;
     const item = await ItemModel.findById(itemId).exec();
     if (!item) {
       return res.status(404).json({ error: 'Item not found' });
     }
+
     return res.status(200).json(item);
   } catch (error) {
     console.error("Error fetching item:", error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 
 
@@ -126,6 +147,18 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
       TermsCondition,
     } = req.body;
 
+    // try {
+    //   const b64 = Buffer.from(req.file.buffer).toString("base64");
+    //   let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+    //   const cldRes = await handleUpload(dataURI);
+    //   res.json(cldRes);
+    //   console.log(cldRes)
+    // } catch (error) {
+    //   console.log(error);
+    //   res.send({
+    //     message: error.message,
+    //   });
+    // }
    
 
     const newItem = new ItemModel({
@@ -143,9 +176,11 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
       TermsCondition,
     });
 
-    await newItem.save();
+ 
 
-    res.status(201).json({ message: 'Item listed successfully' });
+    const savedItem = await newItem.save();
+
+    res.status(201).json(savedItem);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });

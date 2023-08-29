@@ -5,11 +5,10 @@ import Footer from '../Footer/Footer';
 import ListofItems from '../ListOfItem/ListofItems';
 import ItemsFrontPage from '../ListOfItem/ItemsFrontPage';
 
-
 const List = () => {
   const [listitems, setListitems] = useState([]);
   const navigate = useNavigate();
-  const {itemId} = useParams();
+  const { itemId } = useParams();
 
   const { isAuthenticated } = useAuth(); 
 
@@ -17,8 +16,8 @@ const List = () => {
     setListitems((prevListItems) => [...prevListItems, newItem]);
   };
 
-
   const handleFinishListing = () => {
+    
     navigate(`/checkout/${itemId}`);
   };
 
@@ -31,7 +30,9 @@ const List = () => {
       {isAuthenticated ? (
         <>
           <ListofItems listItemsHandler={listItemsHandler} />
-          <button className='btnHero flexColStart'  onClick={handleFinishListing}>Finish Listing</button>
+          <button className='btnHero flexColStart' onClick={handleFinishListing}>
+            Finish Listing
+          </button>
           <Footer />
         </>
       ) : (

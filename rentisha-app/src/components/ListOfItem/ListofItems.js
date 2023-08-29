@@ -28,7 +28,10 @@ const ListofItems = ({ listItemsHandler }) => {
   const [values, setValues] = useState(initialValues);
   const navigate = useNavigate();
   const [editingItem, setEditingItem] = useState(null);
-  const {itemId} = useParams();
+  
+
+  const [file, setFile] = useState(null);
+ 
 
   const generateSuccess = (success) => toast.success(success, {
     position: "bottom-right"
@@ -47,17 +50,24 @@ const ListofItems = ({ listItemsHandler }) => {
     console.log(values)
   };
 
-  const handleImageChange = (e) => {
-    const imageFile = e.target.files[0];
-    setValues({ ...values, ItemImage: imageFile });
-  };
+  // const handleImageChange = (e) => {
+  //   const imageFile = e.target.files[0];
+  //   setValues({ ...values, ItemImage: imageFile });
+  // };
+
+  // Correctly set the selected image file to the state
+const handleImageChange = (e) => {
+  setFile(e.target.files[0]);
+};
+
+
 
   const listSubmit = async (e) => {
     e.preventDefault();
 
     // form data 
     const formData = new FormData();
-    formData.append('ItemImage', values.ItemImage);
+    formData.append('ItemImage', file);
     formData.append('ItemName', values.ItemName); 
     formData.append('ItemDescription', values.ItemDescription);
     formData.append('ItemType', values.ItemType);
@@ -83,14 +93,15 @@ const ListofItems = ({ listItemsHandler }) => {
     
       if (response.status === 201) {
         generateSuccess("Item listed successfully");
-        listItemsHandler({
-          id: response.data.itemId,
-          ...values,
-          quantity: 1,
-        });
+        // listItemsHandler({
+        //   id: response.data.itemId,
+        //   ...values,
+        //   quantity: 1,
+        // });
        
         
-        navigate(`/checkout/${response.data.itemId}`);
+        navigate(`/checkout/${response.data._id}`);
+       
 
         setValues(initialValues);
       } else {
@@ -119,6 +130,7 @@ const ListofItems = ({ listItemsHandler }) => {
                 accept="image/*"
                 className="imagesstyle"
                 onChange={handleImageChange}
+                multiple={false}
               />
               <input
                 type="file"
@@ -126,6 +138,7 @@ const ListofItems = ({ listItemsHandler }) => {
                 accept="image/*"
                 className="imagesstyle"
                 onChange={handleImageChange}
+                multiple={false}
               />
               <input
                 type="file"
@@ -133,6 +146,7 @@ const ListofItems = ({ listItemsHandler }) => {
                 accept="image/*"
                 className="imagesstyle"
                 onChange={handleImageChange}
+                multiple={false}
               />
               <input
                 type="file"
@@ -140,6 +154,7 @@ const ListofItems = ({ listItemsHandler }) => {
                 accept="image/*"
                 className="imagesstyle"
                 onChange={handleImageChange}
+                multiple={false}
               />
 
 </div>

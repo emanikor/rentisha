@@ -28,14 +28,10 @@ const Checkout = () => {
 
   return (
     <div>
-      {/* <h2>Rent Page</h2> */}
-      {product ? (
-        <ProductListing products={[product]} /> 
-      ) : (
-        <div>No product found</div>
-      )}
-    </div>
-  );
+    <h2>Rent Page</h2>
+    {product ? <ProductListing products={[product]} /> : <div>Product not found</div>}
+  </div>
+);
 };
 
 export default Checkout;

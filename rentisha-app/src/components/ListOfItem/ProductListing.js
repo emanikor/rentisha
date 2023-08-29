@@ -3,6 +3,7 @@ import './Rent.css';
 // Import your custom CSS file for styling
 import pixel from '../images/pixel.jpg'
 
+
 const ProductListing = ({ products }) => {
   console.log('Received products:', products);
 
