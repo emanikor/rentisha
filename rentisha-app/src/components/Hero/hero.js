@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Hero.css';
 import '../component.css';
 import homeimage from '../images/homeimage.png';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const [search, setSearch] = useState('');
@@ -40,7 +41,9 @@ const Hero = () => {
           </span>
           <div className='heros-btn'>
             <button className='btnHero'>Rent Now</button>
+            <Link to={`/list`}>
             <button className='btnHero2'>List of Items</button>
+            </Link>
           </div>
         </div>
 

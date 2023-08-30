@@ -39,10 +39,10 @@ const ProductListing = ({ products }) => {
             </div>
             
             <div className="buttons">
-              <button className='btnHero'>
+              <button className='btnHero1'>
                 Check Item Availability
               </button>
-              <button className='btnHero edit'>
+              <button className='btnHero1 edit'>
                 Edit Listing
               </button>
             </div>

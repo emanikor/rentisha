@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import category1 from '../images/category1.png';
+import Footer from '../Footer/Footer';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -72,6 +73,7 @@ const ProductDetail = () => {
           </Link>
         ))}
       </div>
+      <Footer/>
     </div>
   );
 };

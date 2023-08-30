@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState}from 'react';
+import { BrowserRouter, Route,Router,Link, } from 'react-router-dom';
 import '../component.css';
 import  category1 from '../images/category1.png';
 import  category2 from '../images/category2.png';
@@ -39,6 +40,8 @@ const CategoryData = [
 ];
 
 const Features =() => {
+  const [product, setProduct] = useState([]);
+  
   return (
     <div className="Category">
          
@@ -50,12 +53,15 @@ const Features =() => {
     <h3 className='headProduct paddings flexCenter'>Explore Categories</h3>
   <div className='paddings card-grid'>
     {CategoryData.map((CategoryData) => (
+          <Link to={'/category'}>
       <div key={CategoryData.id} className='card'>
          <img src={CategoryData.image} alt={CategoryData.title} />
          <div className='paddings card-body'>
         <h3 className='headTitle'>{CategoryData.title}</h3>
       </div>
+      
       </div>
+      </Link>
     ))}
   </div>
   </div>

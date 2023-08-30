@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MenuList } from './MenuList';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import './Navbar.css';
 
@@ -52,7 +52,9 @@ const Navbar = () => {
   return (
     <nav className={showNav ? 'show-nav' : 'hide-nav'}>
       <div className='logo'>
+        <Link to={'/'}>
         <span>Rentisha</span>
+        </Link>
       </div>
       <div className='menu-icon' onClick={handleClick}>
         <i className={clicked ? 'fa-solid fa-x' : 'fa-solid fa-bars'}></i>

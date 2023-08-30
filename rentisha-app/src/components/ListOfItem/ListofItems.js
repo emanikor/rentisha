@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './ListOfItems.css';
 import { useParams } from 'react-router-dom';
+import listImage from '../images/listImage.jpg'
 
 const ListofItems = ({ listItemsHandler }) => {
 
@@ -298,6 +299,9 @@ const handleImageChange = (e) => {
         <button  className="btnHero" onClick={() => setEditingItem(null)}>Cancel Editing</button>
       )}
     <ToastContainer />
+    <div>
+      <img src={listImage}></img>
+    </div>
   </div>
   )
     }

@@ -7,8 +7,8 @@ import ItemsFrontPage from '../ListOfItem/ItemsFrontPage';
 
 const List = () => {
   const [listitems, setListitems] = useState([]);
-  const navigate = useNavigate();
-  const { itemId } = useParams();
+  // const navigate = useNavigate();
+  // const { itemId } = useParams();
 
   const { isAuthenticated } = useAuth(); 
 
@@ -16,10 +16,10 @@ const List = () => {
     setListitems((prevListItems) => [...prevListItems, newItem]);
   };
 
-  const handleFinishListing = () => {
+  // const handleFinishListing = () => {
     
-    navigate(`/checkout/${itemId}`);
-  };
+  //   navigate(`/checkout/${itemId}`);
+  // };
 
   useEffect(() => {
     console.log("Updated Item List:", listitems);
@@ -30,9 +30,9 @@ const List = () => {
       {isAuthenticated ? (
         <>
           <ListofItems listItemsHandler={listItemsHandler} />
-          <button className='btnHero flexColStart' onClick={handleFinishListing}>
-            Finish Listing
-          </button>
+          {/* <button className='btnHero flexCenter' onClick={handleFinishListing}>
+            edit list 
+          </button> */}
           <Footer />
         </>
       ) : (

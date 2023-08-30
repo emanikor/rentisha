@@ -16,7 +16,7 @@ export const SignIn = (props) => {
   };
 
   const generateSuccess = (success) => toast.success(success, {
-    position: "bottom-right"
+    position: "top-right"
   });
 
   const generateError = (err) => toast.error(err, {
@@ -46,10 +46,17 @@ export const SignIn = (props) => {
         } else {
           console.log("User data or token not available in response.");
         }
-    
-      } else {
-        generateError("Invalid credentials.");
+      
+      
+     
       }
+      else{
+        Navigate('/list'); 
+        generateSuccess("Successfully signed in.");
+      }
+      // } else {
+      //   generateError("Invalid credentials.");
+      // }
     } catch (err) {
       console.log(err);
       generateError("An error occurred.");

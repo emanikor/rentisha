@@ -80,7 +80,7 @@ export const Register = (props) => {
           if (data.user) {
             setUser(data.user);
             document.cookie = `jwt=${data.token}; path=/; secure; SameSite=strict;`;
-            Navigate('/list');
+            Navigate('/');
           } else {
             console.log("User data not available in response.");
             
