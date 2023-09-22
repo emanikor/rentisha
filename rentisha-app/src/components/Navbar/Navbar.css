@@ -32,13 +32,13 @@ nav{
     padding: 5px 15px;
     
 }
-/* .menu-list li a:hover{
+.menu-list li a:hover{
   text-decoration: none;
-  color: #a07070;
+  color: #b99f07;
   font-weight: 300;
   padding: 5px 15px;
   
-} */
+}
 .menu-list li a.active {
   text-decoration: none;
   color: #022724;
@@ -46,7 +46,6 @@ nav{
   transition: 4s ease-in-out;
   font-weight: 300;
   padding: 5px 15px;
-  
 }
 .menu-list li:last-child a{
     font-weight: 300;

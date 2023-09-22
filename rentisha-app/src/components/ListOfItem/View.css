@@ -1,0 +1,52 @@
+/* CSS for the card-like layout */
+.item-profile{
+    justify-content: left;
+    align-items: left;
+    display: flex;
+    margin-top: 30px;
+   margin-left: 240px;
+   margin-bottom: 30px;
+}
+
+.item-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    /* padding: 20px; */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    width: 300px;
+    height: auto;
+    
+  }
+  
+  .item-card img {
+    border-radius: 0;
+    object-fit: cover;
+    width: 300px;
+    height: auto;
+  }
+  
+  .item-card h3 {
+    padding: 5px;
+    margin-top: 3px;
+    font-size: 24px;
+  }
+  
+  .item-card p {
+    margin: 10px 0;
+    padding: 5px;
+  }
+  
+  .item-card button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .item-card button:hover {
+    background-color: #0056b3;
+  }
+  

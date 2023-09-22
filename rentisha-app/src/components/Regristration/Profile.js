@@ -21,7 +21,7 @@ export default function Cards() {
         );
         if (!data.status) {
           removeCookie("jwt");
-          navigate("/login");
+          navigate("/signin");
         } else
           toast(`Hi ${data.user} 🦄`, {
             theme: "dark",

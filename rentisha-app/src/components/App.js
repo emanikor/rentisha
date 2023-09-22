@@ -10,6 +10,8 @@ import ProductListing from './ListOfItem/ProductListing';
 import ProductDetail from './Product/ProductDetail';
 import Checkout from "./Preview/Checkout";
 import ItemsFrontPage from "./ListOfItem/ItemsFrontPage";
+import ViewItem from "./ListOfItem/ViewItem";
+
 
 function App() {
   const [listitems, setListitems] = useState([]);
@@ -31,6 +33,7 @@ function App() {
           <Route path='/category' element={<Category />} />
           <Route path='/About' element={<About />} />
           <Route path='/sign' element={<Sign />} />
+          <Route path="/view-item/:itemId" element={<ViewItem />} /> {/* Uncomment this line */}
         </Routes>
       </Router>
     </div>

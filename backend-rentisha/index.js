@@ -90,18 +90,13 @@ app.get('/ListofItems' , async(req, res)=>{
 })
 
 
-// fetching by id endpoint 
-// Fetch an item by itemId
-// app.get('/ListofItems/:itemId' , async(req, res)=>{
 
- 
-//   const params = req.params
-//   const id = params.id;
-//   console.log('Received itemId:', id);
-//   const item = await ItemModel.findById(id).exec();
-//   return res.status(200).json(item)
- 
-// });
+// viewpoint item 
+// app.get('/ListofItem')
+
+
+// fetching by id endpoint 
+
 app.get('/ListofItems/:itemId', async (req, res) => {
   try {
     const itemId = req.params.itemId;

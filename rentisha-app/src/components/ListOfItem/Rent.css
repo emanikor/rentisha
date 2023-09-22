@@ -10,7 +10,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
-  gap: 40px;
+  gap: 80px;
 }
 
 /* Product Image */
@@ -112,3 +112,138 @@
   background-color: #1d3c3d;
 }
 
+.product-image {
+  flex: 1;
+  padding: 10px;
+  position: relative;
+}
+
+.main-image-container {
+  position: relative;
+}
+
+.main-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+ 
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  padding: 7px;
+  /* background-color: #0d3236; */
+}
+.allimages{
+ display: flex;
+ flex-direction: row;
+ flex-wrap: wrap;
+
+border:  grey;
+
+ 
+}
+.thumbnail.selected {
+  border-color: #007bff;
+  /* background-color: #1d3c3d; */
+}
+
+.navigation-arrows {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.prev,
+.next {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 200px;
+  background-color: #ccc;
+}
+
+.prev:hover,
+.next:hover {
+ 
+  background-color: #007bff;
+}
+
+.image-gallery {
+  display: flex;
+  margin-top: 10px;
+  width: 80px;
+  height: 80px;
+  background-color: black;
+}
+
+.square-placeholder {
+  width: 50px;
+  height: 50px;
+  border: 1px dashed #ccc;
+  margin-right: 10px;
+  width: 80px;
+  height: 80px;
+  background-color: black; /* Add spacing between small images */
+}
+
+/* Add styles for the 'selected' small image if needed */
+.square-placeholder.selected {
+  border: 2px solid #007bff; /* Change border style for the selected image */
+}
+
+/* ... Existing CSS ... */
+
+/* Style for the container of small images in a row */
+.small-images-row {
+  display: flex;
+  flex-direction: row; /* Set the direction to 'row' for a horizontal layout */
+  justify-content: flex-start; /* Start from the left side */
+  align-items: center;
+  margin-top: 10px; /* Adjust as needed */
+  overflow-x: auto;
+  width: 100%; /* Adjust the width as needed */
+  height: 120px; /* Adjust the height as needed */
+   
+  padding: 10px;
+}
+
+/* Style for each small image thumbnail */
+.small-thumbnail-row {
+  width: 50px; 
+  height: 50px; 
+  border: 2px solid #a53e3e;
+  margin-right: 5px; 
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  background-color: #0d3236;
+  margin-right: 15px; 
+  padding: 10px; 
+
+  /* Add styles for the selected thumbnail */
+  &.selected {
+    border-color: #007bff; /* Border color for the selected thumbnail */
+  }
+
+  &:last-child {
+    margin-right: 0; /* Remove margin for the last thumbnail */
+  }
+}
+
+.small-thumbnail-row:hover {
+  border-color: #007bff; /* Border color on hover */
+}
