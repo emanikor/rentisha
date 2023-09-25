@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import './Rent.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Import the sample encoded image
 import pixel from '../images/pixel.jpg'; // Replace 'sampleImage1' with your actual file path
 
 const ProductListing = ({ products }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const navigate = useNavigate();
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
@@ -25,6 +28,13 @@ const ProductListing = ({ products }) => {
     
     // Open the item in a new tab or window
     window.open(viewItemUrl, '_blank');
+  };
+
+  // editing
+  
+  const handleEditClick = (itemId) => {
+    // Navigate to the form route with the item ID as a parameter
+    navigate(`/list/${itemId}`);
   };
 
   return (
@@ -105,10 +115,17 @@ const ProductListing = ({ products }) => {
              
               <div className="buttons">
               
-              <button className='btnHero1' onClick={() => openItemPreview(item._id)}>View Item</button>
-                <button className='btnHero1 edit'>
-                  Edit Listing
-                </button>
+              <button
+  className="btnHero1"
+  onClick={() => openItemPreview(item._id)}
+>
+  View Item
+</button>
+
+              <button className="edit" onClick={() => handleEditClick(item._id)}>
+            Edit Listing
+          </button>
+
               </div>
             </div>
           </div>

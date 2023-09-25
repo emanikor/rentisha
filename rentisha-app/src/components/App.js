@@ -11,6 +11,7 @@ import ProductDetail from './Product/ProductDetail';
 import Checkout from "./Preview/Checkout";
 import ItemsFrontPage from "./ListOfItem/ItemsFrontPage";
 import ViewItem from "./ListOfItem/ViewItem";
+import EditProduct from "./ListOfItem/EditProduct";
 
 
 function App() {
@@ -33,7 +34,8 @@ function App() {
           <Route path='/category' element={<Category />} />
           <Route path='/About' element={<About />} />
           <Route path='/sign' element={<Sign />} />
-          <Route path="/view-item/:itemId" element={<ViewItem />} /> {/* Uncomment this line */}
+          <Route path="/view-item/:itemId" element={<ViewItem />} /> 
+          <Route path="/edit/:productId" component={EditProduct} /> 
         </Routes>
       </Router>
     </div>
