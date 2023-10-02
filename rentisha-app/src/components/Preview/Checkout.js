@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ProductListing from '../ListOfItem/ProductListing';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Product from '../Product/Product';
+import ProductDetail from '../Product/ProductDetail';
 
 const Checkout = () => {
   const [product, setProduct] = useState(null); 
@@ -34,4 +36,5 @@ const Checkout = () => {
 );
 };
 
+{/* <Route path="/product/:productId" element={<ProductDetail />} /> */}
 export default Checkout;

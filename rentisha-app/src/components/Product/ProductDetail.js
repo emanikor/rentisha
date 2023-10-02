@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link,useLocation  } from 'react-router-dom';
 import axios from 'axios';
 import category1 from '../images/category1.png';
 import Footer from '../Footer/Footer';
@@ -9,6 +9,12 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const item = location.state ? location.state.item : null;
+
+
+  console.log('Product ID from URL:', productId);
+
 
   useEffect(() => {
     axios.get(`http://localhost:4000/api/products/${productId}`)

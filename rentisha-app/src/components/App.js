@@ -31,6 +31,7 @@ function App() {
           <Route path="/checkout/:itemId" element={<Checkout listitems={listitems} />} />
           <Route path="/rent" element={<ProductListing products={listitems} />} />
           <Route path="/product/:productId" element={<ProductDetail />} />
+          <Route path="/product/:productId/edit" element={<EditProduct/>} />
           <Route path='/category' element={<Category />} />
           <Route path='/About' element={<About />} />
           <Route path='/sign' element={<Sign />} />

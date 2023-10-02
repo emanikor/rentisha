@@ -37,7 +37,11 @@
     height: 200px;
     
   }
-  
+  .inputcat{
+    width: 100%;
+    padding: 15px;
+    background-color: #ccc;
+  }
   .listInput .input {
     display: flex;
     flex-direction: column;

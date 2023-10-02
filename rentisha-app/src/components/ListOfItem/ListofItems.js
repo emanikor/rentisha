@@ -6,25 +6,34 @@ import axios from "axios";
 import './ListOfItems.css';
 import { useParams } from 'react-router-dom';
 import listImage from '../images/listImage.jpg'
+import { useLocation } from 'react-router-dom';
 
 const ListofItems = ({ listItemsHandler }) => {
 
+  const location = useLocation();
+  const item = location.state ? location.state.item : null;
+  
+
+  const numImageInputs = 4;
+
   const initialValues = {
-    ItemImage: null,
-    ItemName: '',
-    ItemDescription: '',
-    ItemType: '',
-    ItemPrice: '',
-    DropAddress: '',
-    Date: '',
-    Time: '',
-    FirstName: '',
-    SecondName: '',
-    PhoneNumber: '',
-    TermsCondition: false,
+    ItemImages: new Array(numImageInputs).fill(null),
+    ItemName: item ? item.ItemName : '',
+    ItemDescription: item ? item.ItemDescription : '',
+    ItemType: item ? item.ItemType : '',
+    ItemPrice: item ? item.ItemPrice : '',
+    DropAddress: item ? item.DropAddress : '',
+    Date: item ? item.Date : '',
+    Time: item ? item.Time : '',
+    FirstName: item ? item.FirstName : '',
+    SecondName: item ? item.SecondName : '',
+    PhoneNumber: item ? item.PhoneNumber : '',
+    TermsCondition: item ? item.TermsCondition : false,
+   
   };
 
 
+ 
 
   const [values, setValues] = useState(initialValues);
   const navigate = useNavigate();
@@ -33,6 +42,11 @@ const ListofItems = ({ listItemsHandler }) => {
 
   const [file, setFile] = useState(null);
  
+
+
+
+
+  const [files, setFiles] = useState(new Array(numImageInputs).fill(null));
 
   const generateSuccess = (success) => toast.success(success, {
     position: "bottom-right"
@@ -57,14 +71,38 @@ const ListofItems = ({ listItemsHandler }) => {
   // };
 
   // Correctly set the selected image file to the state
-const handleImageChange = (e) => {
-  setFile(e.target.files[0]);
-};
+  const [imagePreview, setImagePreview] = useState(null);
 
+  // Update handleImageChange to set the image data URL
+  const handleImageChange = (e) => {
+    const selectedFile = e.target.files[0];
+  
+    if (selectedFile) {
+      // Read the file and set the image data URL for preview
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImagePreview(event.target.result);
+      };
+      reader.readAsDataURL(selectedFile);
+  
+      // Set the selected file to the state
+      setFile(selectedFile);
+    }
+  };
+  
 
 
   const listSubmit = async (e) => {
     e.preventDefault();
+
+    
+
+    files.forEach((file, index) => {
+      if (file) {
+        formData.append(`ItemImage_${index}`, file);
+      }
+    });
+
 
     // form data 
     const formData = new FormData();
@@ -80,6 +118,7 @@ const handleImageChange = (e) => {
     formData.append('SecondName', values.SecondName);
     formData.append('PhoneNumber', values.PhoneNumber);
     formData.append('TermsCondition', values.TermsCondition); 
+   
 
     for (const [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
@@ -90,6 +129,7 @@ const handleImageChange = (e) => {
           'Content-Type': 'multipart/form-data',
         },
       });
+      
       
     
       if (response.status === 201) {
@@ -112,6 +152,7 @@ const handleImageChange = (e) => {
       console.log(err);
       generateError("An error occurred");
     }
+
 
 
 
@@ -179,14 +220,22 @@ const handleImageChange = (e) => {
         ></textarea>
 
 
-      <label>Item Category:</label>
-      <input
-          type='text'
-          name='ItemType'
-          placeholder='Input item category...'
-          value={values.ItemType}
-          onChange={handleInputChange}
-        />
+<label>Item Category:</label>
+      <select
+      className="inputcat"
+        name='ItemType'
+        value={values.ItemType}
+        onChange={handleInputChange}
+      >
+        <option value=''>Select category</option>
+        <option value='phones'>Phones</option>
+        <option value='clothes'>Clothes</option>
+        <option value='drone'>Drone</option>
+        <option value='laptops'>Laptops</option>
+        <option value='cameras'>Cameras</option>
+        <option value='cameras'>Tvs</option>
+        <option value='cameras'>Gym equipment</option>
+      </select>
 
        <label>Listing price</label>
         <input

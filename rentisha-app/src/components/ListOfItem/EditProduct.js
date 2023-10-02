@@ -1,63 +1,48 @@
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { useParams } from 'react-router-dom';
-// import './View.css';
-// import pixel from '../images/pixel.jpg';
-// import ProductDetail from '../Product/ProductDetail';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-// const ViewItem = () => {
-//   const [product, setProduct] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const { itemId } = useParams();
-//   const {productId} = useParams();
+function ProductEdit() {
+  const { productId } = useParams();
+  const{itemId} =useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState({});
+  const [formData, setFormData] = useState({}); // Store form data
 
-//   useEffect(() => {
-//     axios
-//       .get(`http://localhost:4000/ListofItems/${itemId}`)
-//       .then((response) => {
-//         console.log(response.data);
-//         setProduct(response.data);
-//         setLoading(false);
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//         setLoading(false);
-//       });
-//   }, [itemId]);
+  useEffect(() => {
+    // Fetch the product data by productId and populate the form
+    axios.get(`http://localhost:4000/api/products/${productId}`)
+      .then(response => {
+        setProduct(response.data);
+        setFormData({
+          title: response.data.title,
+          // Populate other form fields similarly
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        // Handle errors
+      });
+  }, [productId]);
 
-//   if (loading) {
-//     return <div>Loading...</div>;
-//   }
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // Send edited data to the server using axios or your preferred method
+    // Redirect back to the product detail page after editing
+    navigate(`/checkout/${itemId}`);
+  };
 
+  return (
+    <div>
+      <h2>Edit Product</h2>
+      <form onSubmit={handleFormSubmit}>
+        {/* Populate form fields with formData */}
+        <input type="text" name="title" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} />
+        {/* Add other form fields similarly */}
+        <button type="submit">Save</button>
+      </form>
+    </div>
+  );
+}
 
-//   useEffect(() => {
-//     console.log('productId:', productId);
-//     axios.get(`http://localhost:4000/api/products/${productId}`)
-//       .then(response => {
-//         console.log('Response data:', response.data);
-//         setProduct(response.data);
-//         setLoading(false);
-//       })
-//       .catch(error => {
-//         console.error('Error:', error);
-//         setLoading(false);
-//       });
-//   }, [productId]);
-
-  
-//   return (
-//     <div className='item-profile'>
-//       <div className='item-card'>
-//         <img src={pixel} alt={product.ItemName} />
-//         <h3>{product.ItemName}</h3>
-//         <p>{product.ItemDescription}</p>
-//         <p>Price: ${product.ItemPrice}</p>
-//       </div>
-//       <div className='product-details-container'>
-//         <ProductDetail />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ViewItem;
+export default ProductEdit;

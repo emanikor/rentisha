@@ -10,19 +10,19 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
-  gap: 80px;
+  gap: 10px;
 }
 
 /* Product Image */
 .product-image img {
-  width: 800px;
+  width: 700px;
   max-height: 600px;
   border-radius: 15px;
 }
 
 /* Product Details */
 .product-details {
-  flex: 1;
+margin-left:10px;
   padding-left: 2px;
 }
 
@@ -35,7 +35,9 @@
   font-size: 1.6rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-bottom: 10px;
-  max-width: 800px;
+  width: 900px;
+  margin-left: 0;
+
 }
 
 .item-type,

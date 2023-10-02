@@ -22,21 +22,19 @@ const ProductListing = ({ products }) => {
     setSelectedImageIndex((prevIndex) => (prevIndex - 1 + products[selectedImageIndex].ItemImage.length) % products[selectedImageIndex].ItemImage.length);
   };
 
-  const openItemPreview = (itemId) => {
+  const openItemPreview = (item) => {
     // Construct the URL for viewing the item
-    const viewItemUrl = `/view-item/${itemId}`;
     
-    // Open the item in a new tab or window
-    window.open(viewItemUrl, '_blank');
+    navigate(`/view-item/${item._id}`, { state: { item} });
   };
 
   // editing
   
-  const handleEditClick = (itemId) => {
-    // Navigate to the form route with the item ID as a parameter
-    navigate(`/list/${itemId}`);
+  const handleEditClick = (item) => {
+    // Navigate to the ListofItems component with the item data as a prop
+    navigate(`/list/${item._id}`, { state: { item } });
   };
-
+  
   return (
     <div className="product-listing">
       {products.map((item, index) => (
@@ -44,7 +42,7 @@ const ProductListing = ({ products }) => {
           <div className="product-image">
             <div className="main-image-container">
               {/* Use the sample encoded image */}
-              <img src={pixel} alt={item.ItemName} className="main-image" />
+              <img src={item.ItemImage} alt={item.ItemName} className="main-image" />
               <div className='allimages'>
                 {Array.isArray(item.ItemImage) && (
                   <div className="image-gallery">
@@ -68,7 +66,7 @@ const ProductListing = ({ products }) => {
                       // Use the sample encoded image
                       <img
                         key={idx}
-                        src={pixel} // Replace with your actual image source when available
+                        src={image} // Replace with your actual image source when available
                         alt={item.ItemName}
                         className={`small-thumbnail-row ${selectedImageIndex === idx ? 'selected' : ''}`}
                         onClick={() => handleImageClick(idx)}
@@ -102,7 +100,7 @@ const ProductListing = ({ products }) => {
           <div className="description">
             <div className="product-details">
               <h3 className="item-name">{item.ItemName}</h3>
-              <p className="item-description">{item.ItemDescription}</p>
+              <p className="item-descriptionitem-description">{item.ItemDescription}</p>
               <div className='Price-section'>
                 <p className="item-type">{item.ItemType}</p>
                 <p className="item-price">${item.ItemPrice}</p>
@@ -117,14 +115,14 @@ const ProductListing = ({ products }) => {
               
               <button
   className="btnHero1"
-  onClick={() => openItemPreview(item._id)}
+  onClick={() => openItemPreview(item)}
 >
-  View Item
+  post item
 </button>
 
-              <button className="edit" onClick={() => handleEditClick(item._id)}>
-            Edit Listing
-          </button>
+<button className="edit" onClick={() => handleEditClick(item)}>
+  Edit Listing
+</button>
 
               </div>
             </div>

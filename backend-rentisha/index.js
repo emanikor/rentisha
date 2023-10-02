@@ -8,22 +8,23 @@ const jwt = require("jsonwebtoken");
 const multer = require('multer');
 const CategoryModel = require("./Models/CategoryModel");
 const ItemModel = require("./ItemModel/ItemModel");
+const cloudinary =require('cloudinary').v2;
 // import {v2 as cloudinary} from 'cloudinary';
           
-// cloudinary.config({ 
-//   cloud_name: 'drnc1dhoa', 
-//   api_key: '466624274562764', 
-//   api_secret: 'KLupuFnVP23hjdTbM5k6CB5Yhe0' 
-// });
+cloudinary.config({ 
+  cloud_name: 'drnc1dhoa', 
+  api_key: '466624274562764', 
+  api_secret: 'KLupuFnVP23hjdTbM5k6CB5Yhe0' 
+});
 
 
 
-// async function handleUpload(file) {
-//   const res = await cloudinary.uploader.upload(file, {
-//     resource_type: "auto",
-//   });
-//   return res;
-// }
+async function handleUpload(file) {
+  const res = await cloudinary.uploader.upload(file, {
+    resource_type: "auto",
+  });
+  return res;
+}
 
 
 
@@ -82,6 +83,36 @@ function authenticateToken(req, res, next) {
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
+
+// category endpoint
+// app.get('/api/categories', async (req, res) => {
+//   try {
+//     const categories = await CategoryModel.find();
+//     res.json(categories);
+//   } catch (err) {
+//     console.error('Error fetching categories:', err);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+
+
+const handlePostItem = (item) => {
+  // Send a POST request to your server with the item data
+  axios.post('http://localhost:4000/ListofItems', item)
+    .then(response => {
+      // Handle success, e.g., show a success message or navigate to a different page
+      console.log('Item posted successfully:', response.data);
+    })
+    .catch(error => {
+      // Handle error, e.g., show an error message
+      console.error('Error posting item:', error);
+    });
+};
+
+
+
+
 // fetch all items get 
 app.get('/ListofItems' , async(req, res)=>{
 
@@ -125,7 +156,6 @@ app.get('/ListofItems/:itemId', async (req, res) => {
 // const id = params.id;
 
 // list end point (sending request )
-
 app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
   try {
     const {
@@ -140,24 +170,22 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
       SecondName,
       PhoneNumber,
       TermsCondition,
+      
     } = req.body;
 
-    // try {
-    //   const b64 = Buffer.from(req.file.buffer).toString("base64");
-    //   let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-    //   const cldRes = await handleUpload(dataURI);
-    //   res.json(cldRes);
-    //   console.log(cldRes)
-    // } catch (error) {
-    //   console.log(error);
-    //   res.send({
-    //     message: error.message,
-    //   });
-    // }
-   
+    // Check if a file was uploaded
+    if (!req.file) {
+      return res.status(400).json({ error: "No image uploaded" });
+    }
 
+    // Convert the file to a data URI and upload to Cloudinary
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    const dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+    const cldRes = await handleUpload(dataURI);
+
+    // Use the Cloudinary URL for the uploaded image
     const newItem = new ItemModel({
-      ItemImage:`http://localhost:4000/images/${req.file.filename}`,
+      ItemImage: cldRes.secure_url, // Use the secure_url from Cloudinary
       ItemName,
       ItemDescription,
       ItemType,
@@ -169,10 +197,10 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
       SecondName,
       PhoneNumber,
       TermsCondition,
+      
     });
 
- 
-
+    // Save the item to MongoDB
     const savedItem = await newItem.save();
 
     res.status(201).json(savedItem);
@@ -181,6 +209,7 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 
 
@@ -286,7 +315,6 @@ app.post("/SignIn", async (req, res) => {
 
 // product apis
 const ProductDetail = [
-
   {
       id:1,
       Title:"film & photography",
@@ -350,6 +378,7 @@ const ProductDetail = [
       Img:  'images/category3.jpg'
   },
 ]
+
 const RelatedProducts = {
   'film & photography': [
     {
@@ -578,11 +607,46 @@ const RelatedProducts = {
         Img: 'images/related4.jpg',
       },
     ]
-  // Define related products for other categories as well
-  // ...
+// Define related products for other categories as well
+// ...
 };
 
+// post category
+app.post("/api/related-products/:category", async (req, res) => {
+  try {
+    // Retrieve the item details and selected category from the request body
+    const {Title,itemDescription,Img,Price } = req.body;
 
+    // Fetch the item details based on itemId from your database
+    const item = await ItemModel.findById(itemId);
+
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    const newCategory = new CategoryModel({
+      Title,
+      itemDescription,
+      Price,
+      Img,
+    });
+
+    const savedItem = await newCategory.save();
+
+    res.status(201).json(savedItem);
+    // You can now add the item to the selected category (e.g., using a Category model)
+
+    // Respond with a success message or appropriate response
+    // res.status(200).json({ message: "Item posted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
+// related products
 app.get('/api/related-products/:category', (req, res) => {
   const { category } = req.params;
 
@@ -593,9 +657,6 @@ app.get('/api/related-products/:category', (req, res) => {
   res.json(RelatedProducts[category]);
 
 });
-
-
-
 
 
 // cartegory end point
@@ -624,6 +685,7 @@ app.get('/api/products/:productId', (req, res) => {
 
   res.json(product);
 });
+  
 
 
 
