@@ -52,7 +52,7 @@ const ViewItem = () => {
 
     try {
       // Make a POST request to your backend API to post the item to the selected category
-      const response = await axios.post('http://localhost:4000/api/related-products/:category', {
+      const response = await axios.post('http://localhost:4000/api/related-products', {
         itemId,
         category: selectedCategory,
       });

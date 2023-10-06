@@ -32,9 +32,12 @@ const Product = () => {
   // console.log('Product Image:', `/images/${product.Img}`);
 
   return (
+    
     <div className='product'>
       <h1 className='paddings headProduct flexCenter'>Explore Category</h1>
+      
       <div className='paddings card-Product'>
+      
         {products.map(product => (
 
             <Link to={`/product/${product.id}`}>
@@ -53,7 +56,9 @@ const Product = () => {
           </Link>
         ))}
       </div>
+      
     </div>
+   
   );
 };
 

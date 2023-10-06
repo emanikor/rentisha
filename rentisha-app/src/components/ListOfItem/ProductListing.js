@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import './Rent.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 // Import the sample encoded image
 import pixel from '../images/pixel.jpg'; // Replace 'sampleImage1' with your actual file path
+import ListofItems from './ListofItems';
 
 const ProductListing = ({ products }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const {productId} =useParams();
+  const { itemId } = useParams();
 
   const navigate = useNavigate();
+  
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
@@ -23,16 +27,16 @@ const ProductListing = ({ products }) => {
   };
 
   const openItemPreview = (item) => {
-    // Construct the URL for viewing the item
     
-    navigate(`/view-item/${item._id}`, { state: { item} });
+    navigate(`/product/11`,{ state: { item } });
   };
-
+  
   // editing
   
   const handleEditClick = (item) => {
     // Navigate to the ListofItems component with the item data as a prop
     navigate(`/list/${item._id}`, { state: { item } });
+
   };
   
   return (
@@ -41,16 +45,16 @@ const ProductListing = ({ products }) => {
         <div key={item._id} className="productlist">
           <div className="product-image">
             <div className="main-image-container">
-              {/* Use the sample encoded image */}
+             
               <img src={item.ItemImage} alt={item.ItemName} className="main-image" />
               <div className='allimages'>
                 {Array.isArray(item.ItemImage) && (
                   <div className="image-gallery">
                     {item.ItemImage.map((image, idx) => (
-                      // Use the sample encoded image
+                      
                       <img
                         key={idx}
-                        src={pixel} // Replace with your actual image source when available
+                        src={pixel} 
                         alt={item.ItemName}
                         className={`thumbnail ${selectedImageIndex === idx ? 'selected' : ''}`}
                         onClick={() => handleImageClick(idx)}
@@ -96,11 +100,11 @@ const ProductListing = ({ products }) => {
               )}
             </div>
           </div>
-
+                        
           <div className="description">
             <div className="product-details">
               <h3 className="item-name">{item.ItemName}</h3>
-              <p className="item-descriptionitem-description">{item.ItemDescription}</p>
+              <p className="item-description">{item.ItemDescription}</p>
               <div className='Price-section'>
                 <p className="item-type">{item.ItemType}</p>
                 <p className="item-price">${item.ItemPrice}</p>
@@ -115,7 +119,7 @@ const ProductListing = ({ products }) => {
               
               <button
   className="btnHero1"
-  onClick={() => openItemPreview(item)}
+  onClick={() => openItemPreview(itemId)}
 >
   post item
 </button>

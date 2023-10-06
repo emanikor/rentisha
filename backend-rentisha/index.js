@@ -97,28 +97,77 @@ const upload = multer({ storage: storage });
 
 
 
-const handlePostItem = (item) => {
-  // Send a POST request to your server with the item data
-  axios.post('http://localhost:4000/ListofItems', item)
-    .then(response => {
-      // Handle success, e.g., show a success message or navigate to a different page
-      console.log('Item posted successfully:', response.data);
-    })
-    .catch(error => {
-      // Handle error, e.g., show an error message
-      console.error('Error posting item:', error);
-    });
-};
-
 
 
 
 // fetch all items get 
-app.get('/ListofItems' , async(req, res)=>{
+// app.get('/ListofItems' , async(req, res)=>{
+//     const query = req.query
+//     const items = await ItemModel.find(query)
+//     return res.status(201).json(items) 
+// })
 
-    const items = await ItemModel.find()
-    return res.status(201).json(items) 
-})
+
+
+app.get('/ListofItems', async (req, res) => {
+  const category = req.query.category; // Get the category from the query parameters
+  
+  try {
+    // Define a filter based on the category (if provided)
+    const filter = category ? { ItemType: category._id } : {};
+    // Use the filter to query items
+    const items = await ItemModel.find(filter);
+    
+    return res.status(200).json(items);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+// app.get('/items-by-category/:categoryId', async (req, res) => {
+//   const categoryId = req.params.categoryId;
+//   try {
+//     const items = await ItemModel.find({ categoryId }).populate('categoryId');
+//     res.status(200).json(items);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+
+// app.get('/ListofItems', async (req, res) => {
+//   const category = req.params.category;
+//   console.log(category);
+//   try {
+    
+//     const items = await ItemModel.find({ ItemType: category });
+//     console.log(items);
+//     res.status(200).json(items);
+//   } catch (error) {
+//     console.error('Error fetching items by category:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+
+
+// app.get('/ListofItems', async (req, res) => {
+//   const itemType = req.query.ItemType; // Get the 'ItemType' query parameter
+
+//   // Create a query object to filter by ItemType if it's provided
+//   const query = itemType ? { ItemType: itemType } : {};
+
+//   try {
+//     const items = await ItemModel.find(query);
+//     return res.status(200).json(items);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
 
 
 
@@ -147,6 +196,7 @@ app.get('/ListofItems/:itemId', async (req, res) => {
 
 
 
+// const ItemModel2 = mongoose.model('Item', itemSchema);
 
 
 // const {id} = req.params
@@ -161,7 +211,7 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
     const {
       ItemName,
       ItemDescription,
-      ItemType,
+      ItemType, 
       ItemPrice,
       DropAddress,
       Date,
@@ -170,7 +220,6 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
       SecondName,
       PhoneNumber,
       TermsCondition,
-      
     } = req.body;
 
     // Check if a file was uploaded
@@ -183,12 +232,22 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
     const dataURI = "data:" + req.file.mimetype + ";base64," + b64;
     const cldRes = await handleUpload(dataURI);
 
+    // Fetch the category ObjectId based on ItemType (category name)
+    console.log("Searching for category:", ItemType);
+const category = await CategoryModel.findOne({ Title: ItemType });
+
+
+if (!category) {
+  return res.status(400).json({ error: `Category '${ItemType}' not found` });
+}
+
+
     // Use the Cloudinary URL for the uploaded image
     const newItem = new ItemModel({
-      ItemImage: cldRes.secure_url, // Use the secure_url from Cloudinary
+      ItemImage: cldRes.secure_url, 
       ItemName,
       ItemDescription,
-      ItemType,
+      ItemType:category._id,
       ItemPrice,
       DropAddress,
       Date,
@@ -211,6 +270,31 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
 });
 
 
+// API endpoint for updating an item
+app.put('/api/items/:id', async (req, res) => {
+  console.log('PUT request received.');
+  const itemId = req.params.id;
+  const updatedItemData = req.body;
+
+  console.log('PUT Request Received for Item ID:', itemId);
+  
+  try {
+    // Find the item by ID and update it with the new data
+    const updatedItem = await Item.findByIdAndUpdate(itemId, updatedItemData, { new: true });
+
+    if (!updatedItem) {
+      console.log('Item not found.');
+      return res.status(404).json({ error: 'Item not found' });
+    }
+
+    console.log('Item Updated:', updatedItem);
+
+    res.json(updatedItem);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 
@@ -392,22 +476,22 @@ const RelatedProducts = {
       Img: 'images/related2.jpg',
     },
     {
-      id: 14,
+      id: 15,
       Title: 'Related Product 2',
       Img: 'images/related2.jpg',
     },
     {
-      id: 14,
+      id: 16,
       Title: 'Related Product 2',
       Img: 'images/related2.jpg',
     },
     {
-      id: 14,
+      id: 17,
       Title: 'Related Product 2',
       Img: 'images/related2.jpg',
     },
     {
-      id: 14,
+      id: 18,
       Title: 'Related Product 2',
       Img: 'images/related2.jpg',
     },
@@ -425,22 +509,22 @@ const RelatedProducts = {
       Img: 'images/related4.jpg',
     },
     {
-      id: 22,
+      id: 23,
       Title: 'Related Product 4',
       Img: 'images/related4.jpg',
     },
     {
-      id: 22,
+      id: 24,
       Title: 'Related Product 4',
       Img: 'images/related4.jpg',
     },
     {
-      id: 22,
+      id: 25,
       Title: 'Related Product 4',
       Img: 'images/related4.jpg',
     },
     {
-      id: 22,
+      id: 26,
       Title: 'Related Product 4',
       Img: 'images/related4.jpg',
     },
@@ -612,54 +696,83 @@ const RelatedProducts = {
 };
 
 // post category
-app.post("/api/related-products/:category", async (req, res) => {
+app.post("/api/save-product", async (req, res) => {
   try {
     // Retrieve the item details and selected category from the request body
-    const {Title,itemDescription,Img,Price } = req.body;
+    const {ItemName,  ItemDescription, ItemImage, ItemPrice } = req.body;
 
-    // Fetch the item details based on itemId from your database
-    const item = await ItemModel.findById(itemId);
-
-    if (!item) {
-      return res.status(404).json({ error: "Item not found" });
-    }
-
-    const newCategory = new CategoryModel({
-      Title,
-      itemDescription,
-      Price,
-      Img,
+    // Create a new product document using the ProductModel
+    const newProduct = new CategoryModel({
+      ItemName,
+        ItemDescription,
+        ItemPrice,
+        ItemImage,
     });
+    // Save the new product to the database
+    const savedProduct = await newProduct.save();
 
-    const savedItem = await newCategory.save();
-
-    res.status(201).json(savedItem);
-    // You can now add the item to the selected category (e.g., using a Category model)
-
-    // Respond with a success message or appropriate response
-    // res.status(200).json({ message: "Item posted successfully" });
+    // Respond with the saved product data
+    res.status(201).json(savedProduct);
   } catch (error) {
+    // Handle errors and respond with an error message
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
+// app.get('/items-by-category/:categoryId', async (req, res) => {
+//   const categoryId = req.params.categoryId;
+//   try {
+//     const items = await ItemModel.find({ Id }).populate('categoryId');
+//     res.status(200).json(items);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+
+
 
 
 // related products
-app.get('/api/related-products/:category', (req, res) => {
-  const { category } = req.params;
+app.get('/api/related-products/:category', async (req, res) => {
+  try {
+    const { category } = req.params;
 
-  if (!RelatedProducts[category]) {
-    return res.status(404).json({ error: 'Category not found' });
+    // Fetch related items from the database based on the category
+    const relatedItems = await ItemModel.find({ ItemType: category._id });
+
+    if (!relatedItems || relatedItems.length === 0) {
+      return res.status(404).json({ error: 'No related products found for this category' });
+    }
+
+    res.status(200).json(relatedItems);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  res.json(RelatedProducts[category]);
-
 });
 
 
-// cartegory end point
+
+// app.get('/items-by-category/:categoryId', async (req, res) => {
+//   const categoryId = req.params.categoryId;
+//   try {
+//     console.log('Category ID:', categoryId); // Log the received categoryId for debugging
+    
+//     const items = await ItemModel.find({ categoryId }).populate('categoryId');
+//     console.log('Items:', items); 
+//     res.status(200).json(items);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+
+
+
+
+// category end point
 
   app.get('/api/products', (req, res) => {
     res.json(ProductDetail);

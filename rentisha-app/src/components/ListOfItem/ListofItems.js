@@ -8,16 +8,16 @@ import { useParams } from 'react-router-dom';
 import listImage from '../images/listImage.jpg'
 import { useLocation } from 'react-router-dom';
 
-const ListofItems = ({ listItemsHandler }) => {
 
-  const location = useLocation();
+const ListofItems = ({ listItemsHandler }) => {
+const location = useLocation();
   const item = location.state ? location.state.item : null;
   
 
   const numImageInputs = 4;
 
   const initialValues = {
-    ItemImages: new Array(numImageInputs).fill(null),
+    ItemImages: item ? item.ItemImages : new Array(numImageInputs).fill(null),
     ItemName: item ? item.ItemName : '',
     ItemDescription: item ? item.ItemDescription : '',
     ItemType: item ? item.ItemType : '',
@@ -63,6 +63,19 @@ const ListofItems = ({ listItemsHandler }) => {
     setValues({ ...values, [name]: inputValue });
     console.log(name)
     console.log(values)
+
+    const handleInputChange = (e) => {
+  const { name, value, type, checked } = e.target;
+  const inputValue = type === "checkbox" ? checked : value;
+
+  // Set the selected value for ItemType
+  if (name === "ItemType") {
+    setValues({ ...values, ItemType: inputValue });
+  } else {
+    setValues({ ...values, [name]: inputValue });
+  }
+};
+
   };
 
   // const handleImageChange = (e) => {
@@ -70,15 +83,15 @@ const ListofItems = ({ listItemsHandler }) => {
   //   setValues({ ...values, ItemImage: imageFile });
   // };
 
-  // Correctly set the selected image file to the state
+  
   const [imagePreview, setImagePreview] = useState(null);
 
-  // Update handleImageChange to set the image data URL
+  
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
   
     if (selectedFile) {
-      // Read the file and set the image data URL for preview
+      
       const reader = new FileReader();
       reader.onload = (event) => {
         setImagePreview(event.target.result);
@@ -103,7 +116,6 @@ const ListofItems = ({ listItemsHandler }) => {
       }
     });
 
-
     // form data 
     const formData = new FormData();
     formData.append('ItemImage', file);
@@ -124,39 +136,63 @@ const ListofItems = ({ listItemsHandler }) => {
       console.log(`${key}: ${value}`);
     }
     try {
-      const response = await axios.post("http://localhost:4000/ListofItems", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      
+
+      let response;
+      if (editingItem) {
+       
+        response = await axios.put(`http://localhost:4000/api/items/${editingItem._id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      } else {
+        // If not editing, make a POST request to create a new item
+        response = await axios.post("http://localhost:4000/ListofItems", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      }
       
     
-      if (response.status === 201) {
-        generateSuccess("Item listed successfully");
-        // listItemsHandler({
-        //   id: response.data.itemId,
-        //   ...values,
-        //   quantity: 1,
-        // });
+  //     if (response.status === 201) {
+  //       generateSuccess("Item listed successfully");
+  //       // listItemsHandler({
+  //       //   id: response.data.itemId,
+  //       //   ...values,
+  //       //   quantity: 1,
+  //       // });
        
         
-        navigate(`/checkout/${response.data._id}`);
+  //       navigate(`/checkout/${response.data._id}`);
        
 
-        setValues(initialValues);
-      } else {
-        generateError("Failed to list item");
-      }
-    } catch (err) {
-      console.log(err);
-      generateError("An error occurred");
-    }
+  //       setValues(initialValues);
+  //     } else {
+  //       generateError("Failed to list item");
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     generateError("An error occurred");
+  //   }
 
+  // };
+    
+  if (response.status === 201 || response.status === 200) {
+    generateSuccess(editingItem ? "Item updated successfully" : "Item listed successfully");
+    // Reset the form and other state if needed
+    setValues(initialValues);
+    setEditingItem(null);
 
-
-
-  };
+    navigate(`/checkout/${response.data._id}`);
+  } else {
+    generateError("Failed to list/update item");
+  }
+} catch (err) {
+  console.error(err);
+  generateError("An error occurred");
+}
+};
 
   return (
     <div className='listInput'>

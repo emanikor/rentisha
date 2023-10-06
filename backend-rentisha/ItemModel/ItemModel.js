@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+// const CategoryModel = require("./Models/CategoryModel");
 
 
 const itemSchema = new mongoose.Schema({
@@ -16,7 +17,8 @@ const itemSchema = new mongoose.Schema({
     required: [true, "Item description is required"],
   },
   ItemType: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category', 
     required: [true, "Item type is required"],
   },
   ItemPrice: {

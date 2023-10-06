@@ -92,6 +92,56 @@
 .detail-body{
   padding-right:20px;
 }
+
+
+/* fetch list */
+/* Add these styles to your CSS file */
+.card {
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  max-width: 100%;
+  height: 200px;
+}
+
+.card .item-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.card .item-description {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.card .item-price {
+  font-size: 1.2rem;
+  color: #f00; /* Change the color to your preference */
+  margin-top: 10px;
+}
+.fetched-items{
+  margin: 100px;
+  max-width:900 ;
+  display: flex;
+  /* justify-content: center; */
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
   @media screen and (max-width: 600px){
     .card-Product {
         display: grid;

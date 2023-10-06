@@ -15,7 +15,7 @@
 
 /* Product Image */
 .product-image img {
-  width: 700px;
+  width: 800px;
   max-height: 600px;
   border-radius: 15px;
 }
@@ -25,7 +25,9 @@
 margin-left:10px;
   padding-left: 2px;
 }
-
+.description{
+ max-width: 800px;
+}
 .item-name {
   font-size: 3rem;
   margin-bottom: 20px;
@@ -35,7 +37,7 @@ margin-left:10px;
   font-size: 1.6rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-bottom: 10px;
-  width: 900px;
+  max-width: 900px;
   margin-left: 0;
 
 }
