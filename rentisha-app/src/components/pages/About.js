@@ -1,47 +1,45 @@
-import React from 'react'
-import Aboutpage from '../Aboutpage/Aboutpage'
-import Footer from '../Footer/Footer'
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const About=()=> {
+function About() {
+  const [category, setCategory] = useState({ name: '', description: '' });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleChange = (e) => {
+    setCategory({ ...category, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:4000/api/category', category);
+      setSuccessMessage('Category added successfully'); // Set success message
+      setErrorMessage(''); // Clear any previous error message
+      console.log(response.data);
+    } catch (error) {
+      setSuccessMessage(''); // Clear any previous success message
+      setErrorMessage('Error adding category'); // Set error message
+      console.error(error);
+    }
+  };
+
   return (
-    <div>
-      <Aboutpage/>
-      <Footer/>
-    </div>
-  )
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Name:</label>
+        <input type="text" name="name" value={category.name} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Description:</label>
+        <input type="text" name="description" value={category.description} onChange={handleChange} required />
+      </div>
+      <button type="submit">Add Category</button>
+
+      {successMessage && <p className="success-message">{successMessage}</p>}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+    </form>
+  );
 }
 
-export default About
-// app.get('/ListofItems/:itemId', async (req, res) => {
-//   try {
-//     console.log("Fetching item with itemId:", req.params.itemId);
-   
-//     const itemId = req.params.itemId; 
-//     const item = await ItemModel.findById({itemId }).exec();
-    
-//     if (!item) {
-//       return res.status(404).json({ error: 'Item not found' });
-//     }
-
-//     res.status(200).json(item);
-//   } catch (error) {
-//     console.error("Error fetching item:", error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-// app.get('/ListofItems/:itemId' , async(req, res)=>{
-//   try{
-//   const {id} = req.params;
-//   const item = await ItemModel.findById(id).exec();
-//   // return res.status(200).json(item) 
-
-//   if (!item) {
-//     return res.status(404).json({ error: 'Item not found' });
-//   }
-  
-//   return res.status(200).json(item)
-//   } catch (error) {
-//       console.error(error);
-//       res.status(500).json({ error: 'Internal server error' });
-//   }
-// })
+export default About;

@@ -1,14 +1,16 @@
 
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-
+const mongoose = require('mongoose');
 
 const categorySchema = new mongoose.Schema({
-        Title: String,
-        
+   name: String,
+   description: String,
+    
       });
       
 
-const CategoryModel = mongoose.model("Category", categorySchema);
+const CategoryModel = mongoose.model("Categoreee", categorySchema);
 
 module.exports = CategoryModel;
+
+
+// models/Category.js

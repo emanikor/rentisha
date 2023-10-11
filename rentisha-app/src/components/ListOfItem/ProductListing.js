@@ -28,7 +28,7 @@ const ProductListing = ({ products }) => {
 
   const openItemPreview = (item) => {
     
-    navigate(`/product/11`,{ state: { item } });
+    navigate(`/product`,{ state: { item } });
   };
   
   // editing
@@ -36,8 +36,8 @@ const ProductListing = ({ products }) => {
   const handleEditClick = (item) => {
     // Navigate to the ListofItems component with the item data as a prop
     navigate(`/list/${item._id}`, { state: { item } });
-
   };
+  
   
   return (
     <div className="product-listing">
@@ -117,16 +117,17 @@ const ProductListing = ({ products }) => {
              
               <div className="buttons">
               
-              <button
+              {/* <button
   className="btnHero1"
   onClick={() => openItemPreview(itemId)}
 >
   post item
-</button>
+</button> */}
 
-<button className="edit" onClick={() => handleEditClick(item)}>
+<button className="btnHero1" onClick={() => handleEditClick(item)}>
   Edit Listing
 </button>
+
 
               </div>
             </div>

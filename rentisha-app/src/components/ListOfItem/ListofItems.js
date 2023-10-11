@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './ListOfItems.css';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import listImage from '../images/listImage.jpg'
 import { useLocation } from 'react-router-dom';
 
@@ -38,7 +38,7 @@ const location = useLocation();
   const [values, setValues] = useState(initialValues);
   const navigate = useNavigate();
   const [editingItem, setEditingItem] = useState(null);
-  
+  const {itemId} =useParams();
 
   const [file, setFile] = useState(null);
  
@@ -136,63 +136,44 @@ const location = useLocation();
       console.log(`${key}: ${value}`);
     }
     try {
-
       let response;
       if (editingItem) {
-       
-        response = await axios.put(`http://localhost:4000/api/items/${editingItem._id}`, formData, {
+        response = await axios.put(`http://localhost:4000/api/items/${itemId}`, values, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
           },
         });
       } else {
-        // If not editing, make a POST request to create a new item
         response = await axios.post("http://localhost:4000/ListofItems", formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
       }
-      
     
-  //     if (response.status === 201) {
-  //       generateSuccess("Item listed successfully");
-  //       // listItemsHandler({
-  //       //   id: response.data.itemId,
-  //       //   ...values,
-  //       //   quantity: 1,
-  //       // });
-       
-        
-  //       navigate(`/checkout/${response.data._id}`);
-       
-
-  //       setValues(initialValues);
-  //     } else {
-  //       generateError("Failed to list item");
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //     generateError("An error occurred");
-  //   }
-
-  // };
+      if (response.status === 201 || response.status === 200) {
+        generateSuccess(editingItem ? "Item updated successfully" : "Item listed successfully");
+        // Reset the form and other state if needed
+        setValues(initialValues);
+        setEditingItem(null);
     
-  if (response.status === 201 || response.status === 200) {
-    generateSuccess(editingItem ? "Item updated successfully" : "Item listed successfully");
-    // Reset the form and other state if needed
-    setValues(initialValues);
-    setEditingItem(null);
-
-    navigate(`/checkout/${response.data._id}`);
-  } else {
-    generateError("Failed to list/update item");
+        navigate(`/checkout/${response.data._id}`);
+      } else {
+        // Handle specific error responses here
+        if (response.status === 400) {
+          generateError("Bad request. Please check your input data.");
+        } else if (response.status === 404) {
+          generateError("Item not found.");
+        } else {
+          generateError("Failed to list/update item.");
+        }
+      }
+    } catch (err) {
+      // Handle network or request error
+      console.error('Error:', err);
+      generateError("An error occurred while communicating with the server.");
+    }
   }
-} catch (err) {
-  console.error(err);
-  generateError("An error occurred");
-}
-};
 
   return (
     <div className='listInput'>
@@ -264,13 +245,13 @@ const location = useLocation();
         onChange={handleInputChange}
       >
         <option value=''>Select category</option>
-        <option value='phones'>Phones</option>
-        <option value='clothes'>Clothes</option>
+        <option value='Phones'>Phones</option>
+        <option value='Clothes'>Clothes</option>
         <option value='drone'>Drone</option>
-        <option value='laptops'>Laptops</option>
-        <option value='cameras'>Cameras</option>
-        <option value='cameras'>Tvs</option>
-        <option value='cameras'>Gym equipment</option>
+        <option value='Laptops'>Laptops</option>
+        <option value='Cameras'>Cameras</option>
+        <option value='Tvs'>Tvs</option>
+        <option value='Gym Equipment'>Gym equipment</option>
       </select>
 
        <label>Listing price</label>

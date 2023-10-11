@@ -85,3 +85,91 @@
 // };
 
 // export default ProductDetail;
+
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+
+// function YourComponent() {
+//   const [items, setItems] = useState([]);
+//   const [category, setCategory] = useState(''); // Set the category you want to fetch
+
+//   useEffect(() => {
+//     // Define the URL for fetching items by category
+//     const apiUrl = `http://localhost:4000/ListofItemsByCategory/${category}`;
+
+//     // Send a GET request to retrieve items by category
+//     axios.get(apiUrl)
+//       .then(response => {
+//         setItems(response.data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching items by category:', error);
+//       });
+//   }, [category]); // This effect will re-run whenever the category changes
+
+//   return (
+//     <div>
+//       {/* Category selection dropdown or input field */}
+//       <select value={category} onChange={(e) => setCategory(e.target.value)}>
+//         <option value="">Select a category</option>
+//         {/* Add options for available categories */}
+//         <option value="phones">Phones</option>
+//         <option value="clothes">Clothes</option>
+//         <option value="Laptops">Laptops</option>
+//         {/* Add more options as needed */}
+//       </select>
+
+//       {/* Display items */}
+//       <ul>
+//         {items.map(item => (
+//           <li key={item._id}>{item.ItemName}</li>
+          
+//         ))}
+//       </ul>
+//       <div>
+        
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default YourComponent;
+
+
+// // components/CategoryList.js
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+
+// function CategoryList() {
+//   const [categories, setCategories] = useState([]);
+//   const [products, setProducts] =useState([])
+  
+
+//   useEffect(() => {
+//     axios.get('http://localhost:4000/api/category').then((response) => {
+     
+//         setProducts(response.data);
+       
+//       })
+//       .catch(error => {
+//         console.error(error);
+       
+//       });
+//   }, []);
+
+
+//   return (
+//     <div>
+//       <h1>Categories</h1>
+//       <ul>
+//         {categories.map((category) => (
+//           <li key={category._id}>
+//             <strong>{category.name}</strong> - {category.description}
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// export default CategoryList;

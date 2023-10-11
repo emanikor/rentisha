@@ -41,6 +41,8 @@ app.use(express.urlencoded({ extended: true }));
 // stattic files deal
 // app.use('./components/images', express.static('images'));
 
+// const categoryIdObjectId = mongoose.Types.ObjectId(categoryId);
+
 
 // MongoDB Connection
 mongoose
@@ -84,13 +86,51 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 
-// category endpoint
-// app.get('/api/categories', async (req, res) => {
+// // category endpoint
+// app.get('/ListofItemsByCategory/:category', async (req, res) => {
+//   const category = req.params.category; // Use req.params.category
+
 //   try {
-//     const categories = await CategoryModel.find();
-//     res.json(categories);
+//     // Convert the category string to an ObjectId
+//     const categoryIdObjectId = mongoose.Types.ObjectId(category);
+
+//     // Query the database using the ObjectId and populate the 'ItemType' field with 'CategoryModel'
+//     const products = await ItemModel.find({ ItemType }).populate('ItemType');
+    
+//     res.status(200).json(products);
 //   } catch (err) {
 //     console.error('Error fetching categories:', err);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+
+// app.get('/items-by-category/:categoryId', async (req, res) => {
+//   const categoryId = req.params.categoryId;
+//   try {
+//     console.log('Category ID:', categoryId); // Log the received categoryId for debugging
+    
+//     const items = await ItemModel.find({ ItemType }).populate('categoryId');
+//     console.log('Items:', items); 
+//     res.status(200).json(items);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+// app.get('/ListofItems', async (req, res) => {
+//   const category = req.params.category;
+
+//   try {
+//     console.log('Category ID:', category); 
+    
+//     // Use .populate('ItemType') to populate the ItemType field
+//     const items = await ItemModel.find({ ItemType: category }).populate('ItemType');
+//     console.log('Items:', items);
+     
+//     res.status(200).json(items);
+//   } catch (err) {
+//     console.error('Error fetching items by category:', err);
 //     res.status(500).json({ error: 'Internal server error' });
 //   }
 // });
@@ -99,51 +139,31 @@ const upload = multer({ storage: storage });
 
 
 
-
 // fetch all items get 
-// app.get('/ListofItems' , async(req, res)=>{
-//     const query = req.query
-//     const items = await ItemModel.find(query)
-//     return res.status(201).json(items) 
-// })
+app.get('/ListofItems' , async(req, res)=>{
+    const query = req.query;
+    const items = await ItemModel.find(query)
+    return res.status(201).json(items) 
+})
 
 
+// fetching items by category 
+// app.get('/ListofItemsByCategory/:category', async (req, res) => {
+//   const categoryName = req.params.category;
 
-app.get('/ListofItems', async (req, res) => {
-  const category = req.query.category; // Get the category from the query parameters
-  
-  try {
-    // Define a filter based on the category (if provided)
-    const filter = category ? { ItemType: category._id } : {};
-    // Use the filter to query items
-    const items = await ItemModel.find(filter);
-    
-    return res.status(200).json(items);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-
-// app.get('/items-by-category/:categoryId', async (req, res) => {
-//   const categoryId = req.params.categoryId;
 //   try {
-//     const items = await ItemModel.find({ categoryId }).populate('categoryId');
-//     res.status(200).json(items);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
+//     // Convert the category name to ObjectId
+//     const categoryId = mongoose.Types.ObjectId(categoryName);
 
-// app.get('/ListofItems', async (req, res) => {
-//   const category = req.params.category;
-//   console.log(category);
-//   try {
-    
-//     const items = await ItemModel.find({ ItemType: category });
-//     console.log(items);
+//     // Retrieve items by the provided category ObjectId
+//     const items = await ItemModel.find({ ItemType: categoryId });
+
+//     // If no items are found, respond with a 404 status and a message
+//     if (items.length === 0) {
+//       return res.status(404).json({ error: 'No items found for this category' });
+//     }
+
+//     // Respond with the found items as a JSON array
 //     res.status(200).json(items);
 //   } catch (error) {
 //     console.error('Error fetching items by category:', error);
@@ -153,20 +173,25 @@ app.get('/ListofItems', async (req, res) => {
 
 
 
+
+
 // app.get('/ListofItems', async (req, res) => {
-//   const itemType = req.query.ItemType; // Get the 'ItemType' query parameter
 
-//   // Create a query object to filter by ItemType if it's provided
-//   const query = itemType ? { ItemType: itemType } : {};
-
+//   const category = req.query.category; // Get the category from the query parameters
+//   console.log('Category ID:', category);
 //   try {
-//     const items = await ItemModel.find(query);
+//     // Define a filter based on the category (if provided)
+//     // const filter = category ? { ItemType: category._id } : {};
+//     // Use the filter to query items
+//     const items = await ItemModel.find({ ItemType: category });
+//     console.log('Items:', items); 
 //     return res.status(200).json(items);
 //   } catch (error) {
 //     console.error(error);
 //     return res.status(500).json({ error: 'Internal server error' });
 //   }
 // });
+
 
 
 
@@ -184,7 +209,6 @@ app.get('/ListofItems/:itemId', async (req, res) => {
     if (!item) {
       return res.status(404).json({ error: 'Item not found' });
     }
-
     return res.status(200).json(item);
   } catch (error) {
     console.error("Error fetching item:", error);
@@ -234,11 +258,11 @@ app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
 
     // Fetch the category ObjectId based on ItemType (category name)
     console.log("Searching for category:", ItemType);
-const category = await CategoryModel.findOne({ Title: ItemType });
+    const category = await CategoryModel.findOne({ name: ItemType });
 
 
 if (!category) {
-  return res.status(400).json({ error: `Category '${ItemType}' not found` });
+  return res.status(400).json({ error: `Categoree '${ItemType}' not found` });
 }
 
 
@@ -271,31 +295,23 @@ if (!category) {
 
 
 // API endpoint for updating an item
-app.put('/api/items/:id', async (req, res) => {
-  console.log('PUT request received.');
-  const itemId = req.params.id;
-  const updatedItemData = req.body;
-
-  console.log('PUT Request Received for Item ID:', itemId);
-  
+app.put('/api/items/:itemId', async (req, res) => {
   try {
-    // Find the item by ID and update it with the new data
-    const updatedItem = await Item.findByIdAndUpdate(itemId, updatedItemData, { new: true });
+    const { itemId } = req.params;
+    const updatedItem = req.body;
 
-    if (!updatedItem) {
-      console.log('Item not found.');
-      return res.status(404).json({ error: 'Item not found' });
-    }
+    console.log('Updating item with ID:', itemId); // Add this log statement
 
-    console.log('Item Updated:', updatedItem);
+    const result = await Item.findByIdAndUpdate(itemId, updatedItem, { new: true });
 
-    res.json(updatedItem);
+    console.log('Updated item:', result); // Add this log statement
+
+    res.json(result);
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error:', error); // Add this log statement
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
 
 
 // User Registration Endpoint
@@ -398,70 +414,6 @@ app.post("/SignIn", async (req, res) => {
 
 
 // product apis
-const ProductDetail = [
-  {
-      id:1,
-      Title:"film & photography",
-      Img:  'images/category3.jpg'
-  },
-  {
-      id:2,
-      Title:"Hp laptop",
-      Img:  'images/category2.jpg'
-  },
-  {
-      id:3,
-      Title:"Drone",
-      Img:  'images/category1.jpg'
-  },
-  {
-      id:4,
-      Title:"music instrumental",
-
-      Img:  'images/category3.jpg'
-  },
-  {
-      id:5,
-      Title:"lenses",
-      Img:  'images/category2.jpg'
-  },
-  {
-      id:6,
-      Title:"Electronics",
-
-      Img:  'images/category1.jpg'
-  },
-  {
-      id:7,
-      Title:"Vehicles",
-      Img:  'images/category3.jpg'
-  },
-  {
-      id:8,
-      Title:"sound systems",
-      Img:  'images/category2.jpg'
-  },
-  {
-      id:9,
-      Title:"Hp laptop",
-      Img:  'images/category1.jpg'
-  },
-  {
-      id:10,
-      Title:"Gym equipment",
-      Img:  'images/category3.jpg'
-  },
-  {
-      id:11,
-      Title:"phones samsung",
-      Img:  'images/category2.jpg'
-  },
-  {
-      id:12,
-      Title:"Tvs",
-      Img:  'images/category3.jpg'
-  },
-]
 
 const RelatedProducts = {
   'film & photography': [
@@ -695,52 +647,84 @@ const RelatedProducts = {
 // ...
 };
 
-// post category
-app.post("/api/save-product", async (req, res) => {
+// get category
+app.get('/api/category', async (req, res) => {
   try {
-    // Retrieve the item details and selected category from the request body
-    const {ItemName,  ItemDescription, ItemImage, ItemPrice } = req.body;
-
-    // Create a new product document using the ProductModel
-    const newProduct = new CategoryModel({
-      ItemName,
-        ItemDescription,
-        ItemPrice,
-        ItemImage,
-    });
-    // Save the new product to the database
-    const savedProduct = await newProduct.save();
-
-    // Respond with the saved product data
-    res.status(201).json(savedProduct);
+    const categories = await CategoryModel.find();
+    res.json(categories);
   } catch (error) {
-    // Handle errors and respond with an error message
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
-// app.get('/items-by-category/:categoryId', async (req, res) => {
+// POST a new category
+app.post('/api/category', async (req, res) => {
+  const { name, description } = req.body;
+  try {
+    const category = new CategoryModel({ name, description });
+    await category.save(category);
+    res.status(201).json(category);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+// get category
+// app.get('/categories/:categoryId', async (req, res) => {
 //   const categoryId = req.params.categoryId;
+
 //   try {
-//     const items = await ItemModel.find({ Id }).populate('categoryId');
-//     res.status(200).json(items);
+//     const products = await ItemModel.find({ ItemType: categoryId });
+//     res.json(products);
 //   } catch (error) {
 //     console.error(error);
-//     res.status(500).json({ error: "Internal server error" });
+//     res.status(500).json({ message: 'Server Error' });
 //   }
 // });
 
 
+app.get('/byCategory/:categoryId', async (req, res) => {
+  const categoryId = req.params.categoryId;
+
+  // Log the incoming request and categoryId for debugging
+  console.log(`Received GET request for items in category: ${categoryId}`);
+
+  // Check if categoryId is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+    console.error(`Invalid category ID: ${categoryId}`);
+    return res.status(400).json({ message: 'Invalid category ID' });
+  }
+
+  try {
+    // Convert the categoryId string to an ObjectId
+    const categoryIdObjectId = mongoose.Types.ObjectId(categoryId);
+
+    // Query the database using the ObjectId and populate the 'ItemType' field with 'CategoryModel'
+    const products = await ItemModel.find({ ItemType: categoryIdObjectId }).populate('ItemType');
+
+    // Log the successful response
+    console.log(`Found ${products.length} products in category: ${categoryId}`);
+
+    res.json(products);
+  } catch (error) {
+    // Log the error
+    console.error('Error fetching items by category:', error);
+
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
 
 
 // related products
-app.get('/api/related-products/:category', async (req, res) => {
+app.get('/ListofItemsByCategory', async (req, res) => {
   try {
     const { category } = req.params;
 
     // Fetch related items from the database based on the category
-    const relatedItems = await ItemModel.find({ ItemType: category._id });
+    const relatedItems = await ItemModel.find({ ItemType: 'Phones'  });
 
     if (!relatedItems || relatedItems.length === 0) {
       return res.status(404).json({ error: 'No related products found for this category' });
@@ -755,19 +739,22 @@ app.get('/api/related-products/:category', async (req, res) => {
 
 
 
-// app.get('/items-by-category/:categoryId', async (req, res) => {
-//   const categoryId = req.params.categoryId;
-//   try {
-//     console.log('Category ID:', categoryId); // Log the received categoryId for debugging
+
+
+app.get('/items-by-category/:categoryId', async (req, res) => {
+  const categoryId = req.params.categoryId;
+  try {
+    console.log('Category ID:', categoryId); // Log the received categoryId for debugging
     
-//     const items = await ItemModel.find({ categoryId }).populate('categoryId');
-//     console.log('Items:', items); 
-//     res.status(200).json(items);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
+    const items = await ItemModel.find({ CategoryModel }).populate('categoryId');
+    // await CatalogModel.find({'category._id':new ObjectId("615e94cab42d2274f0481232")})
+    console.log('Items:', items); 
+    res.status(200).json(items);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 
 
@@ -782,22 +769,22 @@ app.get('/api/related-products/:category', async (req, res) => {
 
   
 // Get a specific product by ID
-app.get('/api/products/:productId', (req, res) => {
-  const productIdParam = req.params.productId;
-  console.log('Requested Product ID from URL:', productIdParam);
+// app.get('/api/products/:productId', (req, res) => {
+//   const productIdParam = req.params.productId;
+//   console.log('Requested Product ID from URL:', productIdParam);
 
-  const productId = parseInt(productIdParam);
-  console.log('Parsed Product ID:', productId);
+//   const productId = parseInt(productIdParam);
+//   console.log('Parsed Product ID:', productId);
 
-  const product = ProductDetail.find(item => item.id === productId);
-  console.log('Product Found:', product);
+//   const product = ProductDetail.find(item => item.id === productId);
+//   console.log('Product Found:', product);
 
-  if (!product) {
-    return res.status(404).json({ error: 'Product not found' });
-  }
+//   if (!product) {
+//     return res.status(404).json({ error: 'Product not found' });
+//   }
 
-  res.json(product);
-});
+//   res.json(product);
+// });
   
 
 

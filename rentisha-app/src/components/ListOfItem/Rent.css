@@ -5,18 +5,15 @@
 
 /* Individual Product Container */
 .productlist {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 100px;
 }
 
 /* Product Image */
 .product-image img {
   width: 800px;
-  max-height: 600px;
+  height: 600px;
   border-radius: 15px;
 }
 
@@ -26,7 +23,7 @@ margin-left:10px;
   padding-left: 2px;
 }
 .description{
- max-width: 800px;
+ max-width: 700px;
 }
 .item-name {
   font-size: 3rem;
@@ -37,7 +34,7 @@ margin-left:10px;
   font-size: 1.6rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-bottom: 10px;
-  max-width: 900px;
+  /* max-width: 900px; */
   margin-left: 0;
 
 }
@@ -137,7 +134,7 @@ margin-left:10px;
   margin-top: 20px;
  
 }
-
+/* 
 .thumbnail {
   width: 60px;
   height: 60px;
@@ -146,8 +143,8 @@ margin-left:10px;
   border: 1px solid #ccc;
   padding: 7px;
   /* background-color: #0d3236; */
-}
-.allimages{
+/* } */
+/* .allimages{
  display: flex;
  flex-direction: row;
  flex-wrap: wrap;
@@ -155,11 +152,11 @@ margin-left:10px;
 border:  grey;
 
  
-}
-.thumbnail.selected {
+} */
+/* .thumbnail.selected {
   border-color: #007bff;
   /* background-color: #1d3c3d; */
-}
+/* } */ 
 
 .navigation-arrows {
   position: absolute;
@@ -187,13 +184,13 @@ border:  grey;
   background-color: #007bff;
 }
 
-.image-gallery {
+/* .image-gallery {
   display: flex;
   margin-top: 10px;
   width: 80px;
   height: 80px;
   background-color: black;
-}
+} */
 
 .square-placeholder {
   width: 50px;
@@ -213,21 +210,10 @@ border:  grey;
 /* ... Existing CSS ... */
 
 /* Style for the container of small images in a row */
-.small-images-row {
-  display: flex;
-  flex-direction: row; /* Set the direction to 'row' for a horizontal layout */
-  justify-content: flex-start; /* Start from the left side */
-  align-items: center;
-  margin-top: 10px; /* Adjust as needed */
-  overflow-x: auto;
-  width: 100%; /* Adjust the width as needed */
-  height: 120px; /* Adjust the height as needed */
-   
-  padding: 10px;
-}
+
 
 /* Style for each small image thumbnail */
-.small-thumbnail-row {
+/* .small-thumbnail-row {
   width: 50px; 
   height: 50px; 
   border: 2px solid #a53e3e;
@@ -236,7 +222,7 @@ border:  grey;
   transition: border-color 0.3s ease;
   background-color: #0d3236;
   margin-right: 15px; 
-  padding: 10px; 
+  padding: 10px;  */
 
   /* Add styles for the selected thumbnail */
   &.selected {
@@ -246,7 +232,7 @@ border:  grey;
   &:last-child {
     margin-right: 0; /* Remove margin for the last thumbnail */
   }
-}
+/* } */
 
 .small-thumbnail-row:hover {
   border-color: #007bff; /* Border color on hover */
