@@ -415,237 +415,7 @@ app.post("/SignIn", async (req, res) => {
 
 // product apis
 
-const RelatedProducts = {
-  'film & photography': [
-    {
-      id: 13,
-      Title: 'Related Product 1',
-      Img: 'images/related1.jpg',
-    },
-    {
-      id: 14,
-      Title: 'Related Product 2',
-      Img: 'images/related2.jpg',
-    },
-    {
-      id: 15,
-      Title: 'Related Product 2',
-      Img: 'images/related2.jpg',
-    },
-    {
-      id: 16,
-      Title: 'Related Product 2',
-      Img: 'images/related2.jpg',
-    },
-    {
-      id: 17,
-      Title: 'Related Product 2',
-      Img: 'images/related2.jpg',
-    },
-    {
-      id: 18,
-      Title: 'Related Product 2',
-      Img: 'images/related2.jpg',
-    },
-    // ... other related products for 'film & photography' category
-  ],
-  'Hp laptop': [
-    {
-      id: 21,
-      Title: 'Related Product 3',
-      Img: 'images/related3.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 23,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 24,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 25,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 26,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    // ... other related products for 'Hp laptop' category
-  ],
-  'Drone': [
-    {
-      id: 21,
-      Title: 'Related Product 3',
-      Img: 'images/related3.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-  ],
-  'music instrumental': [
-    {
-      id: 21,
-      Title: 'Related Product 3',
-      Img: 'images/related3.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-  ],
 
-  'Hp laptop': [
-    {
-      id: 21,
-      Title: 'Related Product 3',
-      Img: 'images/related3.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-    {
-      id: 22,
-      Title: 'Related Product 4',
-      Img: 'images/related4.jpg',
-    },
-  ],
-    'lenses': [
-      {
-        id: 21,
-        Title: 'Related Product 3',
-        Img: 'images/related3.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-    ],
-    'Gym equipment': [
-      {
-        id: 21,
-        Title: 'Related Product 3',
-        Img: 'images/related3.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-      {
-        id: 22,
-        Title: 'Related Product 4',
-        Img: 'images/related4.jpg',
-      },
-    ]
-// Define related products for other categories as well
-// ...
-};
 
 // get category
 app.get('/api/category', async (req, res) => {
@@ -719,16 +489,40 @@ app.get('/byCategory/:categoryId', async (req, res) => {
 
 
 // related products
-app.get('/ListofItemsByCategory', async (req, res) => {
+// app.get('/ListofItemsByCategory/:category', async (req, res) => {
+//   try {
+//     const category = req.params.category;
+
+//     // Fetch related items from the database based on the category
+//     const relatedItems = await ItemModel.find({ ItemType: category }).populate('category : name');;
+
+//     if (!relatedItems || relatedItems.length === 0) {
+//       return res.status(404).json({ error: 'No related products found for this category' });
+//     }
+
+//     res.status(200).json(relatedItems);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+
+
+
+app.get('/ListofItemsByCategory/:category', async (req, res) => {
   try {
-    const { category } = req.params;
+    const category = req.params.category;
 
-    // Fetch related items from the database based on the category
-    const relatedItems = await ItemModel.find({ ItemType: 'Phones'  });
+    // Find the category document by name
+    const categoryDoc = await CategoryModel.findOne({ name: category });
 
-    if (!relatedItems || relatedItems.length === 0) {
-      return res.status(404).json({ error: 'No related products found for this category' });
+    if (!categoryDoc) {
+      return res.status(404).json({ error: 'Category not found' });
     }
+
+    // Fetch related items based on the category
+    const relatedItems = await ItemModel.find({ ItemType: categoryDoc._id }).populate('ItemType', 'name');
 
     res.status(200).json(relatedItems);
   } catch (error) {
@@ -738,6 +532,11 @@ app.get('/ListofItemsByCategory', async (req, res) => {
 });
 
 
+app.get('/api/products', (req, res) => {
+  const category = req.query.category;
+  const filteredProducts = ItemModel.filter(product => product.category === category);
+  res.json(filteredProducts);
+});
 
 
 
@@ -756,6 +555,32 @@ app.get('/items-by-category/:categoryId', async (req, res) => {
   }
 });
 
+
+
+
+// app.get('/api/products', async (req, res) => {
+//   const client = new MongoClient(mongoURI, { useNewUrlParser: true });
+
+//   try {
+//     await client.connect();
+//     const database = client.db();
+  
+
+//     const category = req.query.category;
+
+//     if (!category) {
+//       return res.status(400).json({ error: 'Category is required.' });
+//     }
+
+//     const filteredProducts = await ItemModel.find({ category }).toArray();
+//     res.json(filteredProducts);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'An error occurred while fetching products.' });
+//   } finally {
+//     client.close();
+//   }
+// });
 
 
 

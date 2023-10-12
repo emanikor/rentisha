@@ -1,4 +1,4 @@
-.card-Product{
+/* .card-Product{
     text-align: center;
     max-width: 1200px;
     margin: 0 auto;
@@ -14,7 +14,7 @@
     margin-right: 200px;
     margin-bottom: 30px;
   } */
-  .card-Product img {
+  /* .card-Product img {
     width: 100%;
     height: auto;
     object-fit: cover;
@@ -49,7 +49,7 @@
     cursor: pointer;
     text-align: right;
     float: right;
-  }
+  } */
   /* ProductDetail.css */
 /* .product-container{
   background-color: burlywood;
@@ -57,7 +57,7 @@
   justify-content: center;
   display: flex;
 } */
-.product-category{
+/* .product-category{
   display: flex;
   align-items: center;
   align-items: center;
@@ -96,6 +96,25 @@
 
 /* fetch list */
 /* Add these styles to your CSS file */
+/* .card {
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+/* .card:hover {
+  transform: translateY(-5px);
+} */
+
+.card img {
+  max-width: 100%;
+  height: 200px;
+} 
 .card {
   border: 1px solid #ddd;
   margin: 10px;
@@ -107,40 +126,71 @@
   transition: transform 0.2s;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.card img {
-  max-width: 100%;
-  height: 200px;
-}
-
-.card .item-name {
+/* /* .card .item-name {
   font-size: 1.2rem;
   font-weight: bold;
   margin: 10px 0;
-}
-
+}   */
+ .card:hover {
+  transform: translateY(-5px);
+} 
 .card .item-description {
   font-size: 1rem;
   margin: 5px 0;
 }
+.card .item-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 10px 0;
+}  
 
 .card .item-price {
   font-size: 1.2rem;
   color: #f00; /* Change the color to your preference */
-  margin-top: 10px;
-}
-.fetched-items{
+   margin-top: 10px; 
+} 
+/* .fetched-items{
   margin: 100px;
   max-width:900 ;
   display: flex;
   /* justify-content: center; */
-  flex: 1;
-  flex-direction: row;
+  /* flex: 1;
+  flex-direction: row; */
+  /* flex-wrap: wrap;
+} */ */ */
+.cardw-container{
+  padding: 15px;
+  font-size: 16px;
+  color: rgb(51, 51, 51);
+ 
+}
+.fetched-items{
+  padding: 15px;
+  font-size: 16px;
+  color: rgb(51, 51, 51);
+  display: flex;
   flex-wrap: wrap;
 }
+/* Style the select dropdown */
+#categorySelect {
+  width: 10%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #10bcc2;
+  font-size: 16px;
+}
+
+/* Style the dropdown options */
+#categorySelect option {
+  font-size: 16px;
+}
+
+/* Add some spacing around the dropdown */
+.label-container {
+  margin: 10px 0;
+}
+
 
   @media screen and (max-width: 600px){
     .card-Product {
