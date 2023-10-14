@@ -1,115 +1,4 @@
-/* .card-Product{
-    text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    
-   
-  }
-  .category{
-    
-  }
-  /* .category-container{
-    background-color: rgb(23, 145, 145);
-    margin-top: 200px;
-    margin-right: 200px;
-    margin-bottom: 30px;
-  } */
-  /* .card-Product img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 0px;
-  }
-  .card-Product-container  {
-  background-color: rgb(197, 197, 197);
-  width: 300px;
-  border-radius: 10px;
-  margin: 0 auto;
-  }
-  .card-Product{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 30px; 
-    column-gap: 3rem;
-    gap: 4rem;
-   
-  }
-  .product-card-body{
-    padding: 15px;
-    font-size: 16px;
-    color: rgb(51, 51, 51);
-  }
-  .headProduct{
-  color: rgb(8, 122, 122);
-  font-size: 40px;
-  }
 
-  .fa-cart-shopping{
-    margin-left: 150px;
-    cursor: pointer;
-    text-align: right;
-    float: right;
-  } */
-  /* ProductDetail.css */
-/* .product-container{
-  background-color: burlywood;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-} */
-/* .product-category{
-  display: flex;
-  align-items: center;
-  align-items: center;
-  padding: 30px;
-
-  
-}
-.product-image img{
-  width: 300px;
-  margin-left: 49px;
-}
-.product-container{
- 
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-.related-products{
-  display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 3px; 
-    column-gap: 3rem;
-    gap: 4rem;
-}
-.related-products{
-  padding-top: 80px;
-  text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.detail-body{
-  padding-right:20px;
-}
-
-
-/* fetch list */
-/* Add these styles to your CSS file */
-/* .card {
-  border: 1px solid #ddd;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  text-align: center;
-  transition: transform 0.2s;
-}
-
-/* .card:hover {
-  transform: translateY(-5px);
-} */
 
 .card img {
   max-width: 100%;
@@ -190,7 +79,9 @@
 .label-container {
   margin: 10px 0;
 }
-
+.categoryN{
+  color:#076669;
+}
 
   @media screen and (max-width: 600px){
     .card-Product {

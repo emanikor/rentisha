@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Product from '../Product/Product'; 
-import ProductDetail from '../Product/ProductDetail';
+import ProductDetail from '../Product/ProductsByCategory';
 import Footer from '../Footer/Footer';
 
 const Category = () => {
@@ -9,7 +9,7 @@ const Category = () => {
     <div>
       <Routes>
         <Route path="/" element={<Product />} />
-        <Route path="/product/:productId" element={<ProductDetail />} />
+        <Route path="/product/:category" element={<ProductDetail />} />
        
       </Routes>
       <Footer/>
@@ -18,3 +18,4 @@ const Category = () => {
 };
 
 export default Category;
+

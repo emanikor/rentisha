@@ -28,8 +28,7 @@ async function handleUpload(file) {
 
 
 
-
-
+// Increase the request timeout to 60 seconds (60000 milliseconds)
 const app = express();
 const PORT = 4000;
 
@@ -86,56 +85,6 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 
-// // category endpoint
-// app.get('/ListofItemsByCategory/:category', async (req, res) => {
-//   const category = req.params.category; // Use req.params.category
-
-//   try {
-//     // Convert the category string to an ObjectId
-//     const categoryIdObjectId = mongoose.Types.ObjectId(category);
-
-//     // Query the database using the ObjectId and populate the 'ItemType' field with 'CategoryModel'
-//     const products = await ItemModel.find({ ItemType }).populate('ItemType');
-    
-//     res.status(200).json(products);
-//   } catch (err) {
-//     console.error('Error fetching categories:', err);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-
-// app.get('/items-by-category/:categoryId', async (req, res) => {
-//   const categoryId = req.params.categoryId;
-//   try {
-//     console.log('Category ID:', categoryId); // Log the received categoryId for debugging
-    
-//     const items = await ItemModel.find({ ItemType }).populate('categoryId');
-//     console.log('Items:', items); 
-//     res.status(200).json(items);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
-// app.get('/ListofItems', async (req, res) => {
-//   const category = req.params.category;
-
-//   try {
-//     console.log('Category ID:', category); 
-    
-//     // Use .populate('ItemType') to populate the ItemType field
-//     const items = await ItemModel.find({ ItemType: category }).populate('ItemType');
-//     console.log('Items:', items);
-     
-//     res.status(200).json(items);
-//   } catch (err) {
-//     console.error('Error fetching items by category:', err);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-
 
 
 
@@ -145,54 +94,6 @@ app.get('/ListofItems' , async(req, res)=>{
     const items = await ItemModel.find(query)
     return res.status(201).json(items) 
 })
-
-
-// fetching items by category 
-// app.get('/ListofItemsByCategory/:category', async (req, res) => {
-//   const categoryName = req.params.category;
-
-//   try {
-//     // Convert the category name to ObjectId
-//     const categoryId = mongoose.Types.ObjectId(categoryName);
-
-//     // Retrieve items by the provided category ObjectId
-//     const items = await ItemModel.find({ ItemType: categoryId });
-
-//     // If no items are found, respond with a 404 status and a message
-//     if (items.length === 0) {
-//       return res.status(404).json({ error: 'No items found for this category' });
-//     }
-
-//     // Respond with the found items as a JSON array
-//     res.status(200).json(items);
-//   } catch (error) {
-//     console.error('Error fetching items by category:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-
-
-
-
-// app.get('/ListofItems', async (req, res) => {
-
-//   const category = req.query.category; // Get the category from the query parameters
-//   console.log('Category ID:', category);
-//   try {
-//     // Define a filter based on the category (if provided)
-//     // const filter = category ? { ItemType: category._id } : {};
-//     // Use the filter to query items
-//     const items = await ItemModel.find({ ItemType: category });
-//     console.log('Items:', items); 
-//     return res.status(200).json(items);
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-
 
 
 
@@ -223,11 +124,6 @@ app.get('/ListofItems/:itemId', async (req, res) => {
 // const ItemModel2 = mongoose.model('Item', itemSchema);
 
 
-// const {id} = req.params
-// await ItemModel.findById(id).exec()
-
-// const params = req.params;
-// const id = params.id;
 
 // list end point (sending request )
 app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
@@ -295,23 +191,28 @@ if (!category) {
 
 
 // API endpoint for updating an item
-app.put('/api/items/:itemId', async (req, res) => {
+app.put('/api/items/:itemId', upload.single('ItemImage'), async (req, res) => {
   try {
     const { itemId } = req.params;
     const updatedItem = req.body;
 
-    console.log('Updating item with ID:', itemId); // Add this log statement
+    console.log('Updating item with ID:', itemId);
 
+    // Update the item in the database using Mongoose
     const result = await Item.findByIdAndUpdate(itemId, updatedItem, { new: true });
 
-    console.log('Updated item:', result); // Add this log statement
+    console.log('Updated item:', result);
 
     res.json(result);
   } catch (error) {
-    console.error('Error:', error); // Add this log statement
+    console.error('Error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
+
 
 
 // User Registration Endpoint
@@ -441,75 +342,7 @@ app.post('/api/category', async (req, res) => {
   }
 });
 
-// get category
-// app.get('/categories/:categoryId', async (req, res) => {
-//   const categoryId = req.params.categoryId;
-
-//   try {
-//     const products = await ItemModel.find({ ItemType: categoryId });
-//     res.json(products);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Server Error' });
-//   }
-// });
-
-
-app.get('/byCategory/:categoryId', async (req, res) => {
-  const categoryId = req.params.categoryId;
-
-  // Log the incoming request and categoryId for debugging
-  console.log(`Received GET request for items in category: ${categoryId}`);
-
-  // Check if categoryId is a valid ObjectId
-  if (!mongoose.Types.ObjectId.isValid(categoryId)) {
-    console.error(`Invalid category ID: ${categoryId}`);
-    return res.status(400).json({ message: 'Invalid category ID' });
-  }
-
-  try {
-    // Convert the categoryId string to an ObjectId
-    const categoryIdObjectId = mongoose.Types.ObjectId(categoryId);
-
-    // Query the database using the ObjectId and populate the 'ItemType' field with 'CategoryModel'
-    const products = await ItemModel.find({ ItemType: categoryIdObjectId }).populate('ItemType');
-
-    // Log the successful response
-    console.log(`Found ${products.length} products in category: ${categoryId}`);
-
-    res.json(products);
-  } catch (error) {
-    // Log the error
-    console.error('Error fetching items by category:', error);
-
-    res.status(500).json({ message: 'Server Error' });
-  }
-});
-
-
-
-// related products
-// app.get('/ListofItemsByCategory/:category', async (req, res) => {
-//   try {
-//     const category = req.params.category;
-
-//     // Fetch related items from the database based on the category
-//     const relatedItems = await ItemModel.find({ ItemType: category }).populate('category : name');;
-
-//     if (!relatedItems || relatedItems.length === 0) {
-//       return res.status(404).json({ error: 'No related products found for this category' });
-//     }
-
-//     res.status(200).json(relatedItems);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-
-
-
+// get item by the category 
 app.get('/ListofItemsByCategory/:category', async (req, res) => {
   try {
     const category = req.params.category;
@@ -530,89 +363,6 @@ app.get('/ListofItemsByCategory/:category', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-
-app.get('/api/products', (req, res) => {
-  const category = req.query.category;
-  const filteredProducts = ItemModel.filter(product => product.category === category);
-  res.json(filteredProducts);
-});
-
-
-
-app.get('/items-by-category/:categoryId', async (req, res) => {
-  const categoryId = req.params.categoryId;
-  try {
-    console.log('Category ID:', categoryId); // Log the received categoryId for debugging
-    
-    const items = await ItemModel.find({ CategoryModel }).populate('categoryId');
-    // await CatalogModel.find({'category._id':new ObjectId("615e94cab42d2274f0481232")})
-    console.log('Items:', items); 
-    res.status(200).json(items);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-
-
-
-// app.get('/api/products', async (req, res) => {
-//   const client = new MongoClient(mongoURI, { useNewUrlParser: true });
-
-//   try {
-//     await client.connect();
-//     const database = client.db();
-  
-
-//     const category = req.query.category;
-
-//     if (!category) {
-//       return res.status(400).json({ error: 'Category is required.' });
-//     }
-
-//     const filteredProducts = await ItemModel.find({ category }).toArray();
-//     res.json(filteredProducts);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'An error occurred while fetching products.' });
-//   } finally {
-//     client.close();
-//   }
-// });
-
-
-
-// category end point
-
-  app.get('/api/products', (req, res) => {
-    res.json(ProductDetail);
-  });
-
- 
-
-  
-// Get a specific product by ID
-// app.get('/api/products/:productId', (req, res) => {
-//   const productIdParam = req.params.productId;
-//   console.log('Requested Product ID from URL:', productIdParam);
-
-//   const productId = parseInt(productIdParam);
-//   console.log('Parsed Product ID:', productId);
-
-//   const product = ProductDetail.find(item => item.id === productId);
-//   console.log('Product Found:', product);
-
-//   if (!product) {
-//     return res.status(404).json({ error: 'Product not found' });
-//   }
-
-//   res.json(product);
-// });
-  
-
-
 
 
 // Start the server

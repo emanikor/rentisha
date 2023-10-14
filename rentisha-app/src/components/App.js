@@ -7,7 +7,7 @@ import About from "./pages/About";
 import Navbar from "./Navbar/Navbar";
 import Sign from "./pages/Sign";
 import ProductListing from './ListOfItem/ProductListing';  
-import ProductDetail from './Product/ProductDetail';
+import ProductsByCategory from './Product/ProductsByCategory';
 import Checkout from "./Preview/Checkout";
 import ItemsFrontPage from "./ListOfItem/ItemsFrontPage";
 import ViewItem from "./ListOfItem/ViewItem";
@@ -30,7 +30,7 @@ function App() {
           <Route path="/list/*" element={<List listItemsHandler={listItemsHandler} />} />
           <Route path="/checkout/:itemId" element={<Checkout listitems={listitems} />} />
           <Route path="/rent" element={<ProductListing products={listitems} />} />
-          <Route path="/product/:productId" element={<ProductDetail />} />
+          <Route path="/product/:category" element={<ProductsByCategory />} />
           <Route path="/product/:productId/edit" element={<EditProduct/>} />
           <Route path='/category' element={<Category />} />
           <Route path='/About' element={<About />} />

@@ -138,9 +138,10 @@ const location = useLocation();
     try {
       let response;
       if (editingItem) {
-        response = await axios.put(`http://localhost:4000/api/items/${itemId}`, values, {
+        console.log(editingItem)
+        response = await axios.put(`http://localhost:4000/api/items/${itemId}`, formData, {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
           },
         });
       } else {
@@ -154,6 +155,7 @@ const location = useLocation();
       if (response.status === 201 || response.status === 200) {
         generateSuccess(editingItem ? "Item updated successfully" : "Item listed successfully");
         // Reset the form and other state if needed
+
         setValues(initialValues);
         setEditingItem(null);
     

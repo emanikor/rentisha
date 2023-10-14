@@ -3,7 +3,7 @@ import ProductListing from '../ListOfItem/ProductListing';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Product from '../Product/Product';
-import ProductDetail from '../Product/ProductDetail';
+import ProductDetail from '../Product/ProductsByCategory';
 
 const Checkout = () => {
   const [product, setProduct] = useState(null); 

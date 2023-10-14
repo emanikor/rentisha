@@ -5,10 +5,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 // Import the sample encoded image
 import pixel from '../images/pixel.jpg'; // Replace 'sampleImage1' with your actual file path
 import ListofItems from './ListofItems';
+import Category from '../pages/Category';
 
 const ProductListing = ({ products }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const {productId} =useParams();
+  const {category} =useParams();
   const { itemId } = useParams();
 
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const ProductListing = ({ products }) => {
 
   const openItemPreview = (item) => {
     
-    navigate(`/product`,{ state: { item } });
+    navigate(`/product/${category}`,{ state: { item } });
   };
   
   // editing
@@ -117,12 +118,12 @@ const ProductListing = ({ products }) => {
              
               <div className="buttons">
               
-              {/* <button
+              <button
   className="btnHero1"
   onClick={() => openItemPreview(itemId)}
 >
   post item
-</button> */}
+</button>
 
 <button className="btnHero1" onClick={() => handleEditClick(item)}>
   Edit Listing

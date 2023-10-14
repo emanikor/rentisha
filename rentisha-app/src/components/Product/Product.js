@@ -1,113 +1,75 @@
 
+
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; 
 import axios from 'axios';
-import { useParams, Link, useLocation } from 'react-router-dom';
 import './Product.css';
+import category1 from '../images/category1.png';
+// import Category2 from '../images/Category2.png';
+// import Category3 from '../images/Category3.png';
 
-function ProductList() {
+
+
+const Product = () => {
   const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState([]);
-  const [category, setCategory] = useState('');
-  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-
-  const [items, setItems] = useState([]);
-
-  const [filteredProducts, setFilteredProducts] = useState([]);
-
+  
   useEffect(() => {
-    // Fetch the list of available categories from your MongoDB server
     axios.get('http://localhost:4000/api/category')
       .then(response => {
-        setCategories(response.data);
+        setProducts(response.data);
+        setLoading(false);
       })
       .catch(error => {
         console.error(error);
+        setLoading(false);
       });
   }, []);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  useEffect(() => {
-    // Fetch all products initially
-    axios.get('http://localhost:4000/ListofItems')
-      .then(response => {
-        setProduct(response.data);
-        setFilteredProducts(response.data); // Initially, set filtered products to all products
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (category) {
-      // Fetch products based on the selected category
-      axios.get(`http://localhost:4000/ListofItemsByCategory/${category}`)
-        .then(response => {
-          setFilteredProducts(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } else {
-      // If no category is selected, show all products
-      setFilteredProducts(products);
-    }
-  }, [category, products]);
-  
-
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
-  };
+  // console.log('Product Image:', `/images/${product.Img}`);
 
   return (
-    <div>
-      <h2>Products by Category</h2>
-      <div>
-        <label htmlFor="categorySelect">Select a Category:</label>
-        <select id="categorySelect" onChange={handleCategoryChange}>
-          <option value="">-- Select Category --</option>
-          {categories.map(category => (
-            <option key={category._id} value={category.name}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
+    
+    <div className='product'>
+      <h1 className='paddings headProduct flexCenter'>Explore Category</h1>
+      <div className='paddings fetched-items'>
+        {products.map(product => (
 
-      <div className="fetched-items">
-          {items.map(item => (
-              <Link
-              key={item._id}
-               to={`/checkout/${item._id}`} 
-            >
-            <div key={item._id} className="card">
-              <img src={item.ItemImage} alt={item.ItemName} />
-              <h3 className="item-name">{item.ItemName}</h3>
-              <p className="item-description">{item.ItemDescription}</p>
-              <p className="item-price">${item.ItemPrice}</p>
+         <Link to={`/product/${product.name}`}>
+            <div className='card'>
+            <img src={category1} alt={product.name} />
+              <div className='flexColStart product-card-body'>
+                <h3 className='secondaryText'>{product.name}</h3>
+               
+                <div className='flexCenter cart'>
+                 
+              
+                </div>
+              </div>
             </div>
-            </Link>
-          ))}
-        </div>
-        <div className="fetched-items">
-  {filteredProducts.map(product => (
-    <Link
-      key={product._id}
-      to={`/checkout/${product._id}`}
-    >
-      <div key={product._id} className="card">
-        <img src={product.ItemImage} alt={product.ItemName} />
-        <h3 className="item-name">{product.ItemName}</h3>
-        <p className="item-description">{product.ItemDescription}</p>
-        <p className="item-price">${product.ItemPrice}</p>
+          </Link>
+        ))}
       </div>
-    </Link>
-  ))}
-</div>
-
     </div>
   );
-}
+};
 
-export default ProductList;
+export default Product;
+
+
+
+
+
+
+
+
+
+
+
+
+

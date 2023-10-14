@@ -5,7 +5,7 @@ import './View.css';
 import pixel from '../images/pixel.jpg';
 import Product from '../Product/Product';
 import Category from '../pages/Category';
-import ProductDetail from '../Product/ProductDetail';
+import ProductDetail from '../Product/ProductsByCategory';
 import { useNavigate } from "react-router-dom";
 
 const ViewItem = () => {
