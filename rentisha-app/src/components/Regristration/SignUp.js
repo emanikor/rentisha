@@ -61,7 +61,7 @@ export const Register = (props) => {
       generateError("Password must be at least 8 characters and include uppercase, lowercase, numbers, and special characters.");
       return; 
     }
-    
+    // sending the request
     try {
       const { data } = await axios.post("http://localhost:4000/SignUp", {
         ...values,

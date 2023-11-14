@@ -14,7 +14,7 @@ const ProductListing = ({ products }) => {
 
   const navigate = useNavigate();
   
-
+// thumbnail images 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
   };
@@ -35,7 +35,7 @@ const ProductListing = ({ products }) => {
   // editing
   
   const handleEditClick = (item) => {
-    // Navigate to the ListofItems component with the item data as a prop
+    
     navigate(`/list/${item._id}`, { state: { item } });
   };
   

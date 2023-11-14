@@ -8,9 +8,10 @@ import ProductDetail from '../Product/ProductsByCategory';
 const Checkout = () => {
   const [product, setProduct] = useState(null); 
   const [loading, setLoading] = useState(true);
+  // get parameter of the id  item
   const { itemId } = useParams();
   
-
+// fetch product by the ID
   useEffect(() => {
     console.log('itemId:', itemId);
     axios.get(`http://localhost:4000/ListofItems/${itemId}`)

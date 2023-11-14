@@ -6,8 +6,9 @@
 }
 
 .container{
-  background-color: rgb(38, 127, 204);
+  background-color: rgb(250, 250, 250);
   width: 100%;
   height: auto;
   overflow: hidden;
 }
+

@@ -16,6 +16,11 @@ export const MenuList = [
         title:"About Us",
         url:"/about"
     },
+    // {
+    //     title:"Admin",
+    //     url: "/admin"
+    // },
+    
     {
         title:"signup&signin",
         url:"/sign"

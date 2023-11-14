@@ -9,8 +9,25 @@ const multer = require('multer');
 const CategoryModel = require("./Models/CategoryModel");
 const ItemModel = require("./ItemModel/ItemModel");
 const cloudinary =require('cloudinary').v2;
-// import {v2 as cloudinary} from 'cloudinary';
-          
+
+// const adminRoutes = require('./Admin/AdminRoutes');
+// const userRoutes = require('./userRoutes');
+// const categoryRoutes = require('./categoryRoutes');
+// admin 
+// const AdminRoutes = require('./Admin/AdminRoute/AdminRoute');
+
+// const adminRoutes = require("../AdminRoute");
+
+// app.use('/admin', adminRoutes);
+
+// app.use('/admin', AdminRoutes);
+
+// Mount routes
+// app.use('/Admin', adminRoutes);
+// app.use('/users', userRoutes);
+// app.use('/categories', categoryRoutes);
+
+
 cloudinary.config({ 
   cloud_name: 'drnc1dhoa', 
   api_key: '466624274562764', 
@@ -120,11 +137,6 @@ app.get('/ListofItems/:itemId', async (req, res) => {
 
 
 
-
-// const ItemModel2 = mongoose.model('Item', itemSchema);
-
-
-
 // list end point (sending request )
 app.post('/ListofItems', upload.single('ItemImage'), async (req, res) => {
   try {
@@ -209,9 +221,6 @@ app.put('/api/items/:itemId', upload.single('ItemImage'), async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-
-
 
 
 
@@ -314,7 +323,6 @@ app.post("/SignIn", async (req, res) => {
 
 
 
-// product apis
 
 
 
@@ -329,18 +337,7 @@ app.get('/api/category', async (req, res) => {
   }
 });
 
-// POST a new category
-app.post('/api/category', async (req, res) => {
-  const { name, description } = req.body;
-  try {
-    const category = new CategoryModel({ name, description });
-    await category.save(category);
-    res.status(201).json(category);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server Error' });
-  }
-});
+
 
 // get item by the category 
 app.get('/ListofItemsByCategory/:category', async (req, res) => {
@@ -363,6 +360,203 @@ app.get('/ListofItemsByCategory/:category', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+
+// ADMIN
+
+// category delete
+app.delete("/delete/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const data = await CategoryModel.deleteOne({ _id: id });
+    if (data.deletedCount === 1) {
+      res.status(200).json({ success: true, message: "Data deleted successfully" });
+    } else {
+      res.status(404).json({ success: false, message: "Data not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting data:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// userdelete
+app.delete("/userdelete/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const data = await UserModel.deleteOne({ _id: id });
+    if (data.deletedCount === 1) {
+      res.status(200).json({ success: true, message: "Data deleted successfully" });
+    } else {
+      res.status(404).json({ success: false, message: "Data not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting data:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// get category
+app.get('/api/category', async (req, res) => {
+  try {
+    const categories = await CategoryModel.find();
+    res.json(categories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+
+
+// admin server 
+
+// users
+
+
+// update 
+// delete
+//  get
+// post
+
+// post user admin 
+app.post("/adminSignUp", async (req, res) => {
+  try {
+    const { name, email, phone, password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: "Passwords do not match" });
+    }
+
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ error: "Email is already registered" });
+    }
+
+    const newUser = new UserModel({
+      name,
+      email,
+      phone,
+      password,
+      confirmPassword,
+    });
+
+    const salt = await bcrypt.genSalt();
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+
+    await newUser.save();
+
+    // Generate JWT token and set it as a cookie
+    const token = jwt.sign({ userId: newUser._id }, jwtSecret, {
+      expiresIn: "3d", 
+    });
+
+    res.cookie("jwt", token, {
+      httpOnly: true, 
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+      secure: true, 
+    });
+
+    res.status(201).json({ user: newUser._id, created: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//fetch users 
+app.get("/users",async(req,res)=>{
+  const data = await UserModel.find({})
+  res.json({success : true , data : data})
+})  
+
+
+// userdelete
+app.delete("/userdelete/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const data = await UserModel.deleteOne({ _id: id });
+    if (data.deletedCount === 1) {
+      res.status(200).json({ success: true, message: "Data deleted successfully" });
+    } else {
+      res.status(404).json({ success: false, message: "Data not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting data:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// update user
+app.put("/userupdate",async(req,res)=>{
+  console.log(req.body)
+  const { _id,...rest} = req.body 
+
+  console.log(rest)
+  const data = await UserModel.updateOne({ _id : _id},rest)
+  res.send({success : true, message : "data update successfully", data : data})
+})
+
+
+// admin category 
+
+// update 
+// delete
+//  get
+// post
+
+// fetch category 
+app.get("/api/admincategory",async(req,res)=>{
+  const data = await CategoryModel.find({})
+  res.json({success : true , data : data})
+}) 
+
+// UPDATE CATEGORY 
+app.put("/update",async(req,res)=>{
+  console.log(req.body)
+  const { _id,...rest} = req.body 
+
+  console.log(rest)
+  const data = await CategoryModel.updateOne({ _id : _id},rest)
+  res.send({success : true, message : "data update successfully", data : data})
+})
+
+
+
+// delete category 
+app.delete("/delete/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const data = await CategoryModel.deleteOne({ _id: id });
+    if (data.deletedCount === 1) {
+      res.status(200).json({ success: true, message: "Data deleted successfully" });
+    } else {
+      res.status(404).json({ success: false, message: "Data not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting data:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// POST a new category
+app.post('/api/category', async (req, res) => {
+  const { name, description } = req.body;
+  try {
+    const category = new CategoryModel({ name, description });
+    await category.save(category);
+    res.status(201).json(category);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
 
 
 // Start the server

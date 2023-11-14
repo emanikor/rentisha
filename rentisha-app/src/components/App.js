@@ -12,6 +12,7 @@ import Checkout from "./Preview/Checkout";
 import ItemsFrontPage from "./ListOfItem/ItemsFrontPage";
 import ViewItem from "./ListOfItem/ViewItem";
 import EditProduct from "./ListOfItem/EditProduct";
+import AdminDashboard from "./pages/AdminDashboard";
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
   return (
     <div className="container">
       <Router>
-        <Navbar />
+        <Navbar />  
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path="/list/*" element={<List listItemsHandler={listItemsHandler} />} />
@@ -37,6 +38,9 @@ function App() {
           <Route path='/sign' element={<Sign />} />
           <Route path="/view-item/:itemId" element={<ViewItem />} /> 
           <Route path="/edit/:productId" component={EditProduct} /> 
+
+
+          <Route path='/admin' element={<AdminDashboard />} />
         </Routes>
       </Router>
     </div>
