@@ -1,6 +1,6 @@
 const User = require("../Models/UserModel");
 const jwt = require("jsonwebtoken");
-
+const crypto = require('crypto');
 const maxAge = 3 * 24 * 60 * 60;
 
 const createToken = (id) => {
@@ -37,9 +37,11 @@ const handleErrors = (err) => {
 };
 
 module.exports.SignUp = async (req, res, next) => {
-  try {
+  try { 
     const { email, password } = req.body;
-    const user = await User.create({ email, password });
+
+    const emailToken = crypto.randomBytes(64).toString("hex");
+    const user = await User.create({ email, password, emailToken});
     const token = createToken(user._id);
 
     res.cookie("jwt", token, {

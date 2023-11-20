@@ -26,11 +26,13 @@
 .card .item-description {
   font-size: 1rem;
   margin: 5px 0;
+  color: #fff;
 }
 .card .item-name {
   font-size: 1.2rem;
   font-weight: bold;
   margin: 10px 0;
+    
 }  
 
 .card .item-price {

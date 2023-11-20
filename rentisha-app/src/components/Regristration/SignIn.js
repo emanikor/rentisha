@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './Sign.css';
 import { useAuth } from '../Authentication/AuthContext';
+import Footer from '../Footer/Footer'
 
 
 export const SignIn = (props) => {
@@ -95,13 +96,18 @@ export const SignIn = (props) => {
         />
         <button type="submit">Log In</button>
       </form>
+      
       Already have an account?{" "}
       <a className="link-text" onClick={() => props.onFormSwitch("SignUp")}>
         Sign up here.
       </a>
+      
       <ToastContainer />
+     
     </div>
+    
   );
+  
 };
 
 export default SignIn;

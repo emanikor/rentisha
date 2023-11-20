@@ -1,15 +1,15 @@
 *{
     box-sizing: border-box;
   }
-  /* body{
+  body{
     background-color: #f5f6ff;
-  } */
+  }
   .catcontainer{
     padding: 10px;
     /* /* background-color:  */
-    /* max-width: fit-content;
-    /* margin:50px auto; */
-    background-color: #c7c8d3;
+    max-width: fit-content;
+     margin:50px auto; 
+    background-color: #2f3146;
     
  } 
  

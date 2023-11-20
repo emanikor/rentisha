@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import './Sign.css';
+import Footer from "../Footer/Footer";
 
 
 
@@ -28,7 +29,7 @@ export const Register = (props) => {
   });
   const [user, setUser] = useState('');
   const [values, setValues] = useState(initialValues);
-
+  const [loading, setLoading] = useState(false);
 
   // setting a strong password
   const isStrongPassword = (password) => {
@@ -50,7 +51,7 @@ export const Register = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     // Check if passwords match
     if (values.password !== values.confirmPassword) {
       generateError("Password and Confirm Password do not match");
@@ -75,7 +76,8 @@ export const Register = (props) => {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
-          generateSuccess("Successfully registered.");
+          generateSuccess("Successfully registered. Check your email for verification.");
+
  
           if (data.user) {
             setUser(data.user);
@@ -97,6 +99,7 @@ export const Register = (props) => {
   console.log(values);
     // Reset form after submission
     setValues(initialValues);
+    setLoading(false);
   };
 
   return (
@@ -176,7 +179,9 @@ export const Register = (props) => {
     
       </a>
       <ToastContainer />
+      
     </div>
+    
   );
 };
 

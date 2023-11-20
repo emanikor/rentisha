@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Name is required"],
   },
-  email: { 
+  email: {
     type: String,
     required: [true, "Email is required"],
     unique: true,
@@ -19,13 +20,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: String,
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ItemModel' }],
 });
 
 // Hash the password before saving to the database
 userSchema.pre("save", async function (next) {
-  const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt);
+  if (this.isNew) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+    // Generate and set a verification token
+    this.verificationToken = crypto.randomBytes(16).toString("hex");
+    // Set isVerified to false
+    this.isVerified = false;
+  }
   next();
 });
 

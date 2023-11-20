@@ -69,21 +69,21 @@ function Home() {
               </div>
     
               <div className='main-cards'>
-                <div className='card' onClick={() => setShowCategoryForm(true)}>
+                <div className='cardBox' onClick={() => setShowCategoryForm(true)}>
                   <div className='card-inner'>
                     <h3>CATEGORIES</h3>
                     <BsFillGrid3X3GapFill className='card_icon' />
                   </div>
                   <h1>8</h1>
                 </div>
-                <div className='card' onClick={() => setShowUserForm(true)}>
+                <div className='cardBox' onClick={() => setShowUserForm(true)}>
                   <div className='card-inner'>
                     <h3>USERS</h3>
                     <BsPeopleFill className='card_icon' />
                   </div>
                   <h1>11</h1>
                 </div>
-                <div className='card'>
+                <div className='cardBox'>
                   <div className='card-inner'>
                     <h3>products</h3>
                     <BsFillBellFill className='card_icon' />

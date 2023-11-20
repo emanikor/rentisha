@@ -1,3 +1,4 @@
+require('dotenv').config();
 
 const express = require("express");
 const cors = require("cors");
@@ -9,6 +10,9 @@ const multer = require('multer');
 const CategoryModel = require("./Models/CategoryModel");
 const ItemModel = require("./ItemModel/ItemModel");
 const cloudinary =require('cloudinary').v2;
+const crypto = require('crypto');
+
+const nodemailer = require("nodemailer");
 
 // const adminRoutes = require('./Admin/AdminRoutes');
 // const userRoutes = require('./userRoutes');
@@ -26,6 +30,7 @@ const cloudinary =require('cloudinary').v2;
 // app.use('/Admin', adminRoutes);
 // app.use('/users', userRoutes);
 // app.use('/categories', categoryRoutes);
+// q
 
 
 cloudinary.config({ 
@@ -58,7 +63,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use('./components/images', express.static('images'));
 
 // const categoryIdObjectId = mongoose.Types.ObjectId(categoryId);
-
+// require('dotenv').config();
 
 // MongoDB Connection
 mongoose
@@ -223,8 +228,7 @@ app.put('/api/items/:itemId', upload.single('ItemImage'), async (req, res) => {
 });
 
 
-
-// User Registration Endpoint
+// user registration 
 app.post("/SignUp", async (req, res) => {
   try {
     const { name, email, phone, password, confirmPassword } = req.body;
@@ -243,7 +247,8 @@ app.post("/SignUp", async (req, res) => {
       email,
       phone,
       password,
-      confirmPassword,
+      verificationToken: crypto.randomBytes(16).toString("hex"),
+      isVerified: false,
     });
 
     const salt = await bcrypt.genSalt();
@@ -251,25 +256,74 @@ app.post("/SignUp", async (req, res) => {
 
     await newUser.save();
 
+    // Send verification email
+    sendVerificationEmail(newUser);
+
     // Generate JWT token and set it as a cookie
     const token = jwt.sign({ userId: newUser._id }, jwtSecret, {
-      expiresIn: "3d", 
+      expiresIn: "3d",
     });
 
     res.cookie("jwt", token, {
-      httpOnly: true, 
+      httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
-      secure: true, 
+      secure: true,
     });
 
     res.status(201).json({ user: newUser._id, created: true });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
 
+function sendVerificationEmail(user) {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_APP_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to: user.email,
+      subject: "Email Verification",
+      text: `Click the following link to verify your email: http://localhost:3000/verify/${user.verificationToken}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      console.log(info)
+      if (error) {
+        console.error("Error sending verification email:", error);
+        // Handle the error accordingly, e.g., log it or send a response to the client
+      } else {
+        console.log("Email sent:", info.response);
+        // Optionally, you can send a success response to the client
+      }
+    });
+  } catch (error) {
+    console.error("Error in sendVerificationEmail:", error);
+    // Handle the error accordingly, e.g., log it or send a response to the client
+  }
+}
+
+app.get('/verify/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Update user's verification status
+    await User.findByIdAndUpdate(userId, { isVerified: true });
+
+    res.send('Email verified successfully!');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 // User (Sign-in) Endpoint
 app.post("/SignIn", async (req, res) => {
